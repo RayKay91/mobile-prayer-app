@@ -7,15 +7,15 @@ const Row = ({children, pTime, jTime, isHighlighted}) => {
     return (
         <View style={[styles.container, isHighlighted ? styles.highlightedContainer : styles.container]}>
 
-            <View style={styles.block}>
+            <View style={styles.wideBlock}>
                 <Text style={[styles.text, isHighlighted ? styles.highlightedText: styles.text]}>{children}</Text>
             </View>
 
-            <View>
+            <View style={styles.narrowBlock}>
                 <Text style={[styles.text, isHighlighted ? styles.highlightedText: styles.text]}>{pTime}</Text>
             </View>
 
-            <View> 
+            <View style={styles.narrowBlock}> 
                 <Text style={[styles.text, isHighlighted ? styles.highlightedText: styles.text]}>{jTime}</Text>
             </View>
 
@@ -31,16 +31,33 @@ const styles = StyleSheet.create({
         justifyContent: 'space-around',
         width: '100%',
         borderWidth: 1,
-        borderColor: 'salmon',
+        borderColor: '#222',
         height: 50,
         alignItems: 'center'
     },
-    block: {
-        borderWidth:3, 
-        borderColor:'coral',
-        width: 100, 
+    wideBlock: {
+        // borderWidth:3, 
+        // borderColor:'coral',
+        flex: 2, 
         fontSize: 20, 
         padding: 5,
+        justifyContent:'center',
+        alignItems: 'center',
+        flexDirection:'row',
+        height: '100%'
+
+    },
+    narrowBlock: {
+        // borderWidth:3, 
+        // borderColor:'coral',
+        flex: 1, 
+        fontSize: 20, 
+        justifyContent:'center',
+        alignItems: 'center',
+        flexDirection:'row',
+        height: '100%'
+
+
     },
     text: {
         color: '#333',
@@ -56,9 +73,8 @@ const styles = StyleSheet.create({
     },
     highlightedText: {
         color: 'white',
-        
-
-    }
+    },
+    
 
 })
 
