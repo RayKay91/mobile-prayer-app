@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-const Row = ({children, pTime, jTime, isHighlighted}) => {
+const Row = ({children, pTime, jTime, isHighlighted, noBottomBorder}) => {
 
 
     return (
-        <View style={[styles.container, isHighlighted ? styles.highlightedContainer : styles.container]}>
+        <View style={[styles.container, isHighlighted ? styles.highlightedContainer : styles.container, {borderBottomWidth : noBottomBorder ? 0 : 2}]}>
 
             <View style={styles.wideBlock}>
                 <Text style={[styles.text, isHighlighted ? styles.highlightedText: styles.text]}>{children}</Text>
@@ -25,12 +25,15 @@ const Row = ({children, pTime, jTime, isHighlighted}) => {
 
 export default Row
 
-const styles = StyleSheet.create({
+const styles  = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         width: '100%',
-        borderWidth: 1,
+        borderRightWidth: 0,
+        borderLeftWidth: 0,
+        borderBottomWidth: 2,
+        borderTopWidth: 0,
         borderColor: '#222',
         height: 50,
         alignItems: 'center'
@@ -38,19 +41,20 @@ const styles = StyleSheet.create({
     wideBlock: {
         // borderWidth:3, 
         // borderColor:'coral',
-        flex: 2, 
+        flex: 3.5, 
         fontSize: 20, 
         padding: 5,
-        justifyContent:'center',
+        paddingLeft: 20,
+        // justifyContent:'center',
         alignItems: 'center',
         flexDirection:'row',
         height: '100%'
 
     },
     narrowBlock: {
-        // borderWidth:3, 
+        // borderWidth:1, 
         // borderColor:'coral',
-        flex: 1, 
+        flex: 2, 
         fontSize: 20, 
         justifyContent:'center',
         alignItems: 'center',

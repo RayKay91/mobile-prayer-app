@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 const TableHeader = () => {
     return (
         <View style={styles.container}>
-            <Text style={[styles.text, styles.wide]}>Prayer</Text>
+            <Text style={[styles.text, styles.wide]}></Text>
             <Text style={[styles.text, styles.narrow]}>Start</Text>
             <Text style={[styles.text, styles.narrow]}>Jama'ah</Text>
         </View>
@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         width: '100%',
-        borderWidth: 1,
-        borderBottomWidth: 0,
+        borderBottomWidth: 2,
+
         borderColor: '#333',
         height: 50,
         alignItems: 'center',
@@ -26,7 +26,8 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 15,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        color: '#555'
     },
     wide: {
         flex: 2,
