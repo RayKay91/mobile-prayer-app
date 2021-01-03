@@ -44,8 +44,8 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#ebecf0' }}>
     <View style={ styles.container }>
+    <SafeAreaView style={{flex: 1}}/>
 
     <ScrollView 
     style={styles.scrollContainer} showsVerticalScrollIndicator={false}
@@ -67,7 +67,7 @@ export default function App() {
       <Anchor style={styles.donate} href='https://www.totalgiving.co.uk/appeal/wisemasjidcovid19/donate'>Donate</Anchor>
       </ScrollView>
     </View>
-    </SafeAreaView>
+
       
       
       
@@ -93,7 +93,8 @@ const styles = StyleSheet.create({
      textAlign: 'center' 
   },
   scrollContainer: {
-    width: '100%'
+    width: '100%',
+
   },
   subHeading: {
     fontSize:20,
@@ -113,6 +114,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginVertical: 20,
     marginHorizontal: '33%',
+    marginBottom: 100,
     color: 'white',
     width: '30%',
     fontWeight:'bold',
