@@ -34,26 +34,24 @@ const styles  = StyleSheet.create({
         borderLeftWidth: 0,
         borderBottomWidth: 2,
         borderTopWidth: 0,
-        borderColor: '#222',
+        borderColor: '#444',
         height: 50,
         alignItems: 'center'
     },
     wideBlock: {
-        // borderWidth:3, 
-        // borderColor:'coral',
+        
         flex: 3.5, 
         fontSize: 20, 
         padding: 5,
         paddingLeft: 20,
-        // justifyContent:'center',
+       
         alignItems: 'center',
         flexDirection:'row',
         height: '100%'
 
     },
     narrowBlock: {
-        // borderWidth:1, 
-        // borderColor:'coral',
+      
         flex: 2, 
         fontSize: 20, 
         justifyContent:'center',
@@ -64,7 +62,7 @@ const styles  = StyleSheet.create({
 
     },
     text: {
-        color: '#333',
+        color: '#444',
         fontWeight: 'bold',
         fontSize: 20
 },

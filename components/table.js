@@ -1,26 +1,28 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, View, Button } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Row from './row'
 import TableHeader from './tableHeader'
 import shouldHighlight from '../utils/shouldHighlight'
 import getTimes from '../utils/getTimes'
 
-const Table = () => {
+const Table = ({refreshing}) => {
 
     const [pTimes, setPTimes] = useState('--')
     const [jTimes, setJTimes] = useState('--')
     const [highlight, setHighlight] = useState({})
 
-    const [refresh, setRefresh] = useState(true)
+
 
 
     useEffect( () => {
 
-        if (refresh) {
+
+
+
 
         getTimes().then(times => {
 
-          console.log('getting times')
+
 
           const [prayerTimes, jamaaTimes] = times
           setPTimes(prayerTimes)
@@ -31,14 +33,13 @@ const Table = () => {
           const willHighlight = shouldHighlight(fajr, sunrise, dhuhr, asr, maghrib, isha)
     
           setHighlight(willHighlight)
-          setRefresh(false)
-          console.log('times gotten!')
+
     
         })
         .catch(err => console.log(`something went wrong ${err}`))
-      }
+      // }
     
-      }, [refresh])
+      }, [refreshing])
     
 
     return (
@@ -88,7 +89,7 @@ const Table = () => {
 
     </View>
 
-    <Button onPress={() => setRefresh(true)} title={'click to refresh'} accessibilityLabel={'refresh times and tweets'}/>
+    
 
 </View>
     )
@@ -100,6 +101,7 @@ const styles = StyleSheet.create({
   table : {
     backgroundColor: '#ebecf0' ,
     borderWidth: 3,
+    borderColor: '#333',
     borderRadius: 7,
     zIndex:1,
     shadowColor: "black",

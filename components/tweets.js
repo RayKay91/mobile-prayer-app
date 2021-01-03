@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView, View } from 'react-native'
 import Tweet from './tweet'
 import getTweets from '../utils/getTweets'
 
-const Tweets = () => {
+const Tweets = ({refreshing}) => {
 
     const [tweets, setTweets] = useState([])
  
@@ -11,9 +11,11 @@ const Tweets = () => {
   
   useEffect(() => {
 
+
+
     getTweets().then(tweets => setTweets(tweets.data))
     .catch(err => console.log(`something went wrong getting the tweets: ${err}`))
-  }, [])
+  }, [refreshing])
 
 
     return (
