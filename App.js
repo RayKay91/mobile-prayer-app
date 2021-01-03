@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl} from 'react-native';
+import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl} from 'react-native';
 //components
 import Table from './components/table'
 import Tweets from './components/tweets'
@@ -7,6 +7,7 @@ import Anchor from './components/anchor'
 //utility functions
 import wait from './utils/wait'
 import getDate from './utils/getDate'
+import getCurrentTime from './utils/getCurrentTime'
 
 
 
@@ -46,11 +47,12 @@ export default function App() {
   return (
     <View style={ styles.container }>
     <SafeAreaView style={{flex: 1}}/>
+    <StatusBar  barStyle={'dark-content'} />
 
     <ScrollView 
     style={styles.scrollContainer} showsVerticalScrollIndicator={false}
     refreshControl={
-      <RefreshControl refreshing={showRefresh} onRefresh={onRefresh} color={['rgb(161, 43, 110)']} tintColor={'rgb(161, 43, 110)'}/>
+      <RefreshControl refreshing={showRefresh} onRefresh={onRefresh} tintColor={'rgb(161, 43, 110)'} title={'last refreshed at ' + getCurrentTime()} titleColor={'rgb(161, 43, 110)'} />
     }
     >
 
