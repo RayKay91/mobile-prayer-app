@@ -1,14 +1,9 @@
-// toLocaleString not working on android, so use this function to fetch from API
-
-const axios = require('axios')
+const dayjs = require('dayjs')
 
  async function getDate(){
 
-    const response = await axios.get('https://wiseprayertimes.herokuapp.com')
+    return dayjs().format('dddd D MMM YYYY')
 
-    const date = await response.data.date
-    
-    return date
 
 }
 

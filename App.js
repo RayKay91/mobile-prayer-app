@@ -61,12 +61,12 @@ export default function App() {
       <Text style={styles.date}>{date}</Text>
 
       <Table refreshing={refreshing}/>
+      <Anchor style={styles.donate} href='https://www.totalgiving.co.uk/appeal/wisemasjidcovid19/donate'>Donate</Anchor>
 
       <Text style={styles.subHeading}>Latest Tweets and Announcements</Text>
 
       <Tweets refreshing={refreshing}/>
 
-      <Anchor style={styles.donate} href='https://www.totalgiving.co.uk/appeal/wisemasjidcovid19/donate'>Donate</Anchor>
       </ScrollView>
     </View>
 
@@ -100,8 +100,7 @@ const styles = StyleSheet.create({
   },
   subHeading: {
     fontSize:20,
-    marginVertical: 15,
-    marginTop:50,
+    marginBottom: 15,
     textAlign: 'center',
     fontWeight:'bold'
 
@@ -114,11 +113,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(161, 43, 110)',
     padding: 15,
     textAlign: 'center',
-    marginVertical: 20,
-    marginHorizontal: '33%',
-    marginBottom: 100,
+    marginVertical:60,
+    marginHorizontal: '25%',
     color: 'white',
-    width: '30%',
+    width: '50%',
     fontWeight:'bold',
     borderRadius: 7,
     borderWidth: 1,

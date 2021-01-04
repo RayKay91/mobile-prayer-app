@@ -19,7 +19,7 @@ const Tweets = ({refreshing}) => {
 
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.tweetsContainer}>
         
 
         {tweets.map(tweet => <Tweet text={tweet.text} key={tweet.id}/>)}
@@ -30,4 +30,8 @@ const Tweets = ({refreshing}) => {
 
 export default Tweets
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  tweetsContainer: {
+    marginBottom: 100
+  }
+})
