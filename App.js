@@ -7,11 +7,17 @@ import Anchor from './components/anchor'
 //utility functions
 import wait from './utils/wait'
 import getDate from './utils/getDate'
-import getCurrentTime from './utils/getCurrentTime'
+import currentTime from './utils/currentTime'
+
+
+
+
 
 
 
 export default function App() {
+
+
 
   const [date, setDate] = useState('')
 
@@ -19,6 +25,11 @@ export default function App() {
 
     getDate().then(date => setDate(date))
     .catch(err => console.log(`Date fetching error: ${err}`))
+
+
+
+  
+
 
   }, [])
 
@@ -52,7 +63,7 @@ export default function App() {
     <ScrollView 
     style={styles.scrollContainer} showsVerticalScrollIndicator={false}
     refreshControl={
-      <RefreshControl refreshing={showRefresh} onRefresh={onRefresh} tintColor={'rgb(161, 43, 110)'} title={'last refreshed at ' + getCurrentTime()} titleColor={'#888'} />
+      <RefreshControl refreshing={showRefresh} onRefresh={onRefresh} tintColor={'rgb(161, 43, 110)'} title={'last refreshed at ' + currentTime()} titleColor={'#888'} />
     }
     >
 

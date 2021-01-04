@@ -4,6 +4,8 @@ import Row from './row'
 import TableHeader from './tableHeader'
 import shouldHighlight from '../utils/shouldHighlight'
 import getTimes from '../utils/getTimes'
+import scheduleNotification, {removePreviouslyScheduledNotifications} from '../utils/notifications'
+
 
 const Table = ({refreshing}) => {
 
@@ -29,15 +31,23 @@ const Table = ({refreshing}) => {
           setJTimes(jamaaTimes)
     
           const {fajr, sunrise, dhuhr, asr, maghrib, isha} = prayerTimes
-          
+
           const willHighlight = shouldHighlight(fajr, sunrise, dhuhr, asr, maghrib, isha)
     
           setHighlight(willHighlight)
 
+          removePreviouslyScheduledNotifications()
+
+          Object.entries(prayerTimes).map(([pName, pTime]) =>
+          
+          // pTime > currentTime ?
+
+          scheduleNotification(pName, pTime))
     
         })
         .catch(err => console.log(`something went wrong ${err}`))
-      // }
+
+
     
       }, [refreshing])
     
