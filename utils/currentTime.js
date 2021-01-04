@@ -11,9 +11,10 @@ function getCurrentTime(){
     m = checkZero(m)
     s = checkZero(s)
 
-   const time = h + ':' + m + ':' + s
+   const timeWithSeconds = h + ':' + m + ':' + s
+   const timeWithoutSeconds = h + ':' + m
 
-    return time
+    return {timeWithSeconds, timeWithoutSeconds}
 }
 
 module.exports = getCurrentTime

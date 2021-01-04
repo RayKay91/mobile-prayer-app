@@ -9,6 +9,9 @@ async function requestNotificationPermission() {
       allowAlert: true,
       allowBadge: true,
       allowSound: true,
+      allowDisplayInCarPay: true,
+      allowCriticalAlerts: true,
+      provideAppNotificationSettings: true,
       allowAnnouncements: true,
     },
   });
@@ -38,6 +41,7 @@ async function notify(prayerName, prayerTime) {
     content: {
       title: `${prayerName} prayer has started`,
       body: `It's time for ${prayerName}`,
+      sound: true
     },
     trigger: {
       seconds: timeToPrayerInSeconds

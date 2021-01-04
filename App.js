@@ -25,24 +25,16 @@ export default function App() {
 
     getDate().then(date => setDate(date))
     .catch(err => console.log(`Date fetching error: ${err}`))
-
-
-
-  
-
-
   }, [])
 
 
-
-
+  const [notifications, setNotifications] = useState(true)
+  const handlePress = () => {
+    setNotifications(!notifications)
+  }
 
   const [refreshing, setRefreshing] = useState(0)
   const [showRefresh, setShowRefresh] = useState(false)
-
-
-
-
 
   const onRefresh = () => {
     setShowRefresh(true)
@@ -50,10 +42,9 @@ export default function App() {
     setRefreshing(refreshing + 1)
 
     wait(2000).then(()=> setShowRefresh(false))
-
-
-
   }
+
+  const {timeWithSeconds} = currentTime()
 
   return (
     <View style={ styles.container }>
@@ -63,16 +54,21 @@ export default function App() {
     <ScrollView 
     style={styles.scrollContainer} showsVerticalScrollIndicator={false}
     refreshControl={
-      <RefreshControl refreshing={showRefresh} onRefresh={onRefresh} tintColor={'rgb(161, 43, 110)'} title={'last refreshed at ' + currentTime()} titleColor={'#888'} />
+      <RefreshControl refreshing={showRefresh} onRefresh={onRefresh} tintColor={'rgb(161, 43, 110)'} title={'last refreshed at ' + timeWithSeconds} titleColor={'#888'} />
     }
     >
 
   
-     <Text style={styles.refreshNotice}>Pull to refresh</Text>
+      <Text style={styles.refreshNotice}>Pull to refresh</Text>
       <Text style={styles.date}>{date}</Text>
 
-      <Table refreshing={refreshing}/>
+      <Table notifications={notifications} refreshing={refreshing}/>
+
+      <Text onPress={handlePress}>Notifications: {notifications ? 'On' : 'Off'}</Text>
+
+      <View style={styles.donateContainer}>
       <Anchor style={styles.donate} href='https://www.totalgiving.co.uk/appeal/wisemasjidcovid19/donate'>Donate</Anchor>
+      </View>
 
       <Text style={styles.subHeading}>Latest Tweets and Announcements</Text>
 
@@ -121,18 +117,32 @@ const styles = StyleSheet.create({
     color: '#888'
   },
   donate: {
-    backgroundColor: 'rgb(161, 43, 110)',
+    // backgroundColor: 'rgb(161, 43, 110)',
+    backgroundColor: '#ebecf0',
     padding: 15,
     textAlign: 'center',
     marginVertical:60,
-    marginHorizontal: '25%',
-    color: 'white',
-    width: '50%',
+    marginHorizontal: '30%',
+    color: 'rgb(161, 43, 110)',
+    width: '40%',
     fontWeight:'bold',
     borderRadius: 7,
-    borderWidth: 1,
-    borderColor: 'rgb(161, 43, 110)',
-    overflow: 'hidden'
-  }
+    // borderWidth: 1,
+    // borderColor: 'rgb(161, 43, 110)',
+    overflow: 'hidden',
+    
+
+  },
+  donateContainer: {
+    shadowColor: "black",
+    shadowOffset: {
+	    width: 0,
+	    height: 3,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 4
+    }
+  
 });
 

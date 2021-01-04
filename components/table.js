@@ -5,9 +5,10 @@ import TableHeader from './tableHeader'
 import shouldHighlight from '../utils/shouldHighlight'
 import getTimes from '../utils/getTimes'
 import scheduleNotification, {removePreviouslyScheduledNotifications} from '../utils/notifications'
+import currentTime from '../utils/currentTime'
 
 
-const Table = ({refreshing}) => {
+const Table = ({refreshing, notifications}) => {
 
     const [pTimes, setPTimes] = useState('--')
     const [jTimes, setJTimes] = useState('--')
@@ -17,14 +18,8 @@ const Table = ({refreshing}) => {
 
 
     useEffect( () => {
-
-
-
-
-
-        getTimes().then(times => {
-
-
+        
+      getTimes().then(times => {
 
           const [prayerTimes, jamaaTimes] = times
           setPTimes(prayerTimes)
@@ -38,18 +33,23 @@ const Table = ({refreshing}) => {
 
           removePreviouslyScheduledNotifications()
 
-          Object.entries(prayerTimes).map(([pName, pTime]) =>
-          
-          // pTime > currentTime ?
-
-          scheduleNotification(pName, pTime))
-    
-        })
+          if (notifications) { 
+            
+            let {timeWithoutSeconds} = currentTime()
+            timeWithoutSeconds = +timeWithoutSeconds.replace(":", "")
+            
+            Object.entries(prayerTimes).map(([pName, pTime]) => {
+              
+              const prayerTime = +pTime.replace(":", "");
+              
+              if (pName !== 'sunrise' && timeWithoutSeconds < prayerTime){
+                scheduleNotification(pName, pTime)
+              }
+            })
+          }
+      })
         .catch(err => console.log(`something went wrong ${err}`))
-
-
-    
-      }, [refreshing])
+      }, [refreshing, notifications])
     
 
     return (
@@ -113,7 +113,6 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderColor: '#333',
     borderRadius: 7,
-    zIndex:1,
     shadowColor: "black",
     shadowOffset: {
 	    width: 0,
@@ -121,5 +120,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.3,
     shadowRadius: 5,
+    elevation: 4
     }
 })
