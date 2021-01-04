@@ -52,7 +52,7 @@ export default function App() {
     <ScrollView 
     style={styles.scrollContainer} showsVerticalScrollIndicator={false}
     refreshControl={
-      <RefreshControl refreshing={showRefresh} onRefresh={onRefresh} tintColor={'rgb(161, 43, 110)'} title={'last refreshed at ' + getCurrentTime()} titleColor={'rgb(161, 43, 110)'} />
+      <RefreshControl refreshing={showRefresh} onRefresh={onRefresh} tintColor={'rgb(161, 43, 110)'} title={'last refreshed at ' + getCurrentTime()} titleColor={'#888'} />
     }
     >
 
