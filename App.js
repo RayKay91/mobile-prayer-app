@@ -11,26 +11,13 @@ import currentTime from './utils/currentTime'
 
 
 
-
-
-
-
 export default function App() {
 
-
-
-  const [date, setDate] = useState('')
-
-  useEffect( () => {
-
-    getDate().then(date => setDate(date))
-    .catch(err => console.log(`Date fetching error: ${err}`))
-  }, [])
-
-
   const [notifications, setNotifications] = useState(true)
+
   const handlePress = () => {
     setNotifications(!notifications)
+
   }
 
   const [refreshing, setRefreshing] = useState(0)
@@ -44,6 +31,7 @@ export default function App() {
     wait(2000).then(()=> setShowRefresh(false))
   }
 
+  const {gregorianDate, hijriDate} = getDate()
   const {timeWithSeconds} = currentTime()
 
   return (
@@ -60,14 +48,17 @@ export default function App() {
 
   
       <Text style={styles.refreshNotice}>Pull to refresh</Text>
-      <Text style={styles.date}>{date}</Text>
+      <Text style={[styles.date, {marginBottom: 5}]}>{gregorianDate}</Text>
+      <Text style={[styles.date, {marginTop: 0}]}>{hijriDate}</Text>
 
       <Table notifications={notifications} refreshing={refreshing}/>
+      <View style={[styles.btnContainer, {width: '50%', marginHorizontal: '25%', marginBottom: 0}]}>
+      <Text style={styles.btn} onPress={handlePress}>Notifications: {notifications ? 'On' : 'Off'}</Text>
 
-      <Text onPress={handlePress}>Notifications: {notifications ? 'On' : 'Off'}</Text>
+      </View>
 
-      <View style={styles.donateContainer}>
-      <Anchor style={styles.donate} href='https://www.totalgiving.co.uk/appeal/wisemasjidcovid19/donate'>Donate</Anchor>
+      <View style={styles.btnContainer}>
+      <Anchor style={styles.btn} href='https://www.totalgiving.co.uk/appeal/wisemasjidcovid19/donate'>Donate</Anchor>
       </View>
 
       <Text style={styles.subHeading}>Latest Tweets and Announcements</Text>
@@ -94,9 +85,8 @@ const styles = StyleSheet.create({
     maxWidth: 800
   },
   date: {
-     fontSize:30, 
-     marginTop:35, 
-     marginBottom: 50, 
+     fontSize:21, 
+     marginVertical:45, 
      color: '#444', 
      fontWeight:'bold', 
      textAlign: 'center' 
@@ -116,24 +106,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#888'
   },
-  donate: {
-    // backgroundColor: 'rgb(161, 43, 110)',
+  btn: {
     backgroundColor: '#ebecf0',
     padding: 15,
     textAlign: 'center',
-    marginVertical:60,
-    marginHorizontal: '30%',
     color: 'rgb(161, 43, 110)',
-    width: '40%',
     fontWeight:'bold',
     borderRadius: 7,
-    // borderWidth: 1,
-    // borderColor: 'rgb(161, 43, 110)',
+    borderWidth: 2,
+    borderColor: 'rgb(161, 43, 110)',
     overflow: 'hidden',
-    
+    letterSpacing: 1.75
 
   },
-  donateContainer: {
+  btnContainer: {
+    width: '40%',
+    marginVertical:40,
+    marginHorizontal: '30%',
     shadowColor: "black",
     shadowOffset: {
 	    width: 0,
@@ -141,7 +130,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 10,
-    elevation: 4
+    elevation: 12,
+    backgroundColor: '#0000'
     }
   
 });

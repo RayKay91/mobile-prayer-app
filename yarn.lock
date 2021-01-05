@@ -2999,6 +2999,11 @@ hermes-profile-transformer@^0.0.6:
   dependencies:
     source-map "^0.7.3"
 
+hijri-js@^1.0.25:
+  version "1.0.25"
+  resolved "https://registry.yarnpkg.com/hijri-js/-/hijri-js-1.0.25.tgz#5145d7a147194aae5aa516293a29a6a39c76a4e9"
+  integrity sha1-UUXXoUcZSq5apRYpOimmo5x2pOk=
+
 http-errors@~1.7.2:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.7.3.tgz#6c619e4f9c60308c38519498c14fbb10aacebb06"

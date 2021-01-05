@@ -30,19 +30,18 @@ const Table = ({refreshing, notifications}) => {
           const willHighlight = shouldHighlight(fajr, sunrise, dhuhr, asr, maghrib, isha)
     
           setHighlight(willHighlight)
-
           removePreviouslyScheduledNotifications()
 
           if (notifications) { 
             
-            let {timeWithoutSeconds} = currentTime()
-            timeWithoutSeconds = +timeWithoutSeconds.replace(":", "")
+            let {timeWithoutSeconds:currTime} = currentTime()
+            currTime = +currTime.replace(":", "")
             
             Object.entries(prayerTimes).map(([pName, pTime]) => {
               
               const prayerTime = +pTime.replace(":", "");
               
-              if (pName !== 'sunrise' && timeWithoutSeconds < prayerTime){
+              if (pName !== 'sunrise' && currTime < prayerTime){
                 scheduleNotification(pName, pTime)
               }
             })
@@ -119,7 +118,6 @@ const styles = StyleSheet.create({
 	    height: 3,
     },
     shadowOpacity: 0.3,
-    shadowRadius: 5,
-    elevation: 4
+    shadowRadius: 9,
     }
 })
