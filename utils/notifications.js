@@ -36,7 +36,7 @@ async function notify(prayerName, prayerTime) {
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,
-      shouldPlaySound: false,
+      shouldPlaySound: true,
       shouldSetBadge: false,
     }),
   });
@@ -47,7 +47,6 @@ async function notify(prayerName, prayerTime) {
   const notificationId = await Notifications.scheduleNotificationAsync({
     content: {
       title: `${capitalise(prayerName)} prayer has started`,
-      body: `It's time for ${capitalise(prayerName)}`,
       sound: true
     },
     trigger: {
