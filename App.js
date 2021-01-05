@@ -1,5 +1,6 @@
-import React, {useState, useEffect} from 'react';
-import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl} from 'react-native';
+import React, {useState} from 'react';
+import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Vibration} from 'react-native';
+
 //components
 import Table from './components/table'
 import Tweets from './components/tweets'
@@ -11,12 +12,14 @@ import currentTime from './utils/currentTime'
 
 
 
+
 export default function App() {
 
   const [notifications, setNotifications] = useState(true)
 
   const handlePress = () => {
     setNotifications(!notifications)
+    if (!notifications) Vibration.vibrate(200)
 
   }
 
@@ -49,10 +52,10 @@ export default function App() {
   
       <Text style={styles.refreshNotice}>Pull to refresh</Text>
       <Text style={[styles.date, {marginBottom: 5}]}>{gregorianDate}</Text>
-      <Text style={[styles.date, {marginTop: 0}]}>{hijriDate}</Text>
+      <Text style={[styles.date, {marginTop: 5, fontSize: 15}]}>{hijriDate}</Text>
 
       <Table notifications={notifications} refreshing={refreshing}/>
-      <View style={[styles.btnContainer, {width: '50%', marginHorizontal: '25%', marginBottom: 0}]}>
+      <View style={[styles.btnContainer, {width: '55%', marginLeft: 'auto', marginRight: 'auto', marginBottom: 0}]}>
       <Text style={styles.btn} onPress={handlePress}>Notifications: {notifications ? 'On' : 'Off'}</Text>
 
       </View>
@@ -116,7 +119,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: 'rgb(161, 43, 110)',
     overflow: 'hidden',
-    letterSpacing: 1.75
+    letterSpacing: 1.3
 
   },
   btnContainer: {
