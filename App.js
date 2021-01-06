@@ -56,7 +56,7 @@ export default function App() {
 
       <Table notifications={notifications} refreshing={refreshing}/>
       <View style={[styles.btnContainer, {width: '55%', marginLeft: 'auto', marginRight: 'auto', marginBottom: 0}]}>
-      <Text style={styles.btn} onPress={handlePress}>Notifications: {notifications ? 'On' : 'Off'}</Text>
+      <Text style={[styles.btn, notifications ? styles.btnActive: '']} onPress={handlePress}>Notifications: {notifications ? 'On' : 'Off'}</Text>
 
       </View>
 
@@ -120,7 +120,10 @@ const styles = StyleSheet.create({
     borderColor: 'rgb(161, 43, 110)',
     overflow: 'hidden',
     letterSpacing: 1.3
-
+  },
+  btnActive: {
+    backgroundColor: 'rgb(161, 43, 110)',
+    color: 'white'
   },
   btnContainer: {
     width: '40%',
