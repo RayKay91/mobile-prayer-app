@@ -28,7 +28,9 @@ export default function App() {
 
   const onRefresh = () => {
     setShowRefresh(true)
-    //adding 1 to change the state, which is passed as a prop to the components 'Table' and 'Tweets' which have a useEffect dependency on the prop. Each time the state is changed the prop will update and the useEffect will run.
+
+    //adding 1 to change the state, which is passed as a prop to the components 'Table' and 'Tweets' which have a useEffect dependency on the prop. Each time the state is changed the prop will update and the useEffect will run. Only incrementing instead of using bool because we only need the state to change once. If we set state to true then false after it has finished refreshing then it will cause a pointless rerender. Using setRefreshing(!refreshing) isn't very accurate as the bool will may be false when it is refreshing. This is why I opted to use a counter.
+    
     setRefreshing(refreshing + 1)
 
     wait(2000).then(()=> setShowRefresh(false))
