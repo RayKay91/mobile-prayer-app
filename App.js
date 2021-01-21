@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Vibration} from 'react-native';
+import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl} from 'react-native';
+import * as Haptics from 'expo-haptics'
 
 //components
 import Table from './components/table'
@@ -17,10 +18,9 @@ export default function App() {
 
   const [notifications, setNotifications] = useState(true)
 
-  const handlePress = () => {
+  const handlePress = async () => {
     setNotifications(!notifications)
-    if (!notifications) Vibration.vibrate(200)
-
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)
   }
 
   const [refreshing, setRefreshing] = useState(0)
