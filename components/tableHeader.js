@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: 'bold',
         textAlign: 'center',
-        color: '#555'
+        color: '#777'
     },
     wide: {
         flex: 2,

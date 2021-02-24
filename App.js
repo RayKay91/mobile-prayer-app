@@ -4,7 +4,7 @@ import * as Haptics from 'expo-haptics'
 
 //components
 import Table from './components/table'
-import Tweets from './components/tweets'
+import Announcements from './components/announcements'
 import Anchor from './components/anchor'
 //utility functions
 import wait from './utils/wait'
@@ -28,8 +28,7 @@ export default function App() {
 
   const onRefresh = () => {
     setShowRefresh(true)
-
-    //adding 1 to change the state, which is passed as a prop to the components 'Table' and 'Tweets' which have a useEffect dependency on the prop. Each time the state is changed the prop will update and the useEffect will run. Only incrementing instead of using bool because we only need the state to change once. If we set state to true then false after it has finished refreshing then it will cause a pointless rerender. Using setRefreshing(!refreshing) isn't very accurate as the bool will may be false when it is refreshing. This is why I opted to use a counter.
+    //incrementing by 1 to trigger rerender
     
     setRefreshing(refreshing + 1)
 
@@ -57,18 +56,18 @@ export default function App() {
       <Text style={[styles.date, {marginTop: 5, fontSize: 15}]}>{hijriDate}</Text>
 
       <Table notifications={notifications} refreshing={refreshing}/>
-      <View style={[styles.btnContainer, {width: '55%', marginLeft: 'auto', marginRight: 'auto', marginBottom: 0}]}>
+      <View style={[styles.btnContainer, {width: '55%', marginLeft: 'auto', marginRight: 'auto', marginBottom: 40}]}>
       <Text style={[styles.btn, notifications ? styles.btnActive: '']} onPress={handlePress}>Notifications: {notifications ? 'On' : 'Off'}</Text>
 
       </View>
 
-      <View style={styles.btnContainer}>
+      {/* <View style={styles.btnContainer}>
       <Anchor style={styles.btn} href='https://www.totalgiving.co.uk/appeal/wisemasjidcovid19/donate'>Donate</Anchor>
-      </View>
+      </View> */}
 
-      <Text style={styles.subHeading}>Latest Tweets and Announcements</Text>
+      <Text style={styles.subHeading}>Announcements</Text>
 
-      <Tweets refreshing={refreshing}/>
+      <Announcements refreshing={refreshing}/>
 
       </ScrollView>
     </View>
@@ -130,6 +129,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     width: '40%',
     marginVertical:40,
+    marginBottom: 30,
     marginHorizontal: '30%',
     shadowColor: "black",
     shadowOffset: {
