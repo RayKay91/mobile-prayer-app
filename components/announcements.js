@@ -10,7 +10,7 @@ const Announcements = ({refreshing}) => {
   
   useEffect(() => {
 
-    getAnnouncements().then(announcements => setAnnouncements(announcements))
+    getAnnouncements().then(newAnnouncements => setAnnouncements(newAnnouncements))
     
   }, [refreshing])
 

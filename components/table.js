@@ -30,6 +30,7 @@ const Table = ({refreshing, notifications}) => {
           const willHighlight = shouldHighlight(fajr, sunrise, dhuhr, asr, maghrib, isha)
     
           setHighlight(willHighlight)
+
           removePreviouslyScheduledNotifications()
 
           if (notifications) { 
@@ -53,7 +54,6 @@ const Table = ({refreshing, notifications}) => {
 
     return (
 
-      <View>
       <View style={styles.table}>
         <TableHeader/>
       <Row 
@@ -97,14 +97,10 @@ const Table = ({refreshing, notifications}) => {
 
 
     </View>
-
-    
-
-</View>
     )
 }
 
-export default Table
+export default React.memo(Table)
 
 const styles = StyleSheet.create({
   table : {
@@ -119,5 +115,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.3,
     shadowRadius: 9,
+    elevation: 4
     }
 })

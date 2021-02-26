@@ -6,8 +6,8 @@ import { WebView } from 'react-native-webview';
 const Announcement = ({text}) => {
         return (
             <View style={styles.container}>
-            <WebView
-            originWhitelist={['*']}
+            <WebView 
+            originWhitelist={['https://wise-web.org/*']}
             source={{ html: '<meta name="viewport" content="width=device-width, initial-scale=1"></meta>' + text }}
             />
             </View>
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         borderRadius:5,
         marginVertical: 10,
         height: 300,
-        padding:30,
+        padding:10,
         backgroundColor: 'white',
         shadowColor: "#000",
         shadowOffset: {
