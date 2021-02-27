@@ -38,8 +38,9 @@ const Table = ({refreshing, notifications, showTmrwTimes}) => {
           
           // notification & highlighting logic
           const willHighlight = shouldHighlight(...prayerTimes)
-  
+          
           setHighlight(willHighlight)
+          
 
           removePreviouslyScheduledNotifications()
 

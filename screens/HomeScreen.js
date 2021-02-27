@@ -18,6 +18,7 @@ export default function HomeScreen() {
     const [notifications, setNotifications] = useState(true);
     const [showTmrwTimes, setShowTmrwTimes] = useState(false)
 
+
     useFocusEffect(
       useCallback(() => {
         //incrementing by 1 to trigger rerender
@@ -34,7 +35,7 @@ export default function HomeScreen() {
     };
 
     const handleHold = async () => {
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.light);
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       setShowTmrwTimes(true)
 
     }
@@ -77,17 +78,31 @@ export default function HomeScreen() {
           </Text>
   
           <Table notifications={notifications} refreshing={refreshing} showTmrwTimes={showTmrwTimes} />
-          <View style={styles.btnContainer}>
+
+          <Pressable style={({ pressed }) => [
+          styles.btnContainer,
+          {
+            backgroundColor: pressed ? 'rgb(121, 13, 90)' : 'rgb(161, 43, 110)'
+          }]}
+          onPressIn={handleHold}
+          onPressOut={handleRelease}
+          >
+            <Text style={styles.btnText}>Hold For Tomorrow's Times</Text>
+          </Pressable>
+
+          <Pressable style={({pressed}) => [
+            styles.btnContainer,
+            {
+            backgroundColor: pressed ? 'rgb(121, 13, 90)' : 'rgb(161, 43, 110)',
+            marginBottom: 40
+            }
+            ]}>
             <Text
-              style={[styles.btn, notifications ? styles.btnActive : ""]}
+              style={styles.btnText}
               onPress={handlePress}
             >
               Prayer Notifications: {notifications ? "On" : "Off"}
             </Text>
-          </View>
-
-          <Pressable onPressIn={handleHold} onPressOut={handleRelease}>
-            <Text>Hold For Tomorrow's Times</Text>
           </Pressable>
   
           <Text style={styles.subHeading}>Announcements</Text>
@@ -126,26 +141,18 @@ export default function HomeScreen() {
       textAlign: "center",
       color: "#888",
     },
-    btn: {
-      backgroundColor: "#ebecf0",
-      padding: 15,
+    btnText: {
       textAlign: "center",
-      color: "rgb(161, 43, 110)",
+      color: "white",
       fontWeight: "bold",
-      borderRadius: 7,
-      borderWidth: 2,
-      borderColor: "rgb(161, 43, 110)",
-      overflow: "hidden",
       letterSpacing: 1.3,
     },
-    btnActive: {
-      backgroundColor: "rgb(161, 43, 110)",
-      color: "white",
-    },
     btnContainer: {
+      padding: 15,
+      borderRadius: 7,
+      backgroundColor: 'rgb(161, 43, 110)',
       width: "70%",
       marginTop: 40,
-      marginBottom: 40,
       marginLeft: "auto",
       marginRight: "auto",
       shadowColor: "black",
@@ -158,6 +165,7 @@ export default function HomeScreen() {
       elevation: 12,
       backgroundColor: "#0000",
     },
+    
   });
   
   
