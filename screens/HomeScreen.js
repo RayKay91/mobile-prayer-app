@@ -10,7 +10,7 @@ import Announcements from '../components/announcements'
 import wait from '../utils/wait'
 import getDate from '../utils/getDate'
 import currentTime from '../utils/currentTime'
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function HomeScreen() {
     const [refreshing, setRefreshing] = useState(0);
@@ -19,6 +19,7 @@ export default function HomeScreen() {
 
     useFocusEffect(
       useCallback(() => {
+        //incrementing by 1 to trigger rerender
         setRefreshing(prevState => prevState + 1)
     },[])
     )
@@ -34,10 +35,7 @@ export default function HomeScreen() {
   
     const onRefresh = () => {
       setShowRefresh(true);
-      
-      //incrementing by 1 to trigger rerender
-      // setRefreshing(refreshing + 1);
-  
+      setRefreshing(prevState => prevState + 1)
       wait(2000).then(() => setShowRefresh(false));
     };
   

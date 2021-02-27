@@ -1,6 +1,5 @@
 
 const checkZero = require('./checkZero.js')
-  
 
 
 export default function shouldHighlight(fTime, sTime, dTime, aTime, mTime, iTime) {
