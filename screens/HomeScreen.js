@@ -1,6 +1,6 @@
 
 import React, {useState, useCallback, useEffect} from 'react'
-import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl} from 'react-native';
+import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable} from 'react-native';
 import * as Haptics from 'expo-haptics'
 
 //components
@@ -16,6 +16,7 @@ export default function HomeScreen() {
     const [refreshing, setRefreshing] = useState(0);
     const [showRefresh, setShowRefresh] = useState(false);
     const [notifications, setNotifications] = useState(true);
+    const [showTmrwTimes, setShowTmrwTimes] = useState(false)
 
     useFocusEffect(
       useCallback(() => {
@@ -31,6 +32,15 @@ export default function HomeScreen() {
       setNotifications(!notifications);
       await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
     };
+
+    const handleHold = async () => {
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.light);
+      setShowTmrwTimes(true)
+
+    }
+    const handleRelease = async () => {
+      setShowTmrwTimes(false)
+    }
   
   
     const onRefresh = () => {
@@ -66,7 +76,7 @@ export default function HomeScreen() {
             {hijriDate}
           </Text>
   
-          <Table notifications={notifications} refreshing={refreshing} />
+          <Table notifications={notifications} refreshing={refreshing} showTmrwTimes={showTmrwTimes} />
           <View style={styles.btnContainer}>
             <Text
               style={[styles.btn, notifications ? styles.btnActive : ""]}
@@ -75,6 +85,10 @@ export default function HomeScreen() {
               Prayer Notifications: {notifications ? "On" : "Off"}
             </Text>
           </View>
+
+          <Pressable onPressIn={handleHold} onPressOut={handleRelease}>
+            <Text>Hold For Tomorrow's Times</Text>
+          </Pressable>
   
           <Text style={styles.subHeading}>Announcements</Text>
   

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import { StyleSheet, View } from 'react-native'
-// import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StyleSheet, View, Platform } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 //components
 import Row from './row'
 import TableHeader from './tableHeader'
@@ -9,10 +9,9 @@ import shouldHighlight from '../utils/shouldHighlight'
 import getTimes from '../utils/getTimes'
 import scheduleNotification, {removePreviouslyScheduledNotifications} from '../utils/notifications'
 import currentTime from '../utils/currentTime'
-import convertTo24Hr from '../utils/24hrConverter'
 
 
-const Table = ({refreshing, notifications}) => {
+const Table = ({refreshing, notifications, showTmrwTimes}) => {
 
     const [pTimes, setPTimes] = useState('--')
     const [tmrwPTimes, setTmrwPTimes] = useState('--')
@@ -25,17 +24,20 @@ const Table = ({refreshing, notifications}) => {
 
       getTimes().then(times => {
 
-        console.log('fetching times');
-          const [todaysTimes, tmrwPTimes] = times
+        console.log('fetching times on ' + Platform.OS + ' ' + Platform.Version);
+          
+        const [todaysTimes, tmrwPTimes] = times
+
           setPTimes(todaysTimes)
-          setTmrwPTimes(tmrwPTimes)
 
-          // notification & highlighting logic
           const {Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa} = todaysTimes
-
           const prayerTimes = [Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa]
-
-          const willHighlight = shouldHighlight(Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa)
+          
+          setTmrwPTimes(tmrwPTimes)
+          
+          
+          // notification & highlighting logic
+          const willHighlight = shouldHighlight(...prayerTimes)
   
           setHighlight(willHighlight)
 
@@ -49,7 +51,6 @@ const Table = ({refreshing, notifications}) => {
             prayerTimes.forEach((time, i) => {
               if (i === 1) return
 
-              const prayerTime = convertTo24Hr(time)
               let pName = ''
 
               switch (i) {
@@ -69,12 +70,13 @@ const Table = ({refreshing, notifications}) => {
                   pName = 'Ishaa';
                   break;
               }
-              if (currTime < prayerTime){
+              if (currTime < time){
                 scheduleNotification(pName, time)
               }
             })
           }
       })
+    
         .catch(err => console.log(`something went wrong ${err}`))
       }, [refreshing, notifications])
     
@@ -84,42 +86,42 @@ const Table = ({refreshing, notifications}) => {
       <View style={styles.table}>
         <TableHeader/>
       <Row 
-        pTime={pTimes?.Fajr}
-        jTime={pTimes?.FajrJam}
+        pTime={showTmrwTimes ? tmrwPTimes.Fajr : pTimes.Fajr}
+        jTime={showTmrwTimes ? tmrwPTimes.FajrJam : pTimes.FajrJam}
         isHighlighted={highlight?.fajr}
 
       >Fajr</Row>
       
       <Row 
-        pTime={pTimes?.Sunrise}
+        pTime={showTmrwTimes ? tmrwPTimes.Sunrise : pTimes.Sunrise}
         jTime={'--'}
         isHighlighted={highlight?.sunrise}
       >Sunrise</Row>
       
       <Row 
-        pTime={pTimes?.Dhuhr}
-        jTime={pTimes?.DhuhrJam}
+        pTime={showTmrwTimes ? tmrwPTimes.Dhuhr : pTimes.Dhuhr}
+        jTime={showTmrwTimes ? tmrwPTimes.DhuhrJam : pTimes.DhuhrJam}
         isHighlighted={highlight?.dhuhr}
       >Dhuhr</Row>
       
       <Row 
-        pTime={pTimes?.Asr}
-        jTime={pTimes?.AsrJam}
+        pTime={showTmrwTimes ? tmrwPTimes.Asr : pTimes.Asr}
+        jTime={showTmrwTimes ? tmrwPTimes.AsrJam : pTimes.AsrJam}
         isHighlighted={highlight?.asr}
       >Asr</Row>
 
       <Row 
-        pTime={pTimes?.Maghrib}
-        jTime={pTimes?.MaghribJam}
+        pTime={showTmrwTimes ? tmrwPTimes.Maghrib : pTimes.Maghrib}
+        jTime={showTmrwTimes ? tmrwPTimes.MaghribJam : pTimes.MaghribJam}
         isHighlighted={highlight?.maghrib}
       >Maghrib</Row>
       
       <Row
-        pTime={pTimes?.Ishaa}
-        jTime={pTimes?.IshaaJam}
+        pTime={showTmrwTimes ? tmrwPTimes.Ishaa : pTimes.Ishaa}
+        jTime={showTmrwTimes ? tmrwPTimes.IshaaJam : pTimes.IshaaJam}
         isHighlighted={highlight?.isha}
         noBottomBorder
-        >Isha</Row>
+        >Ishaa</Row>
         
 
 
