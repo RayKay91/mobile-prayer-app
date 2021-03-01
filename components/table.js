@@ -41,15 +41,16 @@ const Table = ({refreshing, notifications, showTmrwTimes}) => {
           
           setHighlight(willHighlight)
           
-
+          
           removePreviouslyScheduledNotifications()
 
           if (notifications) { 
             
             let {timeWithoutSeconds:currTime} = currentTime()
             currTime = +currTime.replace(":", "")
+            
 
-            prayerTimes.forEach((time, i) => {
+            prayerTimes.forEach((pTimeStr, i) => {
               if (i === 1) return
 
               let pName = ''
@@ -71,8 +72,11 @@ const Table = ({refreshing, notifications, showTmrwTimes}) => {
                   pName = 'Ishaa';
                   break;
               }
-              if (currTime < time){
-                scheduleNotification(pName, time)
+              
+              const pTime = +pTimeStr.replace(':', '')
+
+              if (currTime < pTime){
+                scheduleNotification(pName, pTimeStr)
               }
             })
           }

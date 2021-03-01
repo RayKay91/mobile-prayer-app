@@ -55,7 +55,7 @@ export default function HomeScreen() {
   
     return (
       <View style={styles.container}>
-        <SafeAreaView style={{ flex: 1 }} />
+        <SafeAreaView />
         <StatusBar barStyle={"dark-content"} />
   
         <ScrollView

@@ -2,7 +2,6 @@ import * as Notifications from "expo-notifications";
 //util funcs
 const currentTimeInSeconds = require('./currentTimeInSeconds')
 const prayerTimeInSeconds = require('./prayerTimeInSeconds')
-const capitalise = require('./capitaliseStr')
 
 async function requestNotificationPermission() {
   await Notifications.requestPermissionsAsync({
@@ -44,9 +43,10 @@ async function notify(prayerName, prayerTime) {
   const timeToPrayerInSeconds = prayerTimeInSeconds(prayerTime) - currentTimeInSeconds()
 
 
+
   const notificationId = await Notifications.scheduleNotificationAsync({
     content: {
-      title: `${capitalise(prayerName)} prayer has started`,
+      title: `${prayerName} prayer has started`,
       sound: true
     },
     trigger: {
@@ -56,6 +56,7 @@ async function notify(prayerName, prayerTime) {
 }
 
 export async function removePreviouslyScheduledNotifications(){
+  console.log('removing prev notifications')
   await Notifications.cancelAllScheduledNotificationsAsync()
 }
 
@@ -63,8 +64,7 @@ export default async function scheduleNotification(prayerName, prayerTime) {
   const havePermission = await allowsNotificationsAsync();
 
   if (havePermission) {
-    
-    notify(prayerName, prayerTime);
+    await notify(prayerName, prayerTime);
   }
 }
 

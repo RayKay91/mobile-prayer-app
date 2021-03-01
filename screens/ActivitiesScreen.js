@@ -1,8 +1,13 @@
 import React from 'react'
-import {Text} from 'react-native'
+import {SafeAreaView, Text, View} from 'react-native'
 
 export default function ActivitiesScreen(){
     return(
+        <View>
+
+        <SafeAreaView />
         <Text>Hello World</Text>
+
+        </View>
     )
 }
