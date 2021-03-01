@@ -1,11 +1,11 @@
 
-import React, {useState, useCallback, useEffect} from 'react'
+import React, {useState, useCallback} from 'react'
 import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable} from 'react-native';
 import * as Haptics from 'expo-haptics'
 
 //components
 import Table from '../components/table'
-import Announcements from '../components/announcements'
+import WebViews from '../components/WebViews'
 //utility functions
 import wait from '../utils/wait'
 import getDate from '../utils/getDate'
@@ -80,9 +80,9 @@ export default function HomeScreen() {
           <Table notifications={notifications} refreshing={refreshing} showTmrwTimes={showTmrwTimes} />
 
           <Pressable style={({ pressed }) => [
-          styles.btnContainer,
+          styles.btn,
           {
-            backgroundColor: pressed ? 'rgb(121, 13, 90)' : 'rgb(161, 43, 110)'
+            backgroundColor: pressed ? '#790D5A' : '#A12B6E'
           }]}
           onPressIn={handleHold}
           onPressOut={handleRelease}
@@ -91,23 +91,22 @@ export default function HomeScreen() {
           </Pressable>
 
           <Pressable style={({pressed}) => [
-            styles.btnContainer,
+            styles.btn,
             {
-            backgroundColor: pressed ? 'rgb(121, 13, 90)' : 'rgb(161, 43, 110)',
-            marginBottom: 40
+            backgroundColor: pressed ? '#790D5A' : '#A12B6E',
+            marginBottom: 25
             }
-            ]}>
+            ]}
+            onPress={handlePress}
+            >
             <Text
               style={styles.btnText}
-              onPress={handlePress}
             >
               Prayer Notifications: {notifications ? "On" : "Off"}
             </Text>
           </Pressable>
   
-          <Text style={styles.subHeading}>Announcements</Text>
-  
-          <Announcements refreshing={refreshing} />
+          <WebViews refreshing={refreshing} />
         </ScrollView>
       </View>
     );
@@ -117,25 +116,18 @@ export default function HomeScreen() {
     container: {
       flex: 1,
       backgroundColor: "#ebecf0",
-      alignItems: "center",
-      paddingHorizontal: 15,
-      maxWidth: 800,
+
     },
     date: {
       fontSize: 21,
-      marginVertical: 45,
+      marginTop: 15,
+      marginBottom: 20,
       color: "#444",
       fontWeight: "bold",
       textAlign: "center",
     },
     scrollContainer: {
       width: "100%",
-    },
-    subHeading: {
-      fontSize: 20,
-      marginBottom: 15,
-      textAlign: "center",
-      fontWeight: "bold",
     },
     refreshNotice: {
       textAlign: "center",
@@ -147,12 +139,12 @@ export default function HomeScreen() {
       fontWeight: "bold",
       letterSpacing: 1.3,
     },
-    btnContainer: {
+    btn: {
       padding: 15,
       borderRadius: 7,
       backgroundColor: 'rgb(161, 43, 110)',
       width: "70%",
-      marginTop: 40,
+      marginTop: 30,
       marginLeft: "auto",
       marginRight: "auto",
       shadowColor: "black",
@@ -162,7 +154,7 @@ export default function HomeScreen() {
       },
       shadowOpacity: 0.2,
       shadowRadius: 10,
-      elevation: 12,
+      elevation: 2,
       backgroundColor: "#0000",
     },
     

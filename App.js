@@ -1,6 +1,6 @@
 import React from 'react';
 import HomeScreen from './screens/HomeScreen';
-import ActivitiesScreen from './screens/ActivitiesScreen'
+import SocialScreen from './screens/SocialScreen'
 //navigation
 import {NavigationContainer} from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -15,7 +15,7 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator>
         <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Activities" component={ActivitiesScreen} />
+        <Tab.Screen name="Socials" component={SocialScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   )

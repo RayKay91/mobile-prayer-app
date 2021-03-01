@@ -9,6 +9,7 @@ import shouldHighlight from '../utils/shouldHighlight'
 import getTimes from '../utils/getTimes'
 import scheduleNotification, {removePreviouslyScheduledNotifications} from '../utils/notifications'
 import currentTime from '../utils/currentTime'
+import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 
 
 const Table = ({refreshing, notifications, showTmrwTimes}) => {
@@ -17,14 +18,11 @@ const Table = ({refreshing, notifications, showTmrwTimes}) => {
     const [tmrwPTimes, setTmrwPTimes] = useState('--')
     const [highlight, setHighlight] = useState({})
 
-
-
-
     useEffect( () => {
 
       getTimes().then(times => {
 
-        console.log('\n fetching times on ' + Platform.OS + ' ' + Platform.Version);
+        console.log('\nfetching times on ' + Platform.OS + ' ' + Platform.Version);
           
         const [todaysTimes, tmrwPTimes] = times
 
@@ -88,7 +86,7 @@ const Table = ({refreshing, notifications, showTmrwTimes}) => {
 
     return (
 
-      <View style={styles.table}>
+    <View style={[styles.table, {width: useWindowDimensions().width - 15, marginLeft: 'auto', marginRight: 'auto'}]}>
         <TableHeader/>
       <Row 
         pTime={showTmrwTimes ? tmrwPTimes.Fajr : pTimes.Fajr}
