@@ -2,22 +2,38 @@ import React, {useState, useEffect} from 'react'
 import { StyleSheet, SafeAreaView, View } from 'react-native'
 import WebViewContainer from './webViewContainer'
 import getWebViewContent from '../utils/getWebViewContent'
+import capitalise from '../utils/capitalise'
 
 const WebViews = ({refreshing}) => {
 
-    const [content, setContent] = useState([])
-
-  
+    const [otherContent, setOtherContent] = useState([])
+    const [announcementAndReminder, setAnnouncementAndReminder] = useState([])
+      
   useEffect(() => {
 
-    getWebViewContent().then(newContent => setContent(newContent))
+    getWebViewContent().then(([announcements, otherContent]) => {
+      setAnnouncementAndReminder(announcements)
+      setOtherContent(otherContent)
+    })
     
   }, [refreshing])
 
 
     return (
         <View style={styles.webViewsContainer}>
-          {content.map((contentItem) => <WebViewContainer text={contentItem.content.rendered} key={contentItem.id}></WebViewContainer>)}
+            {announcementAndReminder.map((item) => {
+              return <WebViewContainer text={item.content.rendered} key={item.id} title={item.title.rendered} />
+            } 
+          )}
+
+          {otherContent.map(item => {
+            if( item.slug === 'quran' || item.slug === 'dhikr'){
+              return (
+                <WebViewContainer 
+                text={item.content.rendered} key ={item.id} title={capitalise(item.slug)}   
+                />)
+            }
+          })}
           </View>
     )
 }

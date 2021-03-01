@@ -4,22 +4,23 @@ import AutoHeightWebView from 'react-native-autoheight-webview'
 
 
 
-const WebViewContainer = ({text}) => {
+const WebViewContainer = ({text, title}) => {
         return (
-            <AutoHeightWebView 
-            style={{width: '100%'}}
-            customStyle={`
-            h1,h2,h3,h4,h5,h6,p { font-family: Arial, Helvetica, sans-serif;}
-            `}
-            scrollEnabled={false}
-            scrollEnabledWithZoomedin={true}
-            containerStyle={[styles.container, {marginBottom: 40, width: '97%', overflow:'hidden'}]}
-            scalesPageToFit={true}
-            viewportContent={'width=device-width'}
-            originWhitelist={['https://wise-web.org/*']}
-            source={{ html: '<meta name="viewport" content="width=device-width, initial-scale=1"></meta>' + text }}
-            />
 
+                <AutoHeightWebView 
+                style={{width: '100%'}}
+                customStyle={`
+                h1,h2,h3,h4,h5,h6,p, .title { font-family: Arial, Helvetica, sans-serif;}
+                .title { font-weight: bold; color: rgb(161, 43, 110)  }
+                `}
+                scrollEnabled={false}
+                scrollEnabledWithZoomedin={true}
+                containerStyle={[styles.container, {marginBottom: 40, width: '97%', overflow:'hidden'}]}
+                scalesPageToFit={true}
+                viewportContent={'width=device-width'}
+                originWhitelist={['https://wise-web.org/*']}
+                source={{ html: '<meta name="viewport" content="width=device-width, initial-scale=1"></meta>' +`<p class="title">${title}</p>` +'\n\n' + text }}
+                />
 );
 }
 

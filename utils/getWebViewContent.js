@@ -2,14 +2,15 @@
 const axios = require('axios');
 
 // getAnnouncements()
-async function getAnnouncements(){
+async function getHomeScreenWebViewContent(){
 
-  const response = await axios.get('https://wise-web.org/wp-json/wp/v2/posts/?categories=9')
+  const announcementsResponse = await axios.get('https://wise-web.org/wp-json/wp/v2/posts/?categories=9')
+  const otherContent = await axios.get('https://wise-web.org/wp-json/wp/v2/pages/')
   
-  return response.data
+  return [announcementsResponse.data, otherContent.data]
 }
 
 
-export default getAnnouncements
+export default getHomeScreenWebViewContent
 
 
