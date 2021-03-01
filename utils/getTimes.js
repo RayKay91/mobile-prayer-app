@@ -80,9 +80,11 @@ export default async function getTimes() {
         console.log(err);
       }
     })();
-    console.log("showing new times");
+
     return [todaysTimes, tmrwTimes];
+    
   } else {
+
     async function getTimesFromLocalStorage() {
       try {
         const todaysTimesJSON = await AsyncStorage.getItem("todaysTimes");
@@ -92,9 +94,9 @@ export default async function getTimes() {
         console.log(error);
       }
     }
-    console.log("showing saved times");
+
     return getTimesFromLocalStorage();
   }
 }
-// getTimes().then(console.log)
+
 
