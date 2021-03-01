@@ -24,7 +24,7 @@ const Table = ({refreshing, notifications, showTmrwTimes}) => {
 
       getTimes().then(times => {
 
-        console.log('fetching times on ' + Platform.OS + ' ' + Platform.Version);
+        console.log('\n fetching times on ' + Platform.OS + ' ' + Platform.Version);
           
         const [todaysTimes, tmrwPTimes] = times
 

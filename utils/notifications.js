@@ -56,7 +56,6 @@ async function notify(prayerName, prayerTime) {
 }
 
 export async function removePreviouslyScheduledNotifications(){
-  console.log('removing prev notifications')
   await Notifications.cancelAllScheduledNotificationsAsync()
 }
 
