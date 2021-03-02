@@ -1,6 +1,6 @@
 import React, {useState, useCallback} from 'react'
 import { useFocusEffect } from '@react-navigation/native';
-import {SafeAreaView} from 'react-native'
+import {SafeAreaView, Text} from 'react-native'
 import AutoHeightWebView from 'react-native-autoheight-webview'
 import getDuaContent from '../utils/getDuas.js'
 
@@ -76,10 +76,11 @@ export default function DuaScreen(){
             [],
         )
     )
+        if (duaContent){
 
-        return(
-
-            <SafeAreaView style={{flex:1, marginBottom: 20}}>
+            return(
+                
+                <SafeAreaView style={{flex:1, marginBottom: 20}}>
                 <AutoHeightWebView
                     style={{width: '95%', marginLeft: 'auto', marginRight: 'auto'}}
                     customStyle={customCssStyles}
@@ -90,7 +91,13 @@ export default function DuaScreen(){
                 </SafeAreaView>
 
 
-        )
+            )
+        } else {
+            return (<SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
+                <Text style={{fontSize: 25, color: 'rgb(161, 43, 110)', textAlign:'center'}}>Loading...</Text>
+                </SafeAreaView>
+            )
+        }
 
 }
 

@@ -6,7 +6,7 @@ export default function SocialScreen(){
         <View>
 
         <SafeAreaView />
-        <Text>Hello World</Text>
+        <Text>Social stuff to go here</Text>
 
         </View>
     )
