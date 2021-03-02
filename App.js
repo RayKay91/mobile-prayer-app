@@ -19,7 +19,7 @@ export default function App() {
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Socials" component={SocialScreen} />
         <Tab.Screen name="Qur'an" component={QuranScreen} />
-        <Tab.Screen name="Dua" component={DuaScreen} />
+        <Tab.Screen name="Du'a" component={DuaScreen} />
       </Tab.Navigator>
     </NavigationContainer>
   )

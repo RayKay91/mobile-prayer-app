@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import { StyleSheet, View, Platform } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 //components
 import Row from './row'
 import TableHeader from './tableHeader'
@@ -9,7 +9,6 @@ import shouldHighlight from '../utils/shouldHighlight'
 import getTimes from '../utils/getTimes'
 import scheduleNotification, {removePreviouslyScheduledNotifications} from '../utils/notifications'
 import currentTime from '../utils/currentTime'
-import useWindowDimensions from 'react-native/Libraries/Utilities/useWindowDimensions';
 
 
 const Table = ({refreshing, notifications, showTmrwTimes}) => {
@@ -74,6 +73,7 @@ const Table = ({refreshing, notifications, showTmrwTimes}) => {
               const pTime = +pTimeStr.replace(':', '')
 
               if (currTime < pTime){
+                console.log('In Table.js --> scheduling notification for ' + pName + '\n')
                 scheduleNotification(pName, pTimeStr)
               }
             })

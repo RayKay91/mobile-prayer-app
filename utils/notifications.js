@@ -32,6 +32,9 @@ async function allowsNotificationsAsync() {
 
 async function notify(prayerName, prayerTime) {
 
+
+  console.log('@@@@@@ in utils/notifications.js in function (( notify ))scheduling notification for ' + prayerName + `@ ${prayerTime}`)
+
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
       shouldShowAlert: true,

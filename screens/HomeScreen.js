@@ -2,6 +2,7 @@
 import React, {useState, useCallback} from 'react'
 import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable} from 'react-native';
 import * as Haptics from 'expo-haptics'
+import { useFocusEffect } from '@react-navigation/native';
 
 //components
 import Table from '../components/table'
@@ -10,7 +11,6 @@ import WebViews from '../components/WebViews'
 import wait from '../utils/wait'
 import getDate from '../utils/getDate'
 import currentTime from '../utils/currentTime'
-import { useFocusEffect } from '@react-navigation/native';
 
 export default function HomeScreen() {
     const [refreshing, setRefreshing] = useState(0);
@@ -21,13 +21,11 @@ export default function HomeScreen() {
 
     useFocusEffect(
       useCallback(() => {
-        //incrementing by 1 to trigger rerender
+        //incrementing by 1 to trigger rerender of table component
         setRefreshing(prevState => prevState + 1)
     },[])
     )
     
- 
-   
     
     const handlePress = async () => {
       setNotifications(!notifications);

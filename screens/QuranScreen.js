@@ -1,7 +1,7 @@
 import React from 'react'
 import {SafeAreaView, Text, View} from 'react-native'
 
-export default function SocialScreen(){
+export default function QuranScreen(){
     return(
         <View>
 
