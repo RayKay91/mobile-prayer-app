@@ -10,7 +10,6 @@ const WebViews = ({refreshing}) => {
     const [announcementAndReminder, setAnnouncementAndReminder] = useState([])
       
   useEffect(() => {
-
     getWebViewContent().then(([announcements, otherContent]) => {
       setAnnouncementAndReminder(announcements)
       setOtherContent(otherContent)
@@ -39,7 +38,7 @@ const WebViews = ({refreshing}) => {
 }
 
 
-export default WebViews
+export default React.memo(WebViews)
 
 const styles = StyleSheet.create({
   webViewsContainer: {

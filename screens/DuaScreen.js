@@ -12,7 +12,8 @@ const customCssStyles = `
     font-family: Arial, Helvetica, sans-serif !important;
     color: #333 !important;
     font-weight: 400 !important;
-    font-size: 16px !important
+    font-size: 16px !important;
+    letter-spacing: 0.3px !important
 }
 /* styling reset end*/
 
@@ -21,9 +22,9 @@ h5:first-of-type {
     text-align: center !important
 }
 h5 span:first-of-type {
-    font-size: 25px !important;
+    font-size: 27px !important;
     font-weight: 600 !important;
-    color: rgb(161, 43, 110) !important;
+    color: #4b3c96 !important;
     text-decoration: underline
 
 }

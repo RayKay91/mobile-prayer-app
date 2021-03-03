@@ -41,7 +41,7 @@ div.row.verse-actions-below > div.col-md-1.order-1.order-md-0 > div > a:nth-chil
     display: none !important;
 }
 
-/*reflection link removal*/
+/* reflection link removal */
 
 .reflection-link {
     display: none !important
@@ -53,6 +53,11 @@ div.row.verse-actions-below > div.col-md-1.order-1.order-md-0 > div > a:nth-chil
     display: none !important
 }
 
+/* removal of translations from dropdown surah selector */
+
+.surah-dropdown .pr-3 p {
+    display: none !important
+}
 
 
 `
@@ -67,7 +72,7 @@ export default function QuranScreen(){
         <SafeAreaView style={{flex: 1}}>
              <AutoHeightWebView
                     customStyle={customCSS}
-                    containerStyle={{flex: 1}}
+                    containerStyle={{flex: 1, overflow: 'visible'}}
                     originWhiteList={['https://quran.com/*']}
                     source={{uri: 'https://quran.com'}}
                 />

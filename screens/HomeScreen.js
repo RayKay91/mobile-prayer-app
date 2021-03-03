@@ -3,7 +3,6 @@ import React, {useState, useCallback} from 'react'
 import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable} from 'react-native';
 import * as Haptics from 'expo-haptics'
 import { useFocusEffect } from '@react-navigation/native';
-
 //components
 import Table from '../components/table'
 import WebViews from '../components/WebViews'
@@ -33,9 +32,12 @@ export default function HomeScreen() {
     };
 
     const handleHold = async () => {
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       setShowTmrwTimes(true)
-
+      await wait(50)
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      await wait(120)
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     }
     const handleRelease = async () => {
       setShowTmrwTimes(false)
