@@ -30,9 +30,11 @@ async function allowsNotificationsAsync() {
   );
 }
 
-async function notify(prayerName, prayerTime) {
+export default async function scheduleNotification(prayerName, prayerTime) {
 
+  const havePermission = await allowsNotificationsAsync();
 
+  if(!havePermission) return
 
   Notifications.setNotificationHandler({
     handleNotification: async () => ({
@@ -44,8 +46,6 @@ async function notify(prayerName, prayerTime) {
 
   const timeToPrayerInSeconds = prayerTimeInSeconds(prayerTime) - currentTimeInSeconds()
 
-
-
   const notificationId = await Notifications.scheduleNotificationAsync({
     content: {
       title: `${prayerName} prayer has started`,
@@ -56,20 +56,9 @@ async function notify(prayerName, prayerTime) {
     },
   });
 
-
 }
 
 export async function removePreviouslyScheduledNotifications(){
   await Notifications.cancelAllScheduledNotificationsAsync()
-}
-
-export default async function scheduleNotification(prayerName, prayerTime) {
-  
-  const havePermission = await allowsNotificationsAsync();
-  console.log('scheduling notification for...' + ' ' + prayerName + '\n');
-  if (havePermission) {
-    await notify(prayerName, prayerTime);
-
-  }
 }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import HomeScreen from './screens/HomeScreen';
+import MainHomeScreen from './screens/MainHomeScreen';
 import SocialScreen from './screens/SocialScreen'
 import QuranScreen from './screens/QuranScreen'
 import DuaScreen from './screens/DuaScreen'
@@ -16,7 +16,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Home" component={HomeScreen} />
+        <Tab.Screen name="Home" component={MainHomeScreen} />
         <Tab.Screen name="Socials" component={SocialScreen} />
         <Tab.Screen name="Qur'an" component={QuranScreen} />
         <Tab.Screen name="Du'a" component={DuaScreen} />
