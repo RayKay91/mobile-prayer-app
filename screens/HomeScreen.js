@@ -11,7 +11,7 @@ import wait from '../utils/wait'
 import getDate from '../utils/getDate'
 import currentTime from '../utils/currentTime'
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
     const [refreshing, setRefreshing] = useState(0);
     const [showRefresh, setShowRefresh] = useState(false);
     const [notifications, setNotifications] = useState(true);
@@ -28,7 +28,9 @@ export default function HomeScreen() {
     
     const handlePress = async () => {
       setNotifications(!notifications);
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+      navigation.navigate('Notifications', {notifications})
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
     };
 
     const handleHold = async () => {
@@ -102,7 +104,7 @@ export default function HomeScreen() {
             <Text
               style={styles.btnText}
             >
-              Prayer Notifications: {notifications ? "On" : "Off"}
+              Prayer Notifications {'>>'}
             </Text>
           </Pressable>
   
