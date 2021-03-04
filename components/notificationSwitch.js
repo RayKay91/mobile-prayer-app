@@ -1,16 +1,18 @@
 import React, {useState} from 'react'
 import { StyleSheet, Text, View , Switch} from 'react-native'
+import * as Haptics from 'expo-haptics'
 
-const notificationSwitch = ({prayerName}) => {
+const notificationSwitch = ({prayerName, idx}) => {
 
     const [isEnabled, setIsEnabled] = useState(true)
     
-    const handleSwitchToggle = (val) => {
+    const handleSwitchToggle = async (val) => {
         setIsEnabled(val)
+        await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {borderTopWidth: idx === 0 ? 1 : 0}]}>
             <Text style={styles.switchLabel}>{prayerName}</Text>
             <Switch
                 onValueChange={handleSwitchToggle}
@@ -27,15 +29,16 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingHorizontal: 20,
-        paddingBottom: 10,
-        marginVertical: 7,
+        paddingHorizontal: 30,
+        paddingVertical: 10,
         borderBottomWidth: 1,
-        alignItems: 'center'
+        borderColor: '#d6d6d6',
+        alignItems: 'center',
+        backgroundColor: 'white'
 
 
     },
     switchLabel: {
-        fontSize: 19
+        fontSize: 19,
     }
 })
