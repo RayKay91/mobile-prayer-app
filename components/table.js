@@ -31,16 +31,14 @@ const Table = ({ refreshing, notifications, showTmrwTimes }) => {
         
         setTmrwPTimes(tmrwPTimes);
 
-        console.log('setting state tomorrow' + tmrwPTimes === '--' ? ' noTimes' : 'Times added')
-
         const { Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa } = todaysTimes;
         const prayerTimes = [Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa];
         // highlighting logic
         const willHighlight = shouldHighlight(...prayerTimes);
         
-        console.log('setting higlights')
+
         setHighlight(willHighlight);
-          console.log('removing previous notifications')
+
 
         removePreviouslyScheduledNotifications();
 
@@ -49,9 +47,11 @@ const Table = ({ refreshing, notifications, showTmrwTimes }) => {
           let { timeWithoutSeconds: currTime } = currentTime();
           currTime = +currTime.replace(":", "");
 
-          prayerTimes.forEach((pTimeStr, i) => {
+          const Times = ['19:15', '19:16', '19:17', '19:18', '19:48', '21:20']
+          
+          
+          Times.forEach((pTimeStr, i) => {
             if (i === 1) return;
-
             let pName = "";
 
             switch (i) {
@@ -75,9 +75,8 @@ const Table = ({ refreshing, notifications, showTmrwTimes }) => {
             const pTime = +pTimeStr.replace(":", "");
 
             if (currTime < pTime) {
-              console.log('Table.js schedule function firing for ' + pName);
               scheduleNotification(pName, pTimeStr);
-            }
+            } 
           });
         }
       })
