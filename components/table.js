@@ -1,87 +1,45 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Platform } from "react-native";
 import useWindowDimensions from "react-native/Libraries/Utilities/useWindowDimensions";
+import * as Notifications from 'expo-notifications'
+
 //components
 import Row from "./row";
 import TableHeader from "./tableHeader";
 //util funcs
 import shouldHighlight from "../utils/shouldHighlight";
 import getTimes from "../utils/getTimes";
-import scheduleNotification, {
-  removePreviouslyScheduledNotifications,
-} from "../utils/notifications";
-import currentTime from "../utils/currentTime";
 
-const Table = ({ refreshing, notifications, showTmrwTimes }) => {
+
+const Table = ({ refreshing, showTmrwTimes }) => {
   const [pTimes, setPTimes] = useState("--");
   const [tmrwPTimes, setTmrwPTimes] = useState("--");
   const [highlight, setHighlight] = useState({});
 
   useEffect(() => {
     getTimes()
-      .then((times) => {
+      .then(async (times) => {
         console.log(
           "\nfetching times on " + Platform.OS + " " + Platform.Version
         );
 
         const [todaysTimes, tmrwPTimes] = times;
-        setPTimes(todaysTimes);
-        console.log('setting state today' + pTimes === '--' ? ' noTimes' : 'Times added')
-        console.log('setting state tomorrow')
-        
+        setPTimes(todaysTimes);        
         setTmrwPTimes(tmrwPTimes);
 
         const { Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa } = todaysTimes;
-        const prayerTimes = [Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa];
+        const prayerTimes = {Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa}
+
         // highlighting logic
-        const willHighlight = shouldHighlight(...prayerTimes);
-        
+        const willHighlight = shouldHighlight(...Object.values(prayerTimes));
 
         setHighlight(willHighlight);
 
+         await Notifications.cancelAllScheduledNotificationsAsync()
 
-        removePreviouslyScheduledNotifications();
+        }).catch((err) => console.log(`something went wrong ${err}`));
+  }, [refreshing]);
 
-        if (notifications) {
-          console.log('running notification if block');
-          let { timeWithoutSeconds: currTime } = currentTime();
-          currTime = +currTime.replace(":", "");
-
-          const Times = ['19:15', '19:16', '19:17', '19:18', '19:48', '21:20']
-          
-          
-          Times.forEach((pTimeStr, i) => {
-            if (i === 1) return;
-            let pName = "";
-
-            switch (i) {
-              case 0:
-                pName = "Fajr";
-                break;
-              case 2:
-                pName = "Dhuhr";
-                break;
-              case 3:
-                pName = "Asr";
-                break;
-              case 4:
-                pName = "Maghrib";
-                break;
-              case 5:
-                pName = "Ishaa";
-                break;
-            }
-
-            const pTime = +pTimeStr.replace(":", "");
-
-            if (currTime < pTime) {
-              scheduleNotification(pName, pTimeStr);
-            } 
-          });
-        }
-      })
-      .catch((err) => console.log(`something went wrong ${err}`));
-  }, [refreshing, notifications]);
 
   return (
     <View

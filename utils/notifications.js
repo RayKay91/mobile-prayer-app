@@ -1,10 +1,9 @@
 import * as Notifications from "expo-notifications";
-//util funcs
-const currentTimeInSeconds = require('./currentTimeInSeconds')
-const prayerTimeInSeconds = require('./prayerTimeInSeconds')
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import currentTime from './currentTime'
 
 async function requestNotificationPermission() {
-  await Notifications.requestPermissionsAsync({
+  return await Notifications.requestPermissionsAsync({
     ios: {
       allowAlert: true,
       allowBadge: true,
@@ -12,12 +11,14 @@ async function requestNotificationPermission() {
       allowDisplayInCarPay: true,
       allowCriticalAlerts: true,
       provideAppNotificationSettings: true,
+      allowProvisional: true,
       allowAnnouncements: true,
     },
   });
+
 }
 
-async function allowsNotificationsAsync() {
+export async function notificationPermission() {
   const settings = await Notifications.getPermissionsAsync();
 
   if (settings.status === "undetermined") {
@@ -30,35 +31,34 @@ async function allowsNotificationsAsync() {
   );
 }
 
-export default async function scheduleNotification(prayerName, prayerTime) {
+export default async function scheduleNotification(prayerName) {
 
-  const havePermission = await allowsNotificationsAsync();
+  
+  let { timeWithoutSeconds: currTime } = currentTime();
+        currTime = +currTime.replace(":", "");
 
-  if(!havePermission) return
+  const pTime = prayerTimes[prayerName].replace(":", "");
 
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: false,
-    }),
-  });
-
-  const timeToPrayerInSeconds = prayerTimeInSeconds(prayerTime) - currentTimeInSeconds()
+    if (currTime < pTime) {
 
   const notificationId = await Notifications.scheduleNotificationAsync({
+    
+
     content: {
       title: `${prayerName} prayer has started`,
       sound: true
     },
     trigger: {
-      seconds: timeToPrayerInSeconds
+      hour: +timeToScheduleNotificationFor.substring(0,2),
+      minute: +timeToScheduleNotificationFor.substring(3),
+      repeats: false
     },
   });
 
+    
+  
+    console.log(`scheduling notification for ${prayerName} at ${timeToScheduleNotificationFor}. Notification ID is ${notificationId}`);
+  }
 }
 
-export async function removePreviouslyScheduledNotifications(){
-  await Notifications.cancelAllScheduledNotificationsAsync()
-}
 

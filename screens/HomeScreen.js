@@ -1,6 +1,7 @@
 
-import React, {useState, useCallback} from 'react'
-import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable} from 'react-native';
+import React, {useState, useCallback, useEffect} from 'react'
+import {StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Alert} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Haptics from 'expo-haptics'
 import { useFocusEffect } from '@react-navigation/native';
 //components
@@ -10,11 +11,13 @@ import WebViews from '../components/WebViews'
 import wait from '../utils/wait'
 import getDate from '../utils/getDate'
 import currentTime from '../utils/currentTime'
+import notifcationPermissionAlert from '../utils/notificationPermissionAlert'
+
+
 
 export default function HomeScreen({navigation}) {
     const [refreshing, setRefreshing] = useState(0);
     const [showRefresh, setShowRefresh] = useState(false);
-    const [notifications, setNotifications] = useState(true);
     const [showTmrwTimes, setShowTmrwTimes] = useState(false)
 
 
@@ -24,12 +27,40 @@ export default function HomeScreen({navigation}) {
         setRefreshing(prevState => prevState + 1)
     },[])
     )
-    
-    
+
+    useEffect(() => {
+      
+      
+      const permissionsAndDefaultNotifications = async () => {
+        
+        try {
+
+          const askedForNotificationsBefore = await AsyncStorage.getItem('askedForNotificationsBefore')
+        
+          if (!askedForNotificationsBefore){
+          
+            notificationPermissionAlert()
+            
+            
+            try {
+              await AsyncStorage.setItem('askedForNotificationsBefore', 'true')
+            } catch (error) {
+              console.log(error);
+            }
+          }
+        } catch (error) {
+          
+          console.log('exception thrown', error);
+        }
+
+      }
+        permissionsAndDefaultNotifications()
+      }, [])
+        
     const handlePress = async () => {
-      setNotifications(!notifications);
-      navigation.navigate('Notifications', {notifications})
-      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
+      navigation.navigate('Notifications')
+      await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
 
     };
 
@@ -79,7 +110,7 @@ export default function HomeScreen({navigation}) {
             {hijriDate}
           </Text>
   
-          <Table notifications={notifications} refreshing={refreshing} showTmrwTimes={showTmrwTimes} />
+          <Table refreshing={refreshing} showTmrwTimes={showTmrwTimes} />
 
           <Pressable style={({ pressed }) => [
           styles.btn,

@@ -1,14 +1,28 @@
 import React, {useState} from 'react'
 import { StyleSheet, Text, View , Switch} from 'react-native'
 import * as Haptics from 'expo-haptics'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import scheduleNotification from '../utils/notifications'
+import * as Notifications from 'expo-notifications'
 
 const notificationSwitch = ({prayerName, idx}) => {
 
     const [isEnabled, setIsEnabled] = useState(true)
-    
-    const handleSwitchToggle = async (val) => {
-        setIsEnabled(val)
+
+    const handleSwitchToggle = async (shouldEnable) => {
         await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+        setIsEnabled(shouldEnable)
+
+        // await AsyncStorage.setItem(prayerName, shouldEnable.toString())
+        // const id = await AsyncStorage.getItem(`${prayerName}NotificationID`)
+        // await Notifications.cancelScheduledNotificationAsync(id)
+        
+        // if(shouldEnable){
+        //     const pTime = await AsyncStorage.getItem('todaysTimes')
+        //     const prayerTime = JSON.parse(pTime);
+        //     scheduleNotification(prayerName, prayerTime[prayerName])
+        // }
+
     }
 
     return (

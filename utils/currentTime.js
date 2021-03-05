@@ -1,5 +1,6 @@
 const checkZero = require('./checkZero')
 
+//returns time in hhmm / hhmmss format
 
 function getCurrentTime(){
     const date = new Date();

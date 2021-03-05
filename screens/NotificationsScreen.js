@@ -1,7 +1,7 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 import NotificationSwitch from '../components/notificationSwitch'
-const NotificationsScreen = ({route}) => {
+const NotificationsScreen = () => {
     const prayers = ['Fajr', 'Dhuhr', 'Asr', 'Maghrib', 'Ishaa']
     return (
         <View>
