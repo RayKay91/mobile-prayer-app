@@ -32,33 +32,59 @@ export async function notificationPermission() {
 }
 
 export default async function scheduleNotification(prayerName) {
+  //check if the prayer time is after current time. If so schedule notification.
 
   
   let { timeWithoutSeconds: currTime } = currentTime();
-        currTime = +currTime.replace(":", "");
+  currTime = +currTime.replace(":", "");
+  
+  const todaysTimes = await AsyncStorage.getItem('todaysTimes')
+  const prayerTimes = JSON.parse(todaysTimes)
+  
+  
+  const pTime = +prayerTimes[prayerName].replace(":", "");
+  
+  //cancel previous notification
+  
+  const prevNotificationIDForCancellation = await AsyncStorage.getItem(`${prayerName}NotificationID`)
+  
+  if(prevNotificationIDForCancellation !== null){
 
-  const pTime = prayerTimes[prayerName].replace(":", "");
+          // console.log('\ncancelling prev notification --> ' + prayerName + ' ' + prevNotificationIDForCancellation);
+      await Notifications.cancelScheduledNotificationAsync(prevNotificationIDForCancellation)
+    }
+  
+
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+      }),
+    });
 
     if (currTime < pTime) {
 
-  const notificationId = await Notifications.scheduleNotificationAsync({
-    
+        const notificationID = await Notifications.scheduleNotificationAsync({
+        
 
-    content: {
-      title: `${prayerName} prayer has started`,
-      sound: true
-    },
-    trigger: {
-      hour: +timeToScheduleNotificationFor.substring(0,2),
-      minute: +timeToScheduleNotificationFor.substring(3),
-      repeats: false
-    },
-  });
+        content: {
+          title: `${prayerName} prayer has started`,
+          sound: true
+        },
+        trigger: {
+          hour: +prayerTimes[prayerName].substring(0,2),
+          minute: +prayerTimes[prayerName].substring(3),
+          repeats: false
+        },
+      });
 
-    
-  
-    console.log(`scheduling notification for ${prayerName} at ${timeToScheduleNotificationFor}. Notification ID is ${notificationId}`);
+      await AsyncStorage.setItem(`${prayerName}NotificationID`, notificationID)
+
+      console.log(`\nscheduling notification for ${prayerName} at ${prayerTimes[prayerName]}. Notification ID is ${notificationID.substring(10)}`);
+
   }
+
 }
 
 

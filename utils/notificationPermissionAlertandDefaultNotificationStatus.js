@@ -1,4 +1,5 @@
 import {notificationPermission} from './notifications'
+import {Alert} from 'react-native'
 import setDefaultPrayerNotificationStatuses from './setDefaultPrayerNotificationStatuses'
 
 function notificationPermissionAlert(){
@@ -19,9 +20,6 @@ function notificationPermissionAlert(){
             } catch (error) {
               console.log(error);
             }
-          } else {
-            await setDefaultPrayerNotificationStatuses(false)
-  
           }
         }
       },

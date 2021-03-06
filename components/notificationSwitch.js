@@ -1,37 +1,33 @@
-import React, {useState} from 'react'
-import { StyleSheet, Text, View , Switch} from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, Switch } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux'
+import { shouldEnableNotification } from '../redux/notificationsSlice'
 import * as Haptics from 'expo-haptics'
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import scheduleNotification from '../utils/notifications'
-import * as Notifications from 'expo-notifications'
 
-const notificationSwitch = ({prayerName, idx}) => {
+const notificationSwitch = ( { prayerName, idx } ) => {
 
-    const [isEnabled, setIsEnabled] = useState(true)
+    const notificationStatuses = useSelector( state => state.notifications )
+    const dispatch = useDispatch()
 
-    const handleSwitchToggle = async (shouldEnable) => {
-        await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-        setIsEnabled(shouldEnable)
+    const isEnabled = notificationStatuses[ prayerName ]
 
-        // await AsyncStorage.setItem(prayerName, shouldEnable.toString())
-        // const id = await AsyncStorage.getItem(`${prayerName}NotificationID`)
-        // await Notifications.cancelScheduledNotificationAsync(id)
-        
-        // if(shouldEnable){
-        //     const pTime = await AsyncStorage.getItem('todaysTimes')
-        //     const prayerTime = JSON.parse(pTime);
-        //     scheduleNotification(prayerName, prayerTime[prayerName])
-        // }
+    const handleSwitchToggle = async ( shouldEnable ) => {
+        await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
+        dispatch( shouldEnableNotification( { prayerName, shouldEnable } ) )
+
+
 
     }
 
+
+
     return (
-        <View style={[styles.container, {borderTopWidth: idx === 0 ? 1 : 0}]}>
-            <Text style={styles.switchLabel}>{prayerName}</Text>
+        <View style={ [ styles.container, { borderTopWidth: idx === 0 ? 1 : 0 } ] }>
+            <Text style={ styles.switchLabel }>{ prayerName }</Text>
             <Switch
-                onValueChange={handleSwitchToggle}
-                trackColor={{true: 'rgb(161, 43, 110)'}}
-                value={isEnabled}
+                onValueChange={ handleSwitchToggle }
+                trackColor={ { true: 'rgb(161, 43, 110)' } }
+                value={ isEnabled }
             />
         </View>
     )
@@ -39,7 +35,7 @@ const notificationSwitch = ({prayerName, idx}) => {
 
 export default notificationSwitch
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
     container: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -55,4 +51,4 @@ const styles = StyleSheet.create({
     switchLabel: {
         fontSize: 19,
     }
-})
+} )
