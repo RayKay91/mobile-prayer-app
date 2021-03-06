@@ -1,9 +1,10 @@
 
 import React, { useState, useCallback, useEffect } from 'react'
-import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform } from 'react-native';
+import { StatusBar, ScrollView, StyleSheet, Text, Button, View, SafeAreaView, RefreshControl, Pressable, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 //redux
 import { useSelector, useDispatch } from 'react-redux'
 import { updateNotificationID } from '../redux/idsSlice'
@@ -106,7 +107,13 @@ export default function HomeScreen( { navigation } ) {
   return (
     <View style={ styles.container }>
       <SafeAreaView />
+
       <StatusBar barStyle={ "dark-content" } />
+
+      <Button
+        onPress={ async () => console.log( await AsyncStorage.getAllKeys() ) }
+        title={ 'view local storage keys' }
+      />
 
       <ScrollView
         style={ styles.scrollContainer }
