@@ -8,15 +8,14 @@ export const notificationsSlice = createSlice( {
         Dhuhr: true,
         Asr: true,
         Maghrib: true,
-        Ishaa: true
+        Ishaa: true,
     },
     reducers: {
         shouldEnableNotification: ( state, action ) => {
 
             state[ action.payload.prayerName ] = action.payload.shouldEnable
-            console.log( action.payload.prayerName, action.payload.shouldEnable );
-            console.log( state[ action.payload.prayerName ] );
         },
+
 
     }
 } )

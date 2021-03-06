@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { StyleSheet, Text, View, Switch } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { shouldEnableNotification } from '../redux/notificationsSlice'
 import * as Haptics from 'expo-haptics'
+import * as Notifications from 'expo-notifications'
 
 const notificationSwitch = ( { prayerName, idx } ) => {
 
     const notificationStatuses = useSelector( state => state.notifications )
+    const notificationIDs = useSelector( state => state.notificationIDs )
     const dispatch = useDispatch()
 
     const isEnabled = notificationStatuses[ prayerName ]
@@ -15,8 +17,13 @@ const notificationSwitch = ( { prayerName, idx } ) => {
         await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
         dispatch( shouldEnableNotification( { prayerName, shouldEnable } ) )
 
+        //cancel scheduled notification in case user doesn't navigate back to home screen.
 
-
+        if ( !shouldEnable ) {
+            const pNameNotification = `${ prayerName }Notification`
+            const notificationID = notificationIDs[ pNameNotification ]
+            await Notifications.cancelScheduledNotificationAsync( notificationID )
+        }
     }
 
 

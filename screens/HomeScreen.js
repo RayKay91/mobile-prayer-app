@@ -1,9 +1,12 @@
 
 import React, { useState, useCallback, useEffect } from 'react'
 import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform } from 'react-native';
-import * as Haptics from 'expo-haptics'
 import { useFocusEffect } from '@react-navigation/native';
-import { useSelector } from 'react-redux'
+import * as Haptics from 'expo-haptics'
+import * as Notifications from 'expo-notifications'
+//redux
+import { useSelector, useDispatch } from 'react-redux'
+import { updateNotificationID } from '../redux/idsSlice'
 
 //components
 import Table from '../components/table'
@@ -14,6 +17,7 @@ import getDate from '../utils/getDate'
 import currentTime from '../utils/currentTime'
 import getTimes from '../utils/getTimes'
 import shouldHighlight from "../utils/shouldHighlight";
+import scheduleNotification from '../utils/notifications';
 
 
 
@@ -26,6 +30,7 @@ export default function HomeScreen( { navigation } ) {
   const [ highlight, setHighlight ] = useState( {} )
 
   const notificationStatuses = useSelector( state => state.notifications )
+  const dispatch = useDispatch()
 
   useFocusEffect(
     useCallback( () => {
@@ -51,16 +56,22 @@ export default function HomeScreen( { navigation } ) {
 
 
           //notifications logic
+          //remove previous notifications in case refreshed page.
+          await Notifications.cancelAllScheduledNotificationsAsync()
 
-          for ( let prayer in notificationStatuses ) {
-            if ( notificationStatuses[ prayer ] ) {
+
+          for ( let prayerName in pTimes ) {
+            if ( notificationStatuses[ prayerName ] ) {
               // schedule notification
-              console.log( 'scheduling notification for ' + prayer + ' because ' + notificationStatuses[ prayer ] )
+              const notificationID = await scheduleNotification( prayerName, pTimes[ prayerName ] )
+              //save notificationID to state
+              const pNameNotification = `${ prayerName }Notification`
+              dispatch( updateNotificationID( { pNameNotification, notificationID } ) )
             }
           }
 
         } ).catch( ( err ) => console.log( `something went wrong in table.js ${ err }` ) );
-    }, [ notificationStatuses ] )
+    }, [ notificationStatuses, refreshing ] )
   )
 
   const handlePress = async () => {
@@ -150,7 +161,7 @@ export default function HomeScreen( { navigation } ) {
           </Text>
         </Pressable>
 
-        <WebViews />
+        <WebViews refreshing={ refreshing } />
       </ScrollView>
     </View>
   );
