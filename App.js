@@ -8,7 +8,7 @@ import ActivitiesScreen from './screens/ActivitiesScreen'
 //navigation
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// redux
+// redux + state persistence
 import { Provider } from 'react-redux'
 import { store, persistor } from './redux/store'
 import { PersistGate } from 'redux-persist/integration/react'

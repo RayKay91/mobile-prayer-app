@@ -1,6 +1,9 @@
 import * as Notifications from "expo-notifications";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import currentTime from './currentTime'
+const currentTimeInSeconds = require( './currentTimeInSeconds' )
+const prayerTimeInSeconds = require( './prayerTimeInSeconds' )
+
 async function requestNotificationPermission() {
   return await Notifications.requestPermissionsAsync( {
     ios: {
@@ -42,9 +45,8 @@ export default async function scheduleNotification( prayerName ) {
 
   const pTime = +prayerTimes[ prayerName ].replace( ":", "" );
 
-
-  if ( currTime > pTime ) {
-
+  if ( currTime < pTime ) {
+    //allow notifications while in app
     Notifications.setNotificationHandler( {
       handleNotification: async () => ( {
         shouldShowAlert: true,
@@ -52,6 +54,8 @@ export default async function scheduleNotification( prayerName ) {
         shouldSetBadge: false,
       } ),
     } );
+    //calculate time to prayer in seconds. Hours and minutes entry not working on Android.
+    const timeToPrayerInSeconds = prayerTimeInSeconds( prayerTimes[ prayerName ] ) - currentTimeInSeconds()
 
     const notificationID = await Notifications.scheduleNotificationAsync( {
 
@@ -61,15 +65,15 @@ export default async function scheduleNotification( prayerName ) {
         sound: true
       },
       trigger: {
-        hour: +prayerTimes[ prayerName ].substring( 0, 2 ),
-        minute: +prayerTimes[ prayerName ].substring( 3 ),
-        repeats: false
+        seconds: timeToPrayerInSeconds
       },
     } );
 
+    console.log( 'scheduled ' + notificationID.substring( 32 ) );
+
     return notificationID
   } else {
-    return 'No notification scheduled'
+    return 'No notification scheduled for past prayer'
   }
 
 }

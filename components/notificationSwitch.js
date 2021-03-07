@@ -2,8 +2,10 @@ import React from 'react'
 import { StyleSheet, Text, View, Switch } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { shouldEnableNotification } from '../redux/notificationsSlice'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
+import scheduleNotification from '../utils/notifications'
 
 const notificationSwitch = ( { prayerName, idx } ) => {
 
@@ -23,6 +25,13 @@ const notificationSwitch = ( { prayerName, idx } ) => {
             const pNameNotification = `${ prayerName }Notification`
             const notificationID = notificationIDs[ pNameNotification ]
             await Notifications.cancelScheduledNotificationAsync( notificationID )
+        }
+        if ( shouldEnable ) {
+            try {
+                scheduleNotification( prayerName )
+            } catch ( error ) {
+                console.log( error );
+            }
         }
     }
 
