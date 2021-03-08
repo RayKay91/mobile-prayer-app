@@ -1,10 +1,9 @@
 
 import React, { useState, useCallback } from 'react'
-import { StatusBar, ScrollView, StyleSheet, Text, Button, View, SafeAreaView, RefreshControl, Pressable, Platform, Alert, ClippingRectangle } from 'react-native';
+import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 //redux
 import { useSelector, useDispatch } from 'react-redux'
 import { updateNotificationID } from '../redux/idsSlice'
@@ -31,7 +30,6 @@ export default function HomeScreen( { navigation } ) {
   const [ highlight, setHighlight ] = useState( {} )
 
   const notificationStatuses = useSelector( state => state.notifications )
-  const notificationIDs = useSelector( state => state.notificationIDs )
   const dispatch = useDispatch()
 
   useFocusEffect(
@@ -59,7 +57,6 @@ export default function HomeScreen( { navigation } ) {
 
           //notifications logic
           //remove previous notifications in case refreshed page.
-          console.log( 'cancelling all previous notifications\n' );
           await Notifications.cancelAllScheduledNotificationsAsync()
 
 
@@ -67,7 +64,6 @@ export default function HomeScreen( { navigation } ) {
             if ( notificationStatuses[ prayerName ] ) {
               dispatch( updateNotificationID( 'cancelled' ) )
               // schedule notification
-              console.log( 'scheduling for ' + prayerName );
               const notificationID = await scheduleNotification( prayerName, pTimes[ prayerName ] )
               //save notificationID to state
               const pNameNotification = `${ prayerName }Notification`
@@ -113,36 +109,6 @@ export default function HomeScreen( { navigation } ) {
       <SafeAreaView />
 
       <StatusBar barStyle={ "dark-content" } />
-
-      <Button
-        onPress={ async () => Alert.alert( JSON.stringify( await AsyncStorage.getAllKeys() ) ) }
-        title={ 'view local storage keys' }
-      />
-      <Button
-        onPress={ async () => {
-          const scheduledNotifications = await Notifications.getAllScheduledNotificationsAsync()
-          const info = scheduledNotifications.map( ( el ) => {
-            let { title } = el.content;
-            title = title.split( ' ' )[ 0 ];
-            let { identifier: id } = el;
-            id = id.substring( 30 );
-            const { seconds } = el.trigger;
-            const minutes = Math.ceil( seconds / 60 )
-            return { title, id, minutes };
-          }
-          );
-          Alert.alert( JSON.stringify( info ) )
-        } }
-        title={ 'view scheduled notifications' }
-      />
-      <Button
-        onPress={ () => Alert.alert( JSON.stringify( notificationStatuses ) ) }
-        title={ 'view notifications state' }
-      />
-      <Button
-        onPress={ () => Alert.alert( 'notificationIDs', JSON.stringify( notificationIDs ) ) }
-        title={ 'view notificationIDs' }
-      />
 
       <ScrollView
         style={ styles.scrollContainer }

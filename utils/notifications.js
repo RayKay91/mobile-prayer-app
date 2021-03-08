@@ -69,8 +69,6 @@ export default async function scheduleNotification( prayerName ) {
       },
     } );
 
-    console.log( 'scheduled ' + notificationID.substring( 32 ) );
-
     return notificationID
   } else {
     return 'No notification scheduled for past prayer'

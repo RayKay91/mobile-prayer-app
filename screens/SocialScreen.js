@@ -1,13 +1,9 @@
 import React from 'react'
-import {SafeAreaView, Text, View} from 'react-native'
+import { SafeAreaView, Text, View } from 'react-native'
+import Loading from '../components/loading'
 
-export default function SocialScreen(){
-    return(
-        <View>
-
-        <SafeAreaView />
-        <Text>Social stuff to go here</Text>
-
-        </View>
+export default function SocialScreen() {
+    return (
+        <Loading />
     )
 }

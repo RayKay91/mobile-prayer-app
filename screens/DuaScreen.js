@@ -1,8 +1,9 @@
-import React, {useState, useCallback} from 'react'
+import React, { useState, useCallback } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
-import {SafeAreaView, Text} from 'react-native'
+import { SafeAreaView } from 'react-native'
 import AutoHeightWebView from 'react-native-autoheight-webview'
 import getDuaContent from '../utils/getDuas.js'
+import Loading from '../components/loading'
 
 //custom styling to be injected into Dua tab. Affects the HTML being rendered in the webview. Inline styles being overwritten using !important.
 
@@ -64,42 +65,38 @@ h2 span[style="color: #000080;"] {
 
 `
 
-export default function DuaScreen(){
+export default function DuaScreen() {
 
-    const [duaContent, setDuaContent] = useState('')
+    const [ duaContent, setDuaContent ] = useState( '' )
 
     useFocusEffect(
         useCallback(
             () => {
-                
-                if (!duaContent) getDuaContent().then(fetchedDuaContent => setDuaContent(fetchedDuaContent)).catch(err => console.log(err)) 
+
+                if ( !duaContent ) getDuaContent().then( fetchedDuaContent => setDuaContent( fetchedDuaContent ) ).catch( err => console.log( err ) )
             },
             [],
         )
     )
-        if (duaContent){
+    if ( duaContent ) {
 
-            return(
-                
-                <SafeAreaView style={{flex:1, marginBottom: 20}}>
+        return (
+
+            <SafeAreaView style={ { flex: 1, marginBottom: 20 } }>
                 <AutoHeightWebView
-                    style={{width: '95%', marginLeft: 'auto', marginRight: 'auto'}}
-                    customStyle={customCssStyles}
-                    containerStyle={{flex: 1}}
-                    originWhiteList={['*']}
-                    source={{html: '<meta name="viewport" content="width=device-width, initial-scale=1">' + duaContent}}
+                    style={ { width: '95%', marginLeft: 'auto', marginRight: 'auto' } }
+                    customStyle={ customCssStyles }
+                    containerStyle={ { flex: 1 } }
+                    originWhiteList={ [ '*' ] }
+                    source={ { html: '<meta name="viewport" content="width=device-width, initial-scale=1">' + duaContent } }
                 />
-                </SafeAreaView>
+            </SafeAreaView>
 
 
-            )
-        } else {
-            return (<SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
-                <Text style={{fontSize: 25, color: 'rgb(161, 43, 110)', textAlign:'center'}}>Loading...</Text>
-                </SafeAreaView>
-            )
-        }
+        )
+    } else {
+        return <Loading />
+    }
 
 }
 
-    
