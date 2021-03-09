@@ -50,6 +50,7 @@ export default function ActivitiesScreen() {
                     renderItem={ ( { item } ) => <ActivityComponent data={ item } /> }
                     renderSectionHeader={ ( { section } ) => <ActivityDay heading={ section.title } /> }
                     keyExtractor={ item => item.ActivityID }
+                    stickySectionHeadersEnabled
 
                 >
 

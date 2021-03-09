@@ -22,12 +22,16 @@ import scheduleNotification from '../utils/notifications';
 
 
 export default function HomeScreen( { navigation } ) {
+
   const [ refreshing, setRefreshing ] = useState( 0 );
   const [ showRefresh, setShowRefresh ] = useState( false );
   const [ showTmrwTimes, setShowTmrwTimes ] = useState( false )
   const [ prayerTimes, setPrayerTimes ] = useState( {} )
   const [ tmrwsTimes, setTmrwsTimes ] = useState( {} )
   const [ highlight, setHighlight ] = useState( {} )
+
+  const { timeWithSeconds } = currentTime()
+  const [ timeWithSecs, setTimeWithSecs ] = useState( timeWithSeconds )
 
   const notificationStatuses = useSelector( state => state.notifications )
   const dispatch = useDispatch()
@@ -43,7 +47,6 @@ export default function HomeScreen( { navigation } ) {
           const [ todaysTimes, tmrwsPTimes ] = times;
           setPrayerTimes( todaysTimes );
           setTmrwsTimes( tmrwsPTimes );
-
 
           // highlighting logic
 
@@ -97,12 +100,12 @@ export default function HomeScreen( { navigation } ) {
 
   const onRefresh = () => {
     setShowRefresh( true );
+    setTimeWithSecs( timeWithSeconds )
     setRefreshing( prevState => prevState + 1 )
     wait( 1000 ).then( () => setShowRefresh( false ) );
   };
 
   const { gregorianDate, hijriDate } = getDate();
-  const { timeWithSeconds } = currentTime();
 
   return (
     <View style={ styles.container }>
@@ -118,7 +121,7 @@ export default function HomeScreen( { navigation } ) {
             refreshing={ showRefresh }
             onRefresh={ onRefresh }
             tintColor={ "rgb(161, 43, 110)" }
-            title={ "last refreshed at " + timeWithSeconds }
+            title={ "last refreshed at " + timeWithSecs }
             titleColor={ "#888" }
           />
         }

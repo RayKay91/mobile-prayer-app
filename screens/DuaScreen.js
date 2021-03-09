@@ -20,13 +20,19 @@ const customCssStyles = `
 
 /*Main title*/
 h5:first-of-type {
-    text-align: center !important
+    text-align: center !important;
+    margin-top: 30px !important;
+    margin-bottom: 40px !important
 }
 h5 span:first-of-type {
     font-size: 27px !important;
     font-weight: 600 !important;
-    color: #4b3c96 !important;
-    text-decoration: underline
+    color: white !important;
+    background-color: rgb(161, 43, 110) !important;
+    padding: 5px 20px !important;
+    border-radius: 5px !important
+
+
 
 }
 
@@ -35,7 +41,7 @@ h5 span:first-of-type {
 h2 span[style="color: #993300;"], h2 span[style="color: #993366;"] {
     color: rgb(161, 43, 110) !important;
     font-size: 25px !important;
-    font-weight: 600 !important
+    font-weight: 600 !important;
 }
 
 /* translations */
@@ -43,23 +49,34 @@ h2 span[style="color: #993300;"], h2 span[style="color: #993366;"] {
 p, p strong, p span , h5[style="text-align: center;"] {
     color: #333 !important;
     font-size: 17px !important;
-    font-weight: 600 !important
+    font-weight: 600 !important;
 }
 
 /* subheadings */
 
 p span[style="color: #800080;"] strong {
-    color: #763e8c !important;
-    font-size: 18px !important;
-    text-decoration: underline
+    display: inline-block !important;
+    font-size: 16px !important;
+    color: white !important;
+    background-color: rgb(161, 43, 110) !important;
+    padding: 5px 20px !important;
+    border-radius: 5px !important;
+    margin-top: 10px !important;
+    margin-bottom: 15px !important;
 }
 
 /* subheading - the 'Allāh says...' and 'Hadīth...' at the bottom*/
 h2 span[style="color: #000080;"] {
-    font-size: 18px !important;
     font-weight: 600 !important;
-    color: #763e8c !important;
-    text-decoration: underline
+    display: inline-block !important;
+    font-size: 16px !important;
+    color: white !important;
+    background-color: rgb(161, 43, 110) !important;
+    padding: 5px 20px !important;
+    border-radius: 5px !important;
+    margin-top: 10px !important;
+    margin-bottom: 15px !important;
+    text-transform: uppercase !important
 }
 
 
