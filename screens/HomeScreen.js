@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback } from 'react'
-import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform } from 'react-native';
+import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform, Button, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
@@ -106,13 +106,13 @@ export default function HomeScreen( { navigation } ) {
   };
 
   const { gregorianDate, hijriDate } = getDate();
-
   return (
     <View style={ styles.container }>
       <SafeAreaView />
 
       <StatusBar barStyle={ "dark-content" } />
 
+      <Button onPress={ async () => { const scheduled = await Notifications.getAllScheduledNotificationsAsync(); console.log( scheduled ) } } title='scheduled notifications'></Button>
       <ScrollView
         style={ styles.scrollContainer }
         showsVerticalScrollIndicator={ false }
