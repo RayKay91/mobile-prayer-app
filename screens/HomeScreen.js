@@ -4,6 +4,7 @@ import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshCon
 import { useFocusEffect } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
+import { MaterialIcons } from '@expo/vector-icons';
 //redux
 import { useSelector, useDispatch } from 'react-redux'
 import { updateNotificationID } from '../redux/idsSlice'
@@ -112,7 +113,6 @@ export default function HomeScreen( { navigation } ) {
 
       <StatusBar barStyle={ "dark-content" } />
 
-      <Button onPress={ async () => { const scheduled = await Notifications.getAllScheduledNotificationsAsync(); console.log( scheduled ) } } title='scheduled notifications'></Button>
       <ScrollView
         style={ styles.scrollContainer }
         showsVerticalScrollIndicator={ false }
@@ -162,8 +162,11 @@ export default function HomeScreen( { navigation } ) {
           <Text
             style={ styles.btnText }
           >
-            Prayer Notifications { '>>' }
+            Prayer Notifications
           </Text>
+          <MaterialIcons name="arrow-forward-ios" size={ 14 } color="white" />
+
+
         </Pressable>
 
         <WebViews refreshing={ refreshing } />
@@ -200,6 +203,9 @@ const styles = StyleSheet.create( {
     letterSpacing: 1.3,
   },
   btn: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
     padding: 15,
     borderRadius: 7,
     backgroundColor: 'rgb(161, 43, 110)',

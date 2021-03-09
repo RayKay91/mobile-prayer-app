@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { SafeAreaView, Text, View, Pressable } from 'react-native'
+import { SafeAreaView, StyleSheet, View, Pressable } from 'react-native'
+import { AntDesign } from '@expo/vector-icons';
 import AutoHeightWebView from 'react-native-autoheight-webview'
 import Loading from '../components/loading'
 import wait from '../utils/wait'
@@ -47,12 +48,12 @@ export default function SocialScreen() {
 
     return (
         <SafeAreaView style={ { flex: 1 } }>
-            <View style={ { flexDirection: 'row', justifyContent: 'center', marginVertical: 25 } }>
-                <Pressable onPress={ handlePressYT } style={ { marginRight: 13 } }>
-                    <Text>Youtube</Text></Pressable>
-                <Pressable onPress={ handlePressTW } style={ { marginRight: 13 } }><Text>Twitter</Text></Pressable>
-                <Pressable onPress={ handlePressIG } style={ { marginRight: 13 } }><Text>Instagram</Text></Pressable>
-                <Pressable onPress={ handlePressFB } style={ { marginRight: 13 } }><Text>Facebook</Text></Pressable>
+            <View style={ { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginVertical: 25 } }>
+                <Pressable onPress={ handlePressYT } style={ styles.icon }>
+                    <AntDesign name='youtube' size={ 40 } color="rgb(161, 43, 110)" /></Pressable>
+                <Pressable onPress={ handlePressTW } style={ styles.icon }><AntDesign name="twitter" size={ 35 } color="rgb(161, 43, 110)" /></Pressable>
+                <Pressable onPress={ handlePressIG } style={ styles.icon }><AntDesign name="instagram" size={ 35 } color="rgb(161, 43, 110)" /></Pressable>
+                <Pressable onPress={ handlePressFB } style={ styles.icon }><AntDesign name="facebook-square" size={ 35 } color="rgb(161, 43, 110)" /></Pressable>
             </View>
             {isLoading && <Loading /> }
             {!isLoading && <AutoHeightWebView
@@ -65,3 +66,9 @@ export default function SocialScreen() {
         </SafeAreaView>
     )
 }
+
+const styles = StyleSheet.create( {
+    icon: {
+        marginHorizontal: 18
+    }
+} )
