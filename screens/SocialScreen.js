@@ -12,6 +12,12 @@ const customStyle = `
     #react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > header {
         display: none !important
     }
+    nav.NXc7H {
+        display: none !important
+    }
+    .xZ2Xk {
+        display: none !important
+    }
 
 `
 export default function SocialScreen() {
