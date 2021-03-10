@@ -17,6 +17,8 @@
     "axios": "^0.21.1",
     "dayjs": "^1.10.1",
     "expo": "~40.0.0",
+    "expo-background-fetch": "~8.6.0",
+    "expo-firebase-analytics": "~2.6.0",
     "expo-haptics": "~8.4.0",
     "expo-notifications": "~0.8.2",
     "expo-permissions": "~10.0.0",

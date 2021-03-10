@@ -81,18 +81,24 @@ export default function HomeScreen( { navigation } ) {
 
   const handlePress = async () => {
 
+    // await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
     navigation.navigate( 'Notifications' )
-    await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
 
   };
 
   const handleHold = async () => {
-    await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
     setShowTmrwTimes( true )
-    await wait( 50 )
-    await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Medium );
-    await wait( 120 )
-    await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
+    if ( Platform.OS === 'ios' ) {
+
+      await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
+      await wait( 50 )
+      await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Medium );
+      await wait( 120 )
+      await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
+    }
+    if ( Platform.OS === 'android' ) {
+      await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
+    }
   }
   const handleRelease = async () => {
     setShowTmrwTimes( false )
@@ -112,7 +118,7 @@ export default function HomeScreen( { navigation } ) {
       <SafeAreaView />
 
       <StatusBar barStyle={ "dark-content" } />
-
+      <Button title={ 'scheduled notifications' } onPress={ async () => { const n = await Notifications.getAllScheduledNotificationsAsync(); Alert.alert( JSON.stringify( n ) ) } }></Button>
       <ScrollView
         style={ styles.scrollContainer }
         showsVerticalScrollIndicator={ false }
