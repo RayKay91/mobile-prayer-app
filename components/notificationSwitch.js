@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, Switch } from 'react-native'
+import { StyleSheet, Text, View, Switch, Platform } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { shouldEnableNotification } from '../redux/notificationsSlice'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -44,6 +44,7 @@ const notificationSwitch = ( { prayerName, idx } ) => {
                 onValueChange={ handleSwitchToggle }
                 trackColor={ { true: 'rgb(161, 43, 110)' } }
                 value={ isEnabled }
+                thumbColor={ Platform.OS === 'android' ? '#f5f5f5' : undefined }
             />
         </View>
     )
