@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, Switch, Platform, InteractionManager } from 'react-native'
+import { StyleSheet, Text, View, Switch, Platform, ToastAndroid } from 'react-native'
 import { useSelector, useDispatch } from 'react-redux'
 import { shouldEnableNotification } from '../redux/notificationsSlice'
 import * as Haptics from 'expo-haptics'
@@ -28,6 +28,10 @@ const notificationSwitch = ( { prayerName, idx } ) => {
             const pNameNotification = `${ prayerName }Notification`
             const notificationID = notificationIDs[ pNameNotification ]
             await Notifications.cancelScheduledNotificationAsync( notificationID )
+            if ( Platform.OS === 'android' ) ToastAndroid.showWithGravityAndOffset( `You will not be notified for ${ prayerName } prayers`, ToastAndroid.SHORT,
+                ToastAndroid.CENTER,
+                0, 600,
+                0 )
         }
         if ( shouldEnable ) {
             try {
@@ -35,7 +39,12 @@ const notificationSwitch = ( { prayerName, idx } ) => {
             } catch ( error ) {
                 console.log( error );
             }
+            if ( Platform.OS === 'android' ) ToastAndroid.showWithGravityAndOffset( `You will be notified for ${ prayerName } prayers`, ToastAndroid.SHORT,
+                ToastAndroid.CENTER,
+                0, 600,
+                0 )
         }
+
     }
 
 
