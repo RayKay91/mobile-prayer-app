@@ -15,7 +15,7 @@ const ActivityComponent = ( { data } ) => {
             <Text style={ [ styles.text, { fontWeight: 'bold', fontSize: 16, marginBottom: 10 } ] }>{ Time }</Text>
             { Speaker ? <Text style={ [ styles.text, { marginBottom: 6 } ] }>{ Speaker }</Text> : null }
             <Text style={ [ styles.text ] }>{ Venue }</Text>
-            {DatesCancelled ? <Text style={ [ styles.text, styles.cancelled ] }>{ DatesCancelled }</Text> : null }
+            {DatesCancelled ? <Text style={ styles.cancelled }>{ DatesCancelled }</Text> : null }
 
         </View>
 
@@ -26,6 +26,7 @@ export default ActivityComponent
 
 const styles = StyleSheet.create( {
     container: {
+        height: 125,
         marginBottom: 30,
         width: '97%',
         borderWidth: 2,
@@ -53,18 +54,26 @@ const styles = StyleSheet.create( {
         fontWeight: 'bold',
         maxWidth: '75%'
     },
-    cancellationInfo: {
-
-    },
     row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 6
     },
     cancelled: {
+        fontWeight: 'bold',
         backgroundColor: '#ed4337',
-        padding: 5,
+        padding: 3,
+        paddingHorizontal: 8,
         color: 'white',
-        alignSelf: 'flex-end'
+        alignSelf: 'flex-end',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+
+        elevation: 4,
     }
 } )
