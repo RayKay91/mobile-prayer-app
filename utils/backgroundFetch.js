@@ -28,10 +28,9 @@ async function backgroundFetchAndSetNotifications() {
             if ( allowsNotifications[ prayer ] )
                 scheduleNotification( prayer )
         }
+        return 'currentDate'
     }
 
-    // return a new string every time the function is run to make iOS think something new has been returned
-    return ( Math.random().toString() )
 
 }
 

@@ -68,7 +68,6 @@ export default function HomeScreen( { navigation } ) {
           // add tmrwFajr into pTimes for notifications loop
           const { Fajr: tmrwFajr } = tmrwsPTimes
           pTimes.tmrwFajr = tmrwFajr
-          console.log( notificationStatuses )
 
           for ( let prayerName in pTimes ) {
             if ( notificationStatuses[ prayerName ] ) {
