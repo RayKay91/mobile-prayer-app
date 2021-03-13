@@ -17,6 +17,7 @@ import { store, persistor } from './redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
 //utils
 import getTabIcon from './utils/getTabIcon'
+import backgroundFetchAndSetNotifications from './utils/backgroundFetch'
 
 
 const Tab = createBottomTabNavigator();
@@ -24,6 +25,7 @@ const Tab = createBottomTabNavigator();
 
 
 export default function App() {
+  backgroundFetchAndSetNotifications()
   return (
     <Provider store={ store }>
       <PersistGate loading={ null } persistor={ persistor }>

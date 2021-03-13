@@ -2,7 +2,6 @@ import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 
 
-
 const ActivityComponent = ( { data } ) => {
 
     const { Speaker, GroupType, Description, Time, Venue, DatesCancelled } = data
@@ -26,7 +25,6 @@ export default ActivityComponent
 
 const styles = StyleSheet.create( {
     container: {
-        height: 125,
         marginBottom: 30,
         width: '97%',
         borderWidth: 2,

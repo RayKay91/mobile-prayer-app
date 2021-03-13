@@ -12,7 +12,6 @@ export default function ActivitiesScreen() {
     useFocusEffect(
         useCallback(
             () => {
-                // getActivitiesData().then( data => setActivitiesData( data ) )
                 ( async function () {
                     const data = await getActivitiesData()
                     setActivitiesData( data )
@@ -43,6 +42,7 @@ export default function ActivitiesScreen() {
             { title: 'Saturday', data: satData },
             { title: 'Sunday', data: sunData },
         ]
+
         return (
             <SafeAreaView>
                 <SectionList
@@ -51,7 +51,6 @@ export default function ActivitiesScreen() {
                     renderSectionHeader={ ( { section } ) => <ActivityDay heading={ section.title } /> }
                     keyExtractor={ item => item.ActivityID }
                     stickySectionHeadersEnabled
-
                 >
 
                 </SectionList>

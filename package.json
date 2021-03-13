@@ -23,6 +23,7 @@
     "expo-notifications": "~0.8.2",
     "expo-permissions": "~10.0.0",
     "expo-status-bar": "~1.0.3",
+    "expo-task-manager": "~8.6.0",
     "hijri-js": "^1.0.25",
     "react": "16.13.1",
     "react-dom": "16.13.1",

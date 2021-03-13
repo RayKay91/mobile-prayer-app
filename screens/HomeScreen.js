@@ -1,10 +1,10 @@
 
 import React, { useState, useCallback } from 'react'
-import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform, Button, Alert } from 'react-native';
+import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 //redux
 import { useSelector, useDispatch } from 'react-redux'
 import { updateNotificationID } from '../redux/idsSlice'
@@ -19,7 +19,6 @@ import currentTime from '../utils/currentTime'
 import getTimes from '../utils/getTimes'
 import shouldHighlight from "../utils/shouldHighlight";
 import scheduleNotification from '../utils/notifications';
-
 
 
 export default function HomeScreen( { navigation } ) {
@@ -81,7 +80,7 @@ export default function HomeScreen( { navigation } ) {
 
   const handlePress = async () => {
 
-    // await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
+    if ( Platform.OS === 'ios' ) await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
     navigation.navigate( 'Notifications' )
 
   };
@@ -100,7 +99,7 @@ export default function HomeScreen( { navigation } ) {
       await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
     }
   }
-  const handleRelease = async () => {
+  const handleRelease = () => {
     setShowTmrwTimes( false )
   }
 
@@ -118,7 +117,7 @@ export default function HomeScreen( { navigation } ) {
       <SafeAreaView />
 
       <StatusBar barStyle={ "dark-content" } />
-      <Button title={ 'scheduled notifications' } onPress={ async () => { const n = await Notifications.getAllScheduledNotificationsAsync(); Alert.alert( JSON.stringify( n ) ) } }></Button>
+
       <ScrollView
         style={ styles.scrollContainer }
         showsVerticalScrollIndicator={ false }
@@ -133,10 +132,23 @@ export default function HomeScreen( { navigation } ) {
         }
       >
         <Text style={ styles.refreshNotice }>Pull to refresh</Text>
-        <Text style={ [ styles.date, { marginBottom: 5 } ] }>{ gregorianDate }</Text>
-        <Text style={ [ styles.date, { marginTop: 5, fontSize: 15 } ] }>
-          { hijriDate }
+
+
+        <Pressable
+          style={ { position: 'absolute', right: 20, top: 31, zIndex: 3, elevation: 3 } }
+          onPress={ handlePress }
+        >
+          <Ionicons name="settings-sharp" size={ 25 } color="#A12B6E" />
+        </Pressable>
+
+
+        <Text style={ [ styles.date, { marginBottom: 0 } ] }>{ gregorianDate }</Text>
+
+        <Text style={ [ styles.date, { fontSize: 15 } ] }>
+          { hijriDate.replace( /\([^()]*\)/, '' ) }
         </Text>
+
+
 
         <Table
           prayerTimes={ prayerTimes }
@@ -148,31 +160,12 @@ export default function HomeScreen( { navigation } ) {
         <Pressable style={ ( { pressed } ) => [
           styles.btn,
           {
-            backgroundColor: pressed ? '#790D5A' : '#A12B6E'
+            backgroundColor: pressed ? '#790D5A' : '#A12B6E', marginVertical: 50
           } ] }
           onPressIn={ handleHold }
           onPressOut={ handleRelease }
         >
           <Text style={ styles.btnText }>Hold For Tomorrow's Times</Text>
-        </Pressable>
-
-        <Pressable style={ ( { pressed } ) => [
-          styles.btn,
-          {
-            backgroundColor: pressed ? '#790D5A' : '#A12B6E',
-            marginBottom: 25
-          }
-        ] }
-          onPress={ handlePress }
-        >
-          <Text
-            style={ styles.btnText }
-          >
-            Prayer Notifications
-          </Text>
-          <MaterialIcons name="arrow-forward-ios" size={ 14 } color="white" />
-
-
         </Pressable>
 
         <WebViews refreshing={ refreshing } />
