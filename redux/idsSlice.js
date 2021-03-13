@@ -4,12 +4,12 @@ import { createSlice } from '@reduxjs/toolkit'
 export const notificationIDsSlice = createSlice( {
     name: 'notificationIDS',
     initialState: {
-        FajrNotification: 'defaultID',
-        tmrwFajrNotification: 'defaultID',
-        DhuhrNotification: 'defaultID',
-        AsrNotification: 'defaultID',
-        MaghribNotification: 'defaultID',
-        IshaaNotification: 'defaultID',
+        FajrNotification: 'none',
+        tmrwFajrNotification: 'none',
+        DhuhrNotification: 'none',
+        AsrNotification: 'none',
+        MaghribNotification: 'none',
+        IshaaNotification: 'none',
     },
     reducers: {
         updateNotificationID: ( state, action ) => {

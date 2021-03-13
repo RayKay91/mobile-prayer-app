@@ -21,16 +21,29 @@ const notificationSwitch = ( { prayerName, idx } ) => {
         if ( Platform.OS === 'ios' ) {
             await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
         }
-        //cancel scheduled notification in case user doesn't navigate back to home screen.
         dispatch( shouldEnableNotification( { prayerName, shouldEnable } ) )
+        //cancel scheduled notification in case user doesn't navigate back to home screen.
 
         if ( !shouldEnable ) {
             const pNameNotification = `${ prayerName }Notification`
             const notificationID = notificationIDs[ pNameNotification ]
-            await Notifications.cancelScheduledNotificationAsync( notificationID )
+            try {
+                if ( notificationID ) {
+                    await Notifications.cancelScheduledNotificationAsync( notificationID )
+                    console.log( 'cancelled' );
+                }
+            } catch ( error ) {
+                console.log( error );
+            }
 
             //remove tomorrow's scheduled notification for fajr
             if ( prayerName === 'Fajr' ) {
+                try {
+                    dispatch( shouldEnableNotification( { prayerName: 'tmrwFajr', shouldEnable } ) )
+
+                } catch ( error ) {
+                    console.log( error )
+                }
 
                 const tmrwFajrNotificationID = notificationIDs.tmrwFajrNotification
                 await Notifications.cancelScheduledNotificationAsync( tmrwFajrNotificationID )
@@ -43,8 +56,11 @@ const notificationSwitch = ( { prayerName, idx } ) => {
         }
         if ( shouldEnable ) {
             try {
-                scheduleNotification( prayerName )
-                if ( prayerName === 'Fajr' ) scheduleNotification( 'tmrwFajr' )
+
+                dispatch( shouldEnableNotification( { prayerName: 'tmrwFajr', shouldEnable } ) )
+                await scheduleNotification( prayerName )
+
+                if ( prayerName === 'Fajr' ) await scheduleNotification( 'tmrwFajr' )
             } catch ( error ) {
                 console.log( error );
             }

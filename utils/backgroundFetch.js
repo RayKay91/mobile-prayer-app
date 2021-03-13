@@ -16,8 +16,8 @@ async function backgroundFetchAndSetNotifications() {
     if ( currentDate.toString() !== dateFromLocalStorage ) {
         await getTimes()
         //get the notification statuses
-        const stateRaw = await AsyncStorage.getItem( 'persist:root' )
-        const state = JSON.parse( stateRaw )
+        let state = await AsyncStorage.getItem( 'persist:root' )
+        state = JSON.parse( state )
         const { notifications } = state
         const allowsNotifications = JSON.parse( notifications )
         //loop over statuses and schedule notifications for the ones that allow so
