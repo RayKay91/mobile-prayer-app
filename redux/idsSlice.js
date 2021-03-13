@@ -5,6 +5,7 @@ export const notificationIDsSlice = createSlice( {
     name: 'notificationIDS',
     initialState: {
         FajrNotification: 'defaultID',
+        tmrwFajrNotification: 'defaultID',
         DhuhrNotification: 'defaultID',
         AsrNotification: 'defaultID',
         MaghribNotification: 'defaultID',

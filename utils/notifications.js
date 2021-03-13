@@ -39,15 +39,62 @@ export default async function scheduleNotification( prayerName ) {
   const hasPermission = await notificationPermission()
   if ( hasPermission ) {
 
+    let todaysTimes = await AsyncStorage.getItem( 'todaysTimes' )
+    todaysTimes = JSON.parse( todaysTimes )
+
     let { timeWithoutSeconds: currTime } = currentTime();
     currTime = +currTime.replace( ":", "" );
 
-    const todaysTimes = await AsyncStorage.getItem( 'todaysTimes' )
-    const prayerTimes = JSON.parse( todaysTimes )
+    if ( prayerName !== 'tmrwFajr' ) {
 
-    const pTime = +prayerTimes[ prayerName ].replace( ":", "" );
+      const pTime = +todaysTimes[ prayerName ].replace( ":", "" );
 
-    if ( currTime < pTime ) {
+      if ( currTime < pTime ) {
+
+        //allow notifications while in app
+        Notifications.setNotificationHandler( {
+          handleNotification: async () => ( {
+            shouldShowAlert: true,
+            shouldPlaySound: true,
+            shouldSetBadge: false,
+          } ),
+        } );
+        //calculate time to prayer in seconds. Hours and minutes entry not working on Android.
+        const timeToPrayerInSeconds = prayerTimeInSeconds( todaysTimes[ prayerName ] ) - currentTimeInSeconds()
+
+        const notificationID = await Notifications.scheduleNotificationAsync( {
+
+
+          content: {
+            title: `${ prayerName } prayer has started`,
+            sound: true
+          },
+          trigger: {
+            seconds: timeToPrayerInSeconds
+          },
+        } );
+        return notificationID
+      }
+    } else if ( prayerName === 'tmrwFajr' ) {
+
+      let tmrwsTimes = await AsyncStorage.getItem( 'tmrwsTimes' )
+      tmrwsTimes = JSON.parse( tmrwsTimes )
+
+      let secondsToTomorrowsFajr
+
+      //add 24 hours in seconds for notification countdown timer if before fajr, otherwise get the remaining seconds to midnight, add on prayerTimeInSeconds to get remaining seconds to tmrwFajr
+      const fajrTimeForComparison = +todaysTimes.Fajr.replace( ':', '' )
+
+      if ( currTime < fajrTimeForComparison ) {
+
+        secondsToTomorrowsFajr = prayerTimeInSeconds( tmrwsTimes.Fajr ) - currentTimeInSeconds()
+        secondsToTomorrowsFajr += 86400
+      } else {
+        const remainingSecsToMidnight = 86400 - currentTimeInSeconds()
+        const fajrInSecondsAfterMidnight = prayerTimeInSeconds( tmrwsTimes.Fajr )
+        secondsToTomorrowsFajr = remainingSecsToMidnight + fajrInSecondsAfterMidnight
+
+      }
 
       //allow notifications while in app
       Notifications.setNotificationHandler( {
@@ -57,24 +104,23 @@ export default async function scheduleNotification( prayerName ) {
           shouldSetBadge: false,
         } ),
       } );
-      //calculate time to prayer in seconds. Hours and minutes entry not working on Android.
-      const timeToPrayerInSeconds = prayerTimeInSeconds( prayerTimes[ prayerName ] ) - currentTimeInSeconds()
+
 
       const notificationID = await Notifications.scheduleNotificationAsync( {
 
-
         content: {
-          title: `${ prayerName } prayer has started`,
+          title: `Fajr prayer has started`,
           sound: true
         },
         trigger: {
-          seconds: timeToPrayerInSeconds
+          seconds: secondsToTomorrowsFajr
         },
       } );
       return notificationID
     } else {
       return 'No notification scheduled for past prayer'
     }
+
   }
 
 }

@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback } from 'react'
-import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform } from 'react-native';
+import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform, Button, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
@@ -19,6 +19,7 @@ import currentTime from '../utils/currentTime'
 import getTimes from '../utils/getTimes'
 import shouldHighlight from "../utils/shouldHighlight";
 import scheduleNotification from '../utils/notifications';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export default function HomeScreen( { navigation } ) {
@@ -51,7 +52,8 @@ export default function HomeScreen( { navigation } ) {
           // highlighting logic
 
           const { Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa } = todaysTimes;
-          const pTimes = { Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa }
+
+          let pTimes = { Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa }
 
           const willHighlight = shouldHighlight( ...Object.values( pTimes ) );
 
@@ -63,18 +65,23 @@ export default function HomeScreen( { navigation } ) {
           await Notifications.cancelAllScheduledNotificationsAsync()
 
 
+          // add tmrwFajr into pTimes for notifications loop
+          const { Fajr: tmrwFajr } = tmrwsPTimes
+          pTimes.tmrwFajr = tmrwFajr
+          console.log( notificationStatuses )
+
           for ( let prayerName in pTimes ) {
             if ( notificationStatuses[ prayerName ] ) {
               dispatch( updateNotificationID( 'cancelled' ) )
               // schedule notification
-              const notificationID = await scheduleNotification( prayerName, pTimes[ prayerName ] )
+              const notificationID = await scheduleNotification( prayerName )
               //save notificationID to state
               const pNameNotification = `${ prayerName }Notification`
               dispatch( updateNotificationID( { pNameNotification, notificationID } ) )
             }
           }
 
-        } ).catch( ( err ) => console.log( `something went wrong in table.js ${ err }` ) );
+        } ).catch( ( err ) => console.log( `something went wrong in HomeScreen.js useFocusEffect ${ err }` ) );
     }, [ notificationStatuses, refreshing ] )
   )
 
@@ -117,7 +124,11 @@ export default function HomeScreen( { navigation } ) {
       <SafeAreaView />
 
       <StatusBar barStyle={ "dark-content" } />
-
+      <Button title='scheduled notifications' onPress={ async () => {
+        let n = await Notifications.getAllScheduledNotificationsAsync()
+        n = JSON.stringify( n )
+        Alert.alert( n )
+      } }></Button>
       <ScrollView
         style={ styles.scrollContainer }
         showsVerticalScrollIndicator={ false }

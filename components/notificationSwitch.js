@@ -28,6 +28,14 @@ const notificationSwitch = ( { prayerName, idx } ) => {
             const pNameNotification = `${ prayerName }Notification`
             const notificationID = notificationIDs[ pNameNotification ]
             await Notifications.cancelScheduledNotificationAsync( notificationID )
+
+            //remove tomorrow's scheduled notification for fajr
+            if ( prayerName === 'Fajr' ) {
+
+                const tmrwFajrNotificationID = notificationIDs.tmrwFajrNotification
+                await Notifications.cancelScheduledNotificationAsync( tmrwFajrNotificationID )
+
+            }
             if ( Platform.OS === 'android' ) ToastAndroid.showWithGravityAndOffset( `You will not be notified for ${ prayerName } prayers`, ToastAndroid.SHORT,
                 ToastAndroid.CENTER,
                 0, 600,
@@ -36,6 +44,7 @@ const notificationSwitch = ( { prayerName, idx } ) => {
         if ( shouldEnable ) {
             try {
                 scheduleNotification( prayerName )
+                if ( prayerName === 'Fajr' ) scheduleNotification( 'tmrwFajr' )
             } catch ( error ) {
                 console.log( error );
             }

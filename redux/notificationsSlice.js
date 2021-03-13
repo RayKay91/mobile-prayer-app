@@ -5,6 +5,7 @@ export const notificationsSlice = createSlice( {
     name: 'prayerNotifications',
     initialState: {
         Fajr: true,
+        tmrwFajr: true,
         Dhuhr: true,
         Asr: true,
         Maghrib: true,
