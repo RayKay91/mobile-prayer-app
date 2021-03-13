@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Text } from 'react-native'
 //tab bar icons
 import TabIcon from './components/tabIcon'
@@ -15,6 +15,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Provider } from 'react-redux'
 import { store, persistor } from './redux/store'
 import { PersistGate } from 'redux-persist/integration/react'
+// analytics
+import * as Analytics from 'expo-firebase-analytics'
 //utils
 import getTabIcon from './utils/getTabIcon'
 import backgroundFetchAndSetNotifications from './utils/backgroundFetch'
@@ -25,11 +27,25 @@ const Tab = createBottomTabNavigator();
 
 
 export default function App() {
+  const navigationRef = useRef()
+  const routeNameRef = useRef()
+
   backgroundFetchAndSetNotifications()
+
   return (
     <Provider store={ store }>
       <PersistGate loading={ null } persistor={ persistor }>
-        <NavigationContainer>
+        <NavigationContainer ref={ navigationRef }
+          onReady={ () => ( routeNameRef.current = navigationRef.current.getCurrentRoute().name ) }
+          onStateChange={ async () => {
+            const previousRouteName = routeName.current
+            const currentRouteName = navigationRef.current.getCurrentRoute().name
+            if ( previousRouteName !== currentRouteName ) {
+              //log event for analytics
+            }
+          } }
+        >
+
           <Tab.Navigator screenOptions={ ( { route } ) => ( {
             tabBarIcon: ( { focused } ) => {
               if ( route.name === "Qur'an" ) return <TabIcon source={ getTabIcon( route.name, focused ) } height={ focused ? 28 : 25 } width={ focused ? 46 : 40 } />
