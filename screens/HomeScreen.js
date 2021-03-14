@@ -70,8 +70,6 @@ export default function HomeScreen( { navigation } ) {
           pTimes.tmrwFajr = tmrwFajr
 
           for ( let prayerName in pTimes ) {
-            console.log( prayerName );
-            console.log( notificationStatuses[ prayerName ] )
             if ( notificationStatuses[ prayerName ] ) {
               dispatch( updateNotificationID( 'cancelled' ) )
               // schedule notification
@@ -100,7 +98,7 @@ export default function HomeScreen( { navigation } ) {
       await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
       await wait( 50 )
       await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Medium );
-      await wait( 120 )
+      await wait( 140 )
       await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
     }
 
