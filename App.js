@@ -27,33 +27,44 @@ const Tab = createBottomTabNavigator();
 
 
 export default function App() {
-  const navigationRef = useRef()
-  const routeNameRef = useRef()
+  const navigationRef = useRef();
+  const routeNameRef = useRef();
 
   backgroundFetchAndSetNotifications()
 
   return (
     <Provider store={ store }>
       <PersistGate loading={ null } persistor={ persistor }>
-        <NavigationContainer ref={ navigationRef }
-          onReady={ () => ( routeNameRef.current = navigationRef.current.getCurrentRoute().name ) }
+        <NavigationContainer
+          ref={ navigationRef }
+          onReady={ () =>
+            ( routeNameRef.current = navigationRef.current.getCurrentRoute().name )
+          }
           onStateChange={ async () => {
-            const previousRouteName = routeName.current
-            const currentRouteName = navigationRef.current.getCurrentRoute().name
+            const previousRouteName = routeNameRef.current;
+            const currentRouteName = navigationRef.current.getCurrentRoute().name;
+
             if ( previousRouteName !== currentRouteName ) {
-              //log event for analytics
+
+              await Analytics.setCurrentScreen( currentRouteName, currentRouteName )
             }
+
+            // Save the current route name for later comparison
+            routeNameRef.current = currentRouteName;
           } }
         >
 
-          <Tab.Navigator screenOptions={ ( { route } ) => ( {
-            tabBarIcon: ( { focused } ) => {
-              if ( route.name === "Qur'an" ) return <TabIcon source={ getTabIcon( route.name, focused ) } height={ focused ? 28 : 25 } width={ focused ? 46 : 40 } />
+          <Tab.Navigator
 
-              return <TabIcon source={ getTabIcon( route.name, focused ) } height={ focused ? 24 : 22 } width={ focused ? 24 : 22 } />
-            },
-            tabBarLabel: ( { focused } ) => <Text style={ { color: '#A12B6E', fontSize: 12 } }>{ focused ? route.name : null }</Text>
-          } ) }
+            screenOptions={ ( { route } ) => ( {
+              tabBarIcon: ( { focused } ) => {
+                if ( route.name === "Qur'an" ) return <TabIcon source={ getTabIcon( route.name, focused ) } height={ focused ? 28 : 25 } width={ focused ? 46 : 40 } />
+
+                return <TabIcon source={ getTabIcon( route.name, focused ) } height={ focused ? 24 : 22 } width={ focused ? 24 : 22 } />
+              },
+              tabBarLabel: ( { focused } ) => <Text style={ { color: '#A12B6E', fontSize: 12 } }>{ focused ? route.name : null }</Text>
+            } ) }
+
           >
             <Tab.Screen name="Home" component={ MainHomeScreen } />
             <Tab.Screen name="Socials" component={ SocialScreen } />
