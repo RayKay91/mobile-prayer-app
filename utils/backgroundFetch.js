@@ -3,10 +3,9 @@ import * as TaskManager from 'expo-task-manager'
 import getTimes from './getTimes'
 import scheduleNotification from './notifications'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as Notifications from 'expo-notifications'
 import { Platform } from 'react-native'
 
-
-// SHOULD CHANGE THE MINIMUM INTERVAL TO 3600 FOR HOURLY FETCHES
 
 async function backgroundFetchAndSetNotifications() {
     //get new times. This function will also save the new times to local storage
@@ -14,17 +13,21 @@ async function backgroundFetchAndSetNotifications() {
     const currentDate = new Date().getDate()
 
     if ( currentDate.toString() !== dateFromLocalStorage ) {
+        console.log( 'running background task', Platform )
         await getTimes()
         //get the notification statuses
         let state = await AsyncStorage.getItem( 'persist:root' )
         state = JSON.parse( state )
         const { notifications } = state
         const allowsNotifications = JSON.parse( notifications )
+
+        //remove prev notifications to avoid multiple notifications
+        await Notifications.cancelAllScheduledNotificationsAsync()
         //loop over statuses and schedule notifications for the ones that allow so
 
         for ( let prayer in allowsNotifications ) {
+
             //if allows notifications:
-            console.log( 'backgroundFetch running and setting notifications ' + Platform.OS )
             if ( allowsNotifications[ prayer ] )
                 scheduleNotification( prayer )
         }
@@ -38,7 +41,7 @@ async function backgroundFetchAndSetNotifications() {
 
 export default async function backgroundFetch() {
     const permission = await BackgroundFetch.getStatusAsync()
-    if ( permission === BackgroundFetch.Status.Available )
+    if ( permission === BackgroundFetch.Status.Available ) {
 
         try {
 
@@ -47,7 +50,7 @@ export default async function backgroundFetch() {
                     const newData = await backgroundFetchAndSetNotifications()
                     return newData ? BackgroundFetch.Result.NewData : BackgroundFetch.Result.NoData
                 } catch ( err ) {
-                    console.log( err );
+                    console.log( 'error in defining backgroundtask', err );
 
                     return BackgroundFetch.Result.Failed
                 }
@@ -58,5 +61,6 @@ export default async function backgroundFetch() {
         } catch ( error ) {
             console.log( error );
         }
+    }
 
 }
