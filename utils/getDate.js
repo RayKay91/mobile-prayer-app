@@ -1,16 +1,21 @@
 const dayjs = require( 'dayjs' )
-const hijriJs = require( 'hijri-js' )
-
-
 function getDate() {
     const gregorianDate = dayjs().format( 'dddd D MMM YYYY' )
 
-    const hijri = hijriJs.initialize()
+    return gregorianDate
 
-    const hijriDate = hijri.today().full
+}
 
-    return { gregorianDate, hijriDate }
+function calculateHijriDate( { StartDate, Month, Year } ) {
 
+    let currentDate = dayjs().format( 'YYYY-MM-DD' )
+    currentDate = dayjs( currentDate )
+    let elapsedHijriDays = currentDate.diff( StartDate, 'day' )
+    //adding 1 to the difference calculated to account for impossibility of 0/mm/yyyy
+    elapsedHijriDays += 1
+
+
+    return `${ elapsedHijriDays } ${ Month } ${ Year } AH`;
 }
 
 
@@ -19,4 +24,4 @@ function getDate() {
 
 
 
-module.exports = getDate
+module.exports = { getDate, calculateHijriDate }

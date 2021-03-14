@@ -45,8 +45,12 @@ export default function App() {
             const currentRouteName = navigationRef.current.getCurrentRoute().name;
 
             if ( previousRouteName !== currentRouteName ) {
+              try {
+                // await Analytics.setCurrentScreen( currentRouteName, currentRouteName )
+              } catch ( err ) {
+                console.log( err )
+              }
 
-              await Analytics.setCurrentScreen( currentRouteName, currentRouteName )
             }
 
             // Save the current route name for later comparison

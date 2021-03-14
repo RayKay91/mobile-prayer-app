@@ -2,6 +2,7 @@ import axios from "axios";
 import timeAdjuster from "./timeAdjuster";
 import convertTo24Hr from "./24hrConverter";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { calculateHijriDate } from './getDate'
 
 export default async function getTimes() {
   const d = new Date();
@@ -68,35 +69,41 @@ export default async function getTimes() {
       }
     }
 
-    //saving times to local storage
+    // get hijri date info
+    const { Month, Year, StartDate } = response.data[ 2 ][ 0 ]
 
-    ( async function saveResponseToLocalStorage() {
-      try {
-        const todaysPrayerTimes = JSON.stringify( todaysTimes );
-        const tmrwsPrayerTimes = JSON.stringify( tmrwTimes );
-        await AsyncStorage.setItem( "todaysTimes", todaysPrayerTimes );
-        await AsyncStorage.setItem( "tmrwsTimes", tmrwsPrayerTimes );
-      } catch ( err ) {
-        console.log( err );
-      }
-    } )();
+    let hijriDate = calculateHijriDate( { Month, Year, StartDate } )
+    //saving times and hijri date to local storage
 
-    return [ todaysTimes, tmrwTimes ];
+
+    try {
+      const todaysPrayerTimes = JSON.stringify( todaysTimes );
+      const tmrwsPrayerTimes = JSON.stringify( tmrwTimes );
+
+      await AsyncStorage.setItem( "todaysTimes", todaysPrayerTimes );
+      await AsyncStorage.setItem( "tmrwsTimes", tmrwsPrayerTimes );
+      await AsyncStorage.setItem( "hijriDate", hijriDate )
+    } catch ( err ) {
+      console.log( err );
+    }
+    ;
+
+    return [ todaysTimes, tmrwTimes, hijriDate ];
 
   } else {
 
-    async function getTimesFromLocalStorage() {
-      try {
-        const todaysTimesJSON = await AsyncStorage.getItem( "todaysTimes" );
-        const tmrwsTimesJSON = await AsyncStorage.getItem( "tmrwsTimes" );
-        return [ JSON.parse( todaysTimesJSON ), JSON.parse( tmrwsTimesJSON ) ];
-      } catch ( error ) {
-        console.log( error );
-      }
-    }
+    try {
+      const todaysTimesJSON = await AsyncStorage.getItem( "todaysTimes" );
+      const tmrwsTimesJSON = await AsyncStorage.getItem( "tmrwsTimes" );
+      const hijriDate = await AsyncStorage.getItem( 'hijriDate' )
 
-    return getTimesFromLocalStorage();
+      return [ JSON.parse( todaysTimesJSON ), JSON.parse( tmrwsTimesJSON ), hijriDate ];
+    } catch ( error ) {
+      console.log( error );
+    }
   }
+
 }
+
 
 

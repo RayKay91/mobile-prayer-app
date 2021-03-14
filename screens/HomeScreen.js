@@ -14,7 +14,7 @@ import Table from '../components/table'
 import WebViews from '../components/WebViews'
 //utility functions
 import wait from '../utils/wait'
-import getDate from '../utils/getDate'
+import { getDate, calculateHijriDate } from '../utils/getDate'
 import currentTime from '../utils/currentTime'
 import getTimes from '../utils/getTimes'
 import shouldHighlight from "../utils/shouldHighlight";
@@ -30,6 +30,7 @@ export default function HomeScreen( { navigation } ) {
   const [ prayerTimes, setPrayerTimes ] = useState( {} )
   const [ tmrwsTimes, setTmrwsTimes ] = useState( {} )
   const [ highlight, setHighlight ] = useState( {} )
+  const [ hijriDate, setHijriDate ] = useState( '' )
 
   const { timeWithSeconds } = currentTime()
   const [ timeWithSecs, setTimeWithSecs ] = useState( timeWithSeconds )
@@ -45,9 +46,10 @@ export default function HomeScreen( { navigation } ) {
             "\nfetching times on " + Platform.OS + " " + Platform.Version
           );
 
-          const [ todaysTimes, tmrwsPTimes ] = times;
+          const [ todaysTimes, tmrwsPTimes, hijriDate ] = times;
           setPrayerTimes( todaysTimes );
           setTmrwsTimes( tmrwsPTimes );
+          setHijriDate( hijriDate )
 
           // highlighting logic
 
@@ -115,7 +117,7 @@ export default function HomeScreen( { navigation } ) {
     wait( 1000 ).then( () => setShowRefresh( false ) );
   };
 
-  const { gregorianDate, hijriDate } = getDate();
+  const gregorianDate = getDate();
   return (
     <View style={ styles.container }>
       <SafeAreaView />
@@ -153,7 +155,7 @@ export default function HomeScreen( { navigation } ) {
         <Text style={ [ styles.date, { marginBottom: 0 } ] }>{ gregorianDate }</Text>
 
         <Text style={ [ styles.date, { fontSize: 15 } ] }>
-          { hijriDate.replace( /\([^()]*\)/, '' ) }
+          { hijriDate }
         </Text>
 
 
@@ -190,8 +192,8 @@ const styles = StyleSheet.create( {
   },
   date: {
     fontSize: 21,
-    marginTop: 15,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 15,
     color: "#444",
     fontWeight: "bold",
     textAlign: "center",
