@@ -6,11 +6,9 @@ function timeAdjuster( time, adjustmentMins ) {
     const minutes = +cleanedTime.substring( 2 );
 
     let adjustedMins = minutes + adjustmentMins;
-    console.log( adjustedMins )
 
     const maxMins = 59;
     if ( adjustedMins > maxMins ) {
-        console.log( 'running timeAdjuster max reset' );
         adjustedMins -= 60;
         hours += 1;
 
