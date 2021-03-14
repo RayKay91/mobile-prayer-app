@@ -46,6 +46,9 @@ export default function HomeScreen( { navigation } ) {
             "\nfetching times on " + Platform.OS + " " + Platform.Version
           );
 
+          const { timeWithSeconds } = currentTime()
+          setTimeWithSecs( timeWithSeconds )
+
           const [ todaysTimes, tmrwsPTimes, hijriDate ] = times;
           setPrayerTimes( todaysTimes );
           setTmrwsTimes( tmrwsPTimes );
@@ -123,11 +126,7 @@ export default function HomeScreen( { navigation } ) {
       <SafeAreaView />
 
       <StatusBar barStyle={ "dark-content" } />
-      <Button title='scheduled notifications' onPress={ async () => {
-        let n = await Notifications.getAllScheduledNotificationsAsync()
-        n = JSON.stringify( n )
-        Alert.alert( n )
-      } }></Button>
+
       <ScrollView
         style={ styles.scrollContainer }
         showsVerticalScrollIndicator={ false }
