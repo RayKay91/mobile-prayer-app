@@ -87,7 +87,7 @@ export default function HomeScreen( { navigation } ) {
   const handlePress = async () => {
 
     if ( Platform.OS === 'ios' ) await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
-    navigation.navigate( 'Notifications' )
+    navigation.navigate( 'Settings' )
 
   };
 
