@@ -26,13 +26,27 @@ export default function ActivitiesScreen() {
     }
     else {
 
-        const monData = activitiesData.filter( item => item.WeekDay === 'Monday' )
-        const tuesData = activitiesData.filter( item => item.WeekDay === 'Tuesday' )
-        const wedData = activitiesData.filter( item => item.WeekDay === 'Wednesday' )
-        const thurData = activitiesData.filter( item => item.WeekDay === 'Thursday' )
-        const friData = activitiesData.filter( item => item.WeekDay === 'Friday' )
-        const satData = activitiesData.filter( item => item.WeekDay === 'Saturday' )
-        const sunData = activitiesData.filter( item => item.WeekDay === 'Sunday' )
+        let monData = activitiesData.filter( item => item.WeekDay === 'Monday' )
+        let tuesData = activitiesData.filter( item => item.WeekDay === 'Tuesday' )
+        let wedData = activitiesData.filter( item => item.WeekDay === 'Wednesday' )
+        let thurData = activitiesData.filter( item => item.WeekDay === 'Thursday' )
+        let friData = activitiesData.filter( item => item.WeekDay === 'Friday' )
+        let satData = activitiesData.filter( item => item.WeekDay === 'Saturday' )
+        let sunData = activitiesData.filter( item => item.WeekDay === 'Sunday' )
+
+        //sorting algorithm for chronologically ordering activities
+
+        const weeksData = [ monData, tuesData, wedData, thurData, friData, satData, sunData ]
+
+        weeksData.forEach( dayData => {
+            dayData.sort( ( a, b ) => {
+                let timeA = +a.Time.substring( 0, 2 );
+                let timeB = +b.Time.substring( 0, 2 );
+                return timeA - timeB;
+            } )
+        } )
+
+
         const activityData = [
             { title: 'Monday', data: monData },
             { title: 'Tuesday', data: tuesData },
