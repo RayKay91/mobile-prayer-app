@@ -2,17 +2,25 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import AutoHeightWebView from 'react-native-autoheight-webview'
 
+const customStyle = `
 
+`
 
 const WebViewContainer = ( { text, title } ) => {
     return (
 
         <AutoHeightWebView
+            style={ customStyle }
             androidHardwareAccelerationDisabled
-            style={ { width: '100%' } }
             customStyle={ `
-                h1,h2,h3,h4,h5,h6,p, .title { font-family: Arial, Helvetica, sans-serif;}
+                h1,h2,h3,h4,h5,h6,p, .title { font-family: Arial, Helvetica, sans-serif; color: #333}
                 .title { font-weight: bold; color: rgb(161, 43, 110)  }
+                a {color:rgb(161, 43, 110)  }
+                
+                h2.has-vivid-purple-color {
+                    text-align: right !important
+                }
+                
                 `}
             scrollEnabled={ false }
             scrollEnabledWithZoomedin={ true }
