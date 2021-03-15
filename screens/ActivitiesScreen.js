@@ -37,14 +37,29 @@ export default function ActivitiesScreen() {
         //sorting algorithm for chronologically ordering activities
 
         const weeksData = [ monData, tuesData, wedData, thurData, friData, satData, sunData ]
-
+        //sort by hour
         weeksData.forEach( dayData => {
             dayData.sort( ( a, b ) => {
-                let timeA = +a.Time.substring( 0, 2 );
-                let timeB = +b.Time.substring( 0, 2 );
+                let timeA = a.Time.split( ':' )
+                timeA = +timeA[ 0 ]
+                let timeB = b.Time.split( ':' )
+                timeB = +timeB[ 0 ]
+
                 return timeA - timeB;
             } )
         } )
+        //sort by minutes
+        weeksData.forEach( dayData => {
+            dayData.sort( ( a, b ) => {
+                let timeA = a.Time.split( ':' )
+                timeA = +timeA[ 1 ]
+                let timeB = b.Time.split( ':' )
+                timeB = +timeB[ 1 ]
+
+                return timeA - timeB;
+            } )
+        } )
+
 
 
         const activityData = [
