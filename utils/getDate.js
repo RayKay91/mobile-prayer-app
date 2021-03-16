@@ -28,10 +28,10 @@ function tmrwHijriDate( currHijriDate ) {
 
     let [ date, month, ...year ] = currHijriDate.split( ' ' );
 
-    console.log( date, month, year );
-    date += 1;
-    month = date > 30 ? 'Next Hijri Month' : month;
-    date = date > 30 ? 1 : date;
+
+    date = +date + 1;
+
+    if ( date > 30 ) return ''
 
     const dateElements = [ date, month, ...year ];
 
