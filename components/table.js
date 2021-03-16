@@ -27,6 +27,7 @@ const Table = ( { prayerTimes, tmrwsTimes, showTmrwTimes, highlight } ) => {
         pTime={ showTmrwTimes ? tmrwsTimes.Fajr : prayerTimes.Fajr }
         jTime={ showTmrwTimes ? tmrwsTimes.FajrJam : prayerTimes.FajrJam }
         isHighlighted={ showTmrwTimes ? false : highlight?.fajr }
+        showTmrwTimes={ showTmrwTimes }
       >
         Fajr
       </Row>
@@ -35,6 +36,8 @@ const Table = ( { prayerTimes, tmrwsTimes, showTmrwTimes, highlight } ) => {
         pTime={ showTmrwTimes ? tmrwsTimes.Sunrise : prayerTimes.Sunrise }
         jTime={ "--" }
         isHighlighted={ showTmrwTimes ? false : highlight?.sunrise }
+        showTmrwTimes={ showTmrwTimes }
+
       >
         Sunrise
       </Row>
@@ -43,6 +46,8 @@ const Table = ( { prayerTimes, tmrwsTimes, showTmrwTimes, highlight } ) => {
         pTime={ showTmrwTimes ? tmrwsTimes.Dhuhr : prayerTimes.Dhuhr }
         jTime={ showTmrwTimes ? tmrwsTimes.DhuhrJam : prayerTimes.DhuhrJam }
         isHighlighted={ showTmrwTimes ? false : highlight?.dhuhr }
+        showTmrwTimes={ showTmrwTimes }
+
       >
         Dhuhr
       </Row>
@@ -51,6 +56,8 @@ const Table = ( { prayerTimes, tmrwsTimes, showTmrwTimes, highlight } ) => {
         pTime={ showTmrwTimes ? tmrwsTimes.Asr : prayerTimes.Asr }
         jTime={ showTmrwTimes ? tmrwsTimes.AsrJam : prayerTimes.AsrJam }
         isHighlighted={ showTmrwTimes ? false : highlight?.asr }
+        showTmrwTimes={ showTmrwTimes }
+
       >
         Asr
       </Row>
@@ -59,6 +66,8 @@ const Table = ( { prayerTimes, tmrwsTimes, showTmrwTimes, highlight } ) => {
         pTime={ showTmrwTimes ? tmrwsTimes.Maghrib : prayerTimes.Maghrib }
         jTime={ showTmrwTimes ? tmrwsTimes.MaghribJam : prayerTimes.MaghribJam }
         isHighlighted={ showTmrwTimes ? false : highlight?.maghrib }
+        showTmrwTimes={ showTmrwTimes }
+
       >
         Maghrib
       </Row>
@@ -68,6 +77,8 @@ const Table = ( { prayerTimes, tmrwsTimes, showTmrwTimes, highlight } ) => {
         jTime={ showTmrwTimes ? tmrwsTimes.IshaaJam : prayerTimes.IshaaJam }
         isHighlighted={ showTmrwTimes ? false : highlight?.isha }
         noBottomBorder
+        showTmrwTimes={ showTmrwTimes }
+
       >
         Ishaa
       </Row>
