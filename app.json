@@ -4,11 +4,11 @@
         "slug": "prayer-app",
         "version": "1.0.0",
         "orientation": "portrait",
-        "icon": "./assets/icon.png",
+        "icon": "./assets/WISE_app_icon.png",
         "splash": {
-            "image": "./assets/splash.png",
+            "image": "./assets/WISE_app_icon.png",
             "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
+            "backgroundColor": "#ebecf0"
         },
         "updates": {
             "fallbackToCacheTimeout": 0
@@ -17,16 +17,18 @@
             "**/*"
         ],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "infoPlist": {
+                "UIBackgroundModes": [
+                    "fetch"
+                ]
+            }
         },
         "android": {
             "adaptiveIcon": {
-                "foregroundImage": "./assets/adaptive-icon.png",
-                "backgroundColor": "#FFFFFF"
+                "foregroundImage": "./assets/WISE_app_icon.png",
+                "backgroundColor": "#ebecf0"
             }
-        },
-        "web": {
-            "favicon": "./assets/favicon.png"
         },
         "owner": "wise-mobile-app"
     }
