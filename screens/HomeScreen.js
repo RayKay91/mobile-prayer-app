@@ -76,7 +76,6 @@ export default function HomeScreen( { navigation } ) {
 
           for ( let prayerName in pTimes ) {
             if ( notificationStatuses[ prayerName ] ) {
-              dispatch( updateNotificationID( 'cancelled' ) )
               // schedule notification
               const notificationID = await scheduleNotification( prayerName )
               //save notificationID to state
@@ -101,10 +100,9 @@ export default function HomeScreen( { navigation } ) {
     if ( Platform.OS === 'ios' ) {
 
       await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
-      await wait( 50 )
-      await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Medium );
-      await wait( 140 )
+      await wait( 80 )
       await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
+
     }
 
   }
@@ -145,7 +143,8 @@ export default function HomeScreen( { navigation } ) {
 
         <Pressable
           style={ { position: 'absolute', right: 20, top: 31, zIndex: 3, elevation: 3 } }
-          onPress={ handlePress }
+          onPressIn={ handlePress }
+          hitSlop={ 15 }
         >
           <Ionicons name="settings-sharp" size={ 25 } color="#A12B6E" />
         </Pressable>
@@ -173,6 +172,7 @@ export default function HomeScreen( { navigation } ) {
           } ] }
           onPressIn={ handleHold }
           onPressOut={ handleRelease }
+          hitSlop={ 15 }
         >
           <Text style={ styles.btnText }>Hold For Tomorrow's Times</Text>
         </Pressable>
