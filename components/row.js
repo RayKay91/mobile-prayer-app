@@ -1,22 +1,22 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-const Row = ({children, pTime, jTime, isHighlighted, noBottomBorder}) => {
+const Row = ( { children, pTime, jTime, isHighlighted, noBottomBorder, showTmrwTimes } ) => {
 
 
     return (
-        <View style={[styles.container, isHighlighted ? styles.highlightedContainer : styles.container, {borderBottomWidth : noBottomBorder ? 0 : 2}]}>
+        <View style={ [ styles.container, isHighlighted ? styles.highlightedContainer : styles.container, { borderBottomWidth: noBottomBorder ? 0 : 2 } ] }>
 
-            <View style={styles.wideBlock}>
-                <Text style={[styles.text, isHighlighted ? styles.highlightedText: styles.text]}>{children}</Text>
+            <View style={ styles.wideBlock }>
+                <Text style={ [ styles.text, isHighlighted ? styles.highlightedText : styles.text, ] }>{ children }</Text>
             </View>
 
-            <View style={styles.narrowBlock}>
-                <Text style={[styles.text, isHighlighted ? styles.highlightedText: styles.text]}>{pTime}</Text>
+            <View style={ styles.narrowBlock }>
+                <Text style={ [ styles.text, isHighlighted ? styles.highlightedText : styles.text, showTmrwTimes ? { color: '#A12B6E' } : null ] }>{ pTime }</Text>
             </View>
 
-            <View style={styles.narrowBlock}> 
-                <Text style={[styles.text, isHighlighted ? styles.highlightedText: styles.text]}>{jTime}</Text>
+            <View style={ styles.narrowBlock }>
+                <Text style={ [ styles.text, isHighlighted ? styles.highlightedText : styles.text, showTmrwTimes ? { color: '#A12B6E' } : null ] }>{ jTime }</Text>
             </View>
 
         </View>
@@ -25,7 +25,7 @@ const Row = ({children, pTime, jTime, isHighlighted, noBottomBorder}) => {
 
 export default Row
 
-const styles  = StyleSheet.create({
+const styles = StyleSheet.create( {
     container: {
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -39,24 +39,24 @@ const styles  = StyleSheet.create({
         alignItems: 'center'
     },
     wideBlock: {
-        
-        flex: 3.5, 
-        fontSize: 20, 
+
+        flex: 3.5,
+        fontSize: 20,
         padding: 5,
         paddingLeft: 20,
-       
+
         alignItems: 'center',
-        flexDirection:'row',
+        flexDirection: 'row',
         height: '100%'
 
     },
     narrowBlock: {
-      
-        flex: 2, 
-        fontSize: 20, 
-        justifyContent:'center',
+
+        flex: 2,
+        fontSize: 20,
+        justifyContent: 'center',
         alignItems: 'center',
-        flexDirection:'row',
+        flexDirection: 'row',
         height: '100%'
 
 
@@ -65,18 +65,18 @@ const styles  = StyleSheet.create({
         color: '#333',
         fontWeight: 'bold',
         fontSize: 20
-},
- 
+    },
+
     highlightedContainer: {
         backgroundColor: 'rgb(161, 43, 110)',
         flexDirection: 'row'
-           
+
 
     },
     highlightedText: {
         color: 'white',
     },
-    
 
-})
+
+} )
 
