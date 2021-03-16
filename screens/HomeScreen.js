@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback } from 'react'
-import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform, Button, Alert } from 'react-native';
+import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
@@ -14,12 +14,12 @@ import Table from '../components/table'
 import WebViews from '../components/WebViews'
 //utility functions
 import wait from '../utils/wait'
-import { getDate, calculateHijriDate } from '../utils/getDate'
+import { getDate, tmrwHijriDate } from '../utils/getDate'
 import currentTime from '../utils/currentTime'
 import getTimes from '../utils/getTimes'
 import shouldHighlight from "../utils/shouldHighlight";
 import scheduleNotification from '../utils/notifications';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 export default function HomeScreen( { navigation } ) {
@@ -120,7 +120,7 @@ export default function HomeScreen( { navigation } ) {
     wait( 1000 ).then( () => setShowRefresh( false ) );
   };
 
-  const gregorianDate = getDate();
+
   return (
     <View style={ styles.container }>
       <SafeAreaView />
@@ -151,10 +151,10 @@ export default function HomeScreen( { navigation } ) {
         </Pressable>
 
 
-        <Text style={ [ styles.date, { marginBottom: 0 } ] }>{ gregorianDate }</Text>
+        <Text style={ [ styles.date, { marginBottom: 0 } ] }>{ showTmrwTimes ? getDate( showTmrwTimes ) : getDate() }</Text>
 
         <Text style={ [ styles.date, { fontSize: 15 } ] }>
-          { hijriDate }
+          { showTmrwTimes ? tmrwHijriDate( hijriDate ) : hijriDate }
         </Text>
 
 

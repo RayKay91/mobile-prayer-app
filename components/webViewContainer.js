@@ -2,15 +2,11 @@ import React from 'react'
 import { StyleSheet } from 'react-native'
 import AutoHeightWebView from 'react-native-autoheight-webview'
 
-const customStyle = `
-
-`
-
 const WebViewContainer = ( { text, title } ) => {
     return (
 
         <AutoHeightWebView
-            style={ customStyle }
+            style={ { width: '100%' } }
             androidHardwareAccelerationDisabled
             customStyle={ `
                 h1,h2,h3,h4,h5,h6,p, .title { font-family: Arial, Helvetica, sans-serif; color: #333}
