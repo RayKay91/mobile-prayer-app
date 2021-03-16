@@ -16,7 +16,7 @@ const Table = ( { prayerTimes, tmrwsTimes, showTmrwTimes, highlight } ) => {
       style={ [
         styles.table,
         {
-          width: useWindowDimensions().width - 15,
+          width: useWindowDimensions().width - 20,
           marginLeft: "auto",
           marginRight: "auto",
         },

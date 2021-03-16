@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback } from 'react'
-import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform } from 'react-native';
+import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform, Image } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
@@ -149,6 +149,12 @@ export default function HomeScreen( { navigation } ) {
           <Ionicons name="settings-sharp" size={ 25 } color="#A12B6E" />
         </Pressable>
 
+        <Image
+          source={ require( '../assets/wiseLogo/wiseLogo.png' ) }
+          fadeDuration={ 0 }
+          style={ { height: 50, width: 50, position: 'absolute', top: 37, left: 15 } }
+
+        />
 
         <Text style={ [ styles.date, { marginBottom: 0 } ] }>{ showTmrwTimes ? getDate( showTmrwTimes ) : getDate() }</Text>
 
@@ -192,7 +198,7 @@ const styles = StyleSheet.create( {
   date: {
     fontSize: 21,
     marginTop: 10,
-    marginBottom: 15,
+    marginBottom: 25,
     color: "#444",
     fontWeight: "bold",
     textAlign: "center",
