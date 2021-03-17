@@ -1,6 +1,6 @@
-import { useFocusEffect } from '@react-navigation/native'
-import React, { useState, useCallback } from 'react'
-import { SafeAreaView, Text } from 'react-native'
+
+import React from 'react'
+import { SafeAreaView } from 'react-native'
 import AutoHeightWebView from 'react-native-autoheight-webview'
 
 const customCSS = `
