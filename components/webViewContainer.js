@@ -20,7 +20,7 @@ const WebViewContainer = ( { text, title } ) => {
                 `}
             scrollEnabled={ false }
             scrollEnabledWithZoomedin={ true }
-            containerStyle={ [ styles.container, { marginBottom: 40, width: '97%', overflow: 'hidden' } ] }
+            containerStyle={ [ styles.container, { marginBottom: 40, width: '95%', overflow: 'hidden' } ] }
             viewportContent={ 'width=device-width' }
             originWhitelist={ [ 'https://wise-web.org/*' ] }
             source={ { html: '<meta name="viewport" content="width=device-width, initial-scale=1">' + `<p class="title">${ title }</p>` + '\n\n' + text } }
