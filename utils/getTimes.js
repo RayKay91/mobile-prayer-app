@@ -1,12 +1,13 @@
 import axios from "axios";
 import timeAdjuster from "./timeAdjuster";
-import convertTo24Hr from "./24hrConverter";
+import formatTime from "./formatTime";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { calculateHijriDate } from './getDate'
 
 export default async function getTimes() {
   const d = new Date();
-  const date = d.getDate() + "";
+  // const date = d.getDate() + "";
+  const date = '19'
 
   let savedDate, todaysTimes, tmrwTimes;
 
@@ -39,12 +40,19 @@ export default async function getTimes() {
     response.data[ 1 ][ 0 ].MaghribJam = tmrwMaghribJam;
     //end
 
-    //convert to 24 hrs
+    //add zero if not present in times
+
+
+
+    //format times
 
     todaysTimes = response.data[ 0 ][ 0 ];
     tmrwTimes = response.data[ 1 ][ 0 ];
 
     const timesToConvert = [
+      "Fajr",
+      'FajrJam',
+      'Sunrise',
       "Dhuhr",
       "DhuhrJam",
       "Asr",
@@ -55,17 +63,17 @@ export default async function getTimes() {
       "IshaaJam",
     ];
 
-    for ( let time in todaysTimes ) {
-      if ( timesToConvert.includes( time ) ) {
-        const convertedTime = convertTo24Hr( todaysTimes[ time ] );
-        todaysTimes[ time ] = convertedTime;
+    for ( let prayer in todaysTimes ) {
+      if ( timesToConvert.includes( prayer ) ) {
+        const convertedTime = formatTime( prayer, todaysTimes[ prayer ] );
+        todaysTimes[ prayer ] = convertedTime;
       }
     }
 
-    for ( let time in tmrwTimes ) {
-      if ( timesToConvert.includes( time ) ) {
-        const convertedTime = convertTo24Hr( tmrwTimes[ time ] );
-        tmrwTimes[ time ] = convertedTime;
+    for ( let prayer in tmrwTimes ) {
+      if ( timesToConvert.includes( prayer ) ) {
+        const convertedTime = formatTime( prayer, tmrwTimes[ prayer ] );
+        tmrwTimes[ prayer ] = convertedTime;
       }
     }
 
