@@ -9,7 +9,7 @@ import TableHeader from "./tableHeader";
 
 
 
-const Table = ( { prayerTimes, highlight } ) => {
+const Table = ( { prayerTimes, highlight, tmrwsTimes } ) => {
 
   return (
     <View
@@ -17,33 +17,31 @@ const Table = ( { prayerTimes, highlight } ) => {
         styles.table,
         {
           width: useWindowDimensions().width - 20,
-          marginLeft: "auto",
-          marginRight: "auto",
         },
       ] }
     >
       <TableHeader />
       <Row
-        pTime={ prayerTimes.Fajr }
-        jTime={ prayerTimes.FajrJam }
-        isHighlighted={ highlight?.fajr }
+        pTime={ prayerTimes?.Fajr || tmrwsTimes?.Fajr }
+        jTime={ prayerTimes?.FajrJam || tmrwsTimes?.FajrJam }
+        isHighlighted={ tmrwsTimes ? false : highlight?.fajr }
       >
         Fajr
       </Row>
 
       <Row
-        pTime={ prayerTimes.Sunrise }
+        pTime={ prayerTimes?.Sunrise || tmrwsTimes?.Sunrise }
         jTime={ "--" }
-        isHighlighted={ highlight?.sunrise }
+        isHighlighted={ tmrwsTimes ? false : highlight?.sunrise }
 
       >
         Sunrise
       </Row>
 
       <Row
-        pTime={ prayerTimes.Dhuhr }
-        jTime={ prayerTimes.DhuhrJam }
-        isHighlighted={ highlight?.dhuhr }
+        pTime={ prayerTimes?.Dhuhr || tmrwsTimes?.Dhuhr }
+        jTime={ prayerTimes?.DhuhrJam || tmrwsTimes?.DhuhrJam }
+        isHighlighted={ tmrwsTimes ? false : highlight?.dhuhr }
 
 
       >
@@ -51,9 +49,9 @@ const Table = ( { prayerTimes, highlight } ) => {
       </Row>
 
       <Row
-        pTime={ prayerTimes.Asr }
-        jTime={ prayerTimes.AsrJam }
-        isHighlighted={ highlight?.asr }
+        pTime={ prayerTimes?.Asr || tmrwsTimes?.Asr }
+        jTime={ prayerTimes?.AsrJam || tmrwsTimes?.AsrJam }
+        isHighlighted={ tmrwsTimes ? false : highlight?.asr }
 
 
       >
@@ -61,9 +59,9 @@ const Table = ( { prayerTimes, highlight } ) => {
       </Row>
 
       <Row
-        pTime={ prayerTimes.Maghrib }
-        jTime={ prayerTimes.MaghribJam }
-        isHighlighted={ highlight?.maghrib }
+        pTime={ prayerTimes?.Maghrib || tmrwsTimes?.Maghrib }
+        jTime={ prayerTimes?.MaghribJam || tmrwsTimes?.MaghribJam }
+        isHighlighted={ tmrwsTimes ? false : highlight?.maghrib }
 
 
       >
@@ -71,9 +69,9 @@ const Table = ( { prayerTimes, highlight } ) => {
       </Row>
 
       <Row
-        pTime={ prayerTimes.Ishaa }
-        jTime={ prayerTimes.IshaaJam }
-        isHighlighted={ highlight?.isha }
+        pTime={ prayerTimes?.Ishaa || tmrwsTimes?.Ishaa }
+        jTime={ prayerTimes?.IshaaJam || tmrwsTimes?.IshaaJam }
+        isHighlighted={ tmrwsTimes ? false : highlight?.isha }
         noBottomBorder
 
 

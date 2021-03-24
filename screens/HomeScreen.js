@@ -100,13 +100,13 @@ export default function HomeScreen( { navigation } ) {
   const tableAnimation = useRef( new Animated.Value( 0 ) ).current
 
   const handleHold = async () => {
-
+    setShowTmrwTimes( true )
     if ( Platform.OS === 'ios' ) {
       await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
     }
     Animated.timing( tableAnimation, {
       toValue: 600,
-      duration: 165,
+      duration: 155,
       useNativeDriver: true
     } ).start( async () => {
       if ( Platform.OS === 'ios' ) await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
@@ -115,11 +115,14 @@ export default function HomeScreen( { navigation } ) {
 
   }
   const handleRelease = () => {
+    setShowTmrwTimes( false )
     Animated.timing( tableAnimation, {
       toValue: 0,
-      duration: 165,
+      duration: 155,
       useNativeDriver: true
-    } ).start()
+    } ).start( async () => {
+      if ( Platform.OS === 'ios' ) await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
+    } )
   }
 
 
@@ -173,19 +176,43 @@ export default function HomeScreen( { navigation } ) {
         <Text style={ [ styles.date, { fontSize: 15 } ] }>
           { showTmrwTimes ? tmrwHijriDate( hijriDate ) : hijriDate }
         </Text>
+        <View style={ { alignItems: 'center' } }>
+          <Animated.View style={ {
+            position: 'relative',
+            transform: [ { translateX: tableAnimation },
+            {
+              scale: tableAnimation.interpolate( {
+                inputRange: [ 0, 600 ],
+                outputRange: [ 1, 0 ]
+              } )
+            } ],
+          }
 
-
-        <Animated.View style={ {
-          transform: [ { translateX: tableAnimation } ]
-        } }>
-          <Table
-            prayerTimes={ prayerTimes }
-            tmrwsTimes={ tmrwsTimes }
-            showTmrwTimes={ showTmrwTimes }
-            highlight={ highlight }
-          />
-        </Animated.View>
-
+          }>
+            <Table
+              prayerTimes={ prayerTimes }
+              highlight={ highlight }
+            />
+          </Animated.View>
+          <Animated.View style={ {
+            position: 'absolute',
+            transform: [ {
+              translateX: tableAnimation.interpolate( {
+                inputRange: [ 0, 600 ],
+                outputRange: [ -600, 0 ]
+              } )
+            }, {
+              scale: tableAnimation.interpolate( {
+                inputRange: [ 0, 600 ],
+                outputRange: [ 0, 1 ]
+              } )
+            } ]
+          } }>
+            <Table
+              tmrwsTimes={ tmrwsTimes }
+            />
+          </Animated.View>
+        </View>
 
         <Pressable style={ ( { pressed } ) => [
           styles.btn,
