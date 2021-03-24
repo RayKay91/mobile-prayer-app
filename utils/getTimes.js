@@ -6,8 +6,7 @@ import { calculateHijriDate } from './getDate'
 
 export default async function getTimes() {
   const d = new Date();
-  // const date = d.getDate() + "";
-  const date = '19'
+  const date = d.getDate() + "";
 
   let savedDate, todaysTimes, tmrwTimes;
 
