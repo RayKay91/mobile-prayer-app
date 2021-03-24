@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-const Row = ( { children, pTime, jTime, isHighlighted, noBottomBorder, showTmrwTimes } ) => {
+const Row = ( { children, pTime, jTime, isHighlighted, noBottomBorder } ) => {
 
 
     return (
@@ -12,11 +12,11 @@ const Row = ( { children, pTime, jTime, isHighlighted, noBottomBorder, showTmrwT
             </View>
 
             <View style={ styles.narrowBlock }>
-                <Text style={ [ styles.text, isHighlighted ? styles.highlightedText : styles.text, showTmrwTimes ? { color: '#A12B6E' } : null ] }>{ pTime }</Text>
+                <Text style={ [ styles.text, isHighlighted ? styles.highlightedText : styles.text ] }>{ pTime }</Text>
             </View>
 
             <View style={ styles.narrowBlock }>
-                <Text style={ [ styles.text, isHighlighted ? styles.highlightedText : styles.text, showTmrwTimes ? { color: '#A12B6E' } : null ] }>{ jTime }</Text>
+                <Text style={ [ styles.text, isHighlighted ? styles.highlightedText : styles.text ] }>{ jTime }</Text>
             </View>
 
         </View>

@@ -1,6 +1,6 @@
 
-import React, { useState, useCallback } from 'react'
-import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform, Image } from 'react-native';
+import React, { useState, useCallback, useRef } from 'react'
+import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform, Image, Animated } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
@@ -95,19 +95,31 @@ export default function HomeScreen( { navigation } ) {
 
   };
 
+
+  //animation values for tables
+  const tableAnimation = useRef( new Animated.Value( 0 ) ).current
+
   const handleHold = async () => {
-    setShowTmrwTimes( true )
+
     if ( Platform.OS === 'ios' ) {
-
       await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
-      await wait( 80 )
-      await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
-
     }
+    Animated.timing( tableAnimation, {
+      toValue: 600,
+      duration: 165,
+      useNativeDriver: true
+    } ).start( async () => {
+      if ( Platform.OS === 'ios' ) await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
+    } )
+
 
   }
   const handleRelease = () => {
-    setShowTmrwTimes( false )
+    Animated.timing( tableAnimation, {
+      toValue: 0,
+      duration: 165,
+      useNativeDriver: true
+    } ).start()
   }
 
 
@@ -163,13 +175,17 @@ export default function HomeScreen( { navigation } ) {
         </Text>
 
 
+        <Animated.View style={ {
+          transform: [ { translateX: tableAnimation } ]
+        } }>
+          <Table
+            prayerTimes={ prayerTimes }
+            tmrwsTimes={ tmrwsTimes }
+            showTmrwTimes={ showTmrwTimes }
+            highlight={ highlight }
+          />
+        </Animated.View>
 
-        <Table
-          prayerTimes={ prayerTimes }
-          tmrwsTimes={ tmrwsTimes }
-          showTmrwTimes={ showTmrwTimes }
-          highlight={ highlight }
-        />
 
         <Pressable style={ ( { pressed } ) => [
           styles.btn,

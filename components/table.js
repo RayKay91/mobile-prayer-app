@@ -9,7 +9,7 @@ import TableHeader from "./tableHeader";
 
 
 
-const Table = ( { prayerTimes, tmrwsTimes, showTmrwTimes, highlight } ) => {
+const Table = ( { prayerTimes, highlight } ) => {
 
   return (
     <View
@@ -24,60 +24,58 @@ const Table = ( { prayerTimes, tmrwsTimes, showTmrwTimes, highlight } ) => {
     >
       <TableHeader />
       <Row
-        pTime={ showTmrwTimes ? tmrwsTimes.Fajr : prayerTimes.Fajr }
-        jTime={ showTmrwTimes ? tmrwsTimes.FajrJam : prayerTimes.FajrJam }
-        isHighlighted={ showTmrwTimes ? false : highlight?.fajr }
-        showTmrwTimes={ showTmrwTimes }
+        pTime={ prayerTimes.Fajr }
+        jTime={ prayerTimes.FajrJam }
+        isHighlighted={ highlight?.fajr }
       >
         Fajr
       </Row>
 
       <Row
-        pTime={ showTmrwTimes ? tmrwsTimes.Sunrise : prayerTimes.Sunrise }
+        pTime={ prayerTimes.Sunrise }
         jTime={ "--" }
-        isHighlighted={ showTmrwTimes ? false : highlight?.sunrise }
-        showTmrwTimes={ showTmrwTimes }
+        isHighlighted={ highlight?.sunrise }
 
       >
         Sunrise
       </Row>
 
       <Row
-        pTime={ showTmrwTimes ? tmrwsTimes.Dhuhr : prayerTimes.Dhuhr }
-        jTime={ showTmrwTimes ? tmrwsTimes.DhuhrJam : prayerTimes.DhuhrJam }
-        isHighlighted={ showTmrwTimes ? false : highlight?.dhuhr }
-        showTmrwTimes={ showTmrwTimes }
+        pTime={ prayerTimes.Dhuhr }
+        jTime={ prayerTimes.DhuhrJam }
+        isHighlighted={ highlight?.dhuhr }
+
 
       >
         Dhuhr
       </Row>
 
       <Row
-        pTime={ showTmrwTimes ? tmrwsTimes.Asr : prayerTimes.Asr }
-        jTime={ showTmrwTimes ? tmrwsTimes.AsrJam : prayerTimes.AsrJam }
-        isHighlighted={ showTmrwTimes ? false : highlight?.asr }
-        showTmrwTimes={ showTmrwTimes }
+        pTime={ prayerTimes.Asr }
+        jTime={ prayerTimes.AsrJam }
+        isHighlighted={ highlight?.asr }
+
 
       >
         Asr
       </Row>
 
       <Row
-        pTime={ showTmrwTimes ? tmrwsTimes.Maghrib : prayerTimes.Maghrib }
-        jTime={ showTmrwTimes ? tmrwsTimes.MaghribJam : prayerTimes.MaghribJam }
-        isHighlighted={ showTmrwTimes ? false : highlight?.maghrib }
-        showTmrwTimes={ showTmrwTimes }
+        pTime={ prayerTimes.Maghrib }
+        jTime={ prayerTimes.MaghribJam }
+        isHighlighted={ highlight?.maghrib }
+
 
       >
         Maghrib
       </Row>
 
       <Row
-        pTime={ showTmrwTimes ? tmrwsTimes.Ishaa : prayerTimes.Ishaa }
-        jTime={ showTmrwTimes ? tmrwsTimes.IshaaJam : prayerTimes.IshaaJam }
-        isHighlighted={ showTmrwTimes ? false : highlight?.isha }
+        pTime={ prayerTimes.Ishaa }
+        jTime={ prayerTimes.IshaaJam }
+        isHighlighted={ highlight?.isha }
         noBottomBorder
-        showTmrwTimes={ showTmrwTimes }
+
 
       >
         Ishaa
@@ -86,7 +84,7 @@ const Table = ( { prayerTimes, tmrwsTimes, showTmrwTimes, highlight } ) => {
   );
 };
 
-export default React.memo( Table );
+export default Table
 
 const styles = StyleSheet.create( {
   table: {
