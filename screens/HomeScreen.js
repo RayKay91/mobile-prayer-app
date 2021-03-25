@@ -159,7 +159,7 @@ export default function HomeScreen( { navigation } ) {
         <Pressable
           style={ { position: 'absolute', right: 20, top: 31, zIndex: 3, elevation: 3 } }
           onPressIn={ handlePress }
-          hitSlop={ 15 }
+          hitSlop={ 8 }
         >
           <Ionicons name="settings-sharp" size={ 25 } color="#A12B6E" />
         </Pressable>
