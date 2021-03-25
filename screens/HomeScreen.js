@@ -106,7 +106,7 @@ export default function HomeScreen( { navigation } ) {
     }
     Animated.timing( tableAnimation, {
       toValue: 600,
-      duration: 155,
+      duration: 250,
       useNativeDriver: true
     } ).start( async () => {
       if ( Platform.OS === 'ios' ) await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
@@ -118,7 +118,7 @@ export default function HomeScreen( { navigation } ) {
     setShowTmrwTimes( false )
     Animated.timing( tableAnimation, {
       toValue: 0,
-      duration: 155,
+      duration: 250,
       useNativeDriver: true
     } ).start( async () => {
       if ( Platform.OS === 'ios' ) await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
