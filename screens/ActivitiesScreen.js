@@ -35,7 +35,7 @@ export default function ActivitiesScreen() {
                     itemIndex: 0,
                     sectionIndex: day - 1
                 } )
-            }, 150 )
+            }, 200 )
         }
     }, [ hasScrolled ] )
 
