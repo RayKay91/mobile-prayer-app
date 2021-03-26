@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { SafeAreaView, SectionList } from 'react-native'
+import { SafeAreaView, SectionList, Alert } from 'react-native'
 import ActivityComponent from '../components/activityComponent'
 import Loading from '../components/loading'
 import getActivitiesData from '../utils/getActivitiesData';
@@ -9,6 +9,7 @@ import ActivityDay from '../components/activityDay'
 
 export default function ActivitiesScreen() {
     const [ activitiesData, setActivitiesData ] = useState( null )
+    const [ hasScrolled, setHasScrolled ] = useState( false )
     const sectionList = useRef()
     const day = new Date().getDay()
 
@@ -18,6 +19,7 @@ export default function ActivitiesScreen() {
                 ( async function () {
                     const data = await getActivitiesData()
                     setActivitiesData( data )
+                    if ( !hasScrolled ) setHasScrolled( true )
                 } )()
             },
             [],
@@ -33,9 +35,12 @@ export default function ActivitiesScreen() {
                     itemIndex: 0,
                     sectionIndex: day - 1
                 } )
-            }, 300 )
+            }, 150 )
         }
-    }, [ activitiesData ] )
+    }, [ hasScrolled ] )
+
+
+
 
     if ( !activitiesData ) return <Loading />
 
@@ -94,6 +99,7 @@ export default function ActivitiesScreen() {
                 keyExtractor={ item => item.ActivityID }
                 stickySectionHeadersEnabled
                 ref={ sectionList }
+                onScrollToIndexFailed={ () => Alert.alert( 'These are the current activities' ) }
             >
 
             </SectionList>
