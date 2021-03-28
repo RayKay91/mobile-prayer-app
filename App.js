@@ -46,7 +46,7 @@ export default function App() {
 
             if ( previousRouteName !== currentRouteName ) {
               try {
-                // await Analytics.setCurrentScreen( currentRouteName, currentRouteName )
+                await Analytics.setCurrentScreen( currentRouteName, currentRouteName )
               } catch ( err ) {
                 console.log( err )
               }
