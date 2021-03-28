@@ -9,7 +9,6 @@ import ActivityDay from '../components/activityDay'
 
 export default function ActivitiesScreen() {
     const [ activitiesData, setActivitiesData ] = useState( null )
-    const [ hasScrolled, setHasScrolled ] = useState( false )
     const sectionList = useRef()
     const day = new Date().getDay()
 
@@ -19,7 +18,6 @@ export default function ActivitiesScreen() {
                 ( async function () {
                     const data = await getActivitiesData()
                     setActivitiesData( data )
-                    if ( !hasScrolled ) setHasScrolled( true )
                 } )()
             },
             [],
