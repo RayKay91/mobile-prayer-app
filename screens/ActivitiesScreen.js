@@ -26,18 +26,15 @@ export default function ActivitiesScreen() {
         )
     )
 
-    useEffect( () => {
-        if ( activitiesData ) {
+    const autoScroll = () => {
 
-            setTimeout( () => {
-                sectionList.current.scrollToLocation( {
-                    animated: true,
-                    itemIndex: 0,
-                    sectionIndex: day - 1
-                } )
-            }, 200 )
-        }
-    }, [ hasScrolled ] )
+        sectionList.current.scrollToLocation( {
+            animated: true,
+            itemIndex: 0,
+            sectionIndex: day === 0 ? 6 : day - 1
+        } )
+    }
+
 
 
 
@@ -100,6 +97,7 @@ export default function ActivitiesScreen() {
                 stickySectionHeadersEnabled
                 ref={ sectionList }
                 onScrollToIndexFailed={ () => Alert.alert( 'These are the current activities' ) }
+                onLayout={ () => setTimeout( autoScroll, 225 ) }
             >
 
             </SectionList>
