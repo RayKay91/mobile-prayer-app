@@ -53,7 +53,6 @@ export default function HomeScreen( { navigation } ) {
           setPrayerTimes( todaysTimes );
           setTmrwsTimes( tmrwsPTimes );
           setHijriDate( hijriDate )
-          ee
           // highlighting logic
 
           const { Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa } = todaysTimes;
