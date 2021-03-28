@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback, useRef } from 'react'
-import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform, Image, Animated } from 'react-native';
+import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform, Image, Animated, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
@@ -53,7 +53,7 @@ export default function HomeScreen( { navigation } ) {
           setPrayerTimes( todaysTimes );
           setTmrwsTimes( tmrwsPTimes );
           setHijriDate( hijriDate )
-
+          ee
           // highlighting logic
 
           const { Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa } = todaysTimes;
@@ -84,7 +84,10 @@ export default function HomeScreen( { navigation } ) {
             }
           }
 
-        } ).catch( ( err ) => console.log( `something went wrong in HomeScreen.js useFocusEffect ${ err }` ) );
+        } ).catch( ( err ) => {
+          console.log( `something went wrong in HomeScreen.js useFocusEffect ${ err }` );
+          Alert.alert( 'Something went wrong fetching the times.', 'This could be a connectivity issue. Please try again. If it still doesn\'t work, get in touch with the WISE admin team.' )
+        } );
     }, [ notificationStatuses, refreshing ] )
   )
 
