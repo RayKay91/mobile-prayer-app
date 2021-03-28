@@ -16,8 +16,13 @@ export default function ActivitiesScreen() {
         useCallback(
             () => {
                 ( async function () {
-                    const data = await getActivitiesData()
-                    setActivitiesData( data )
+                    try {
+                        const data = await getActivitiesData()
+                        setActivitiesData( data )
+
+                    } catch ( error ) {
+                        Alert.alert( 'There was an error getting the activities.', 'Please check yuor internet connection and try again.' )
+                    }
                 } )()
             },
             [],

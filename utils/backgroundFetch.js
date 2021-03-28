@@ -10,10 +10,11 @@ import { Platform } from 'react-native'
 async function backgroundFetchAndSetNotifications() {
     //get new times. This function will also save the new times to local storage
     const dateFromLocalStorage = await AsyncStorage.getItem( 'date' )
-    const currentDate = new Date().getDate()
+    const d = new Date()
+    const currentDate = d.getDate()
 
     if ( currentDate.toString() !== dateFromLocalStorage ) {
-        console.log( 'running background task', Platform )
+        console.log( `Running background task on ${ Platform.OS } at ${ d.getHours() }:${ d.getMinutes() }:${ d.getSeconds() }` )
         await getTimes()
         //get the notification statuses
         let state = await AsyncStorage.getItem( 'persist:root' )
@@ -42,6 +43,8 @@ async function backgroundFetchAndSetNotifications() {
 export default async function backgroundFetch() {
     const permission = await BackgroundFetch.getStatusAsync()
     if ( permission === BackgroundFetch.Status.Available ) {
+
+        console.log( await TaskManager.getRegisteredTasksAsync() )
 
         try {
 
