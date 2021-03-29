@@ -30,10 +30,10 @@ const notificationSwitch = ( { prayerName, idx } ) => {
             try {
                 if ( notificationID ) {
                     await Notifications.cancelScheduledNotificationAsync( notificationID )
-                    console.log( 'cancelled' );
+
                 }
             } catch ( error ) {
-                console.log( error );
+
             }
 
             //remove tomorrow's scheduled notification for fajr
@@ -42,7 +42,7 @@ const notificationSwitch = ( { prayerName, idx } ) => {
                     dispatch( shouldEnableNotification( { prayerName: 'tmrwFajr', shouldEnable } ) )
 
                 } catch ( error ) {
-                    console.log( error )
+
                 }
 
                 const tmrwFajrNotificationID = notificationIDs.tmrwFajrNotification
@@ -62,7 +62,7 @@ const notificationSwitch = ( { prayerName, idx } ) => {
 
                 if ( prayerName === 'Fajr' ) await scheduleNotification( 'tmrwFajr' )
             } catch ( error ) {
-                console.log( error );
+
             }
             if ( Platform.OS === 'android' ) ToastAndroid.showWithGravityAndOffset( `You will be notified for ${ prayerName } prayers`, ToastAndroid.SHORT,
                 ToastAndroid.CENTER,

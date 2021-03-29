@@ -14,7 +14,7 @@ export default async function getTimes() {
   try {
     savedDate = await AsyncStorage.getItem( "date" );
   } catch ( error ) {
-    console.log( error );
+
   }
 
   if ( !savedDate || date !== savedDate ) {
@@ -22,7 +22,6 @@ export default async function getTimes() {
     try {
       await AsyncStorage.setItem( "date", date );
     } catch ( err ) {
-      console.log( err );
     }
 
     const response = await axios.get(
@@ -91,7 +90,6 @@ export default async function getTimes() {
       await AsyncStorage.setItem( "tmrwsTimes", tmrwsPrayerTimes );
       await AsyncStorage.setItem( "hijriDate", hijriDate )
     } catch ( err ) {
-      console.log( err );
     }
     ;
 
@@ -106,7 +104,7 @@ export default async function getTimes() {
 
       return [ JSON.parse( todaysTimesJSON ), JSON.parse( tmrwsTimesJSON ), hijriDate ];
     } catch ( error ) {
-      console.log( error );
+
     }
   }
 
