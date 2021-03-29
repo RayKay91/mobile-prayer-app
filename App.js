@@ -51,7 +51,6 @@ export default function App() {
               try {
                 await Analytics.setCurrentScreen( currentRouteName, currentRouteName )
               } catch ( err ) {
-                console.log( err )
               }
 
             }
