@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native'
 import AutoHeightWebView from 'react-native-autoheight-webview'
 import getDuaContent from '../utils/getDuas.js'
 import Loading from '../components/loading'
+import Bugsnag from '@bugsnag/expo';
 
 //custom styling to be injected into Dua tab. Affects the HTML being rendered in the webview. Inline styles being overwritten using !important.
 
@@ -90,7 +91,7 @@ export default function DuaScreen() {
         useCallback(
             () => {
 
-                if ( !duaContent ) getDuaContent().then( fetchedDuaContent => setDuaContent( fetchedDuaContent ) ).catch( err => console.log( err ) )
+                if ( !duaContent ) getDuaContent().then( fetchedDuaContent => setDuaContent( fetchedDuaContent ) ).catch( err => Bugsnag.notify( 'dua screen fetch failed' ) )
             },
             [],
         )

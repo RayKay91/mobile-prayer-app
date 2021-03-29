@@ -1,3 +1,6 @@
+import Bugsnag from '@bugsnag/expo';
+Bugsnag.start();
+
 import React, { useRef } from 'react';
 import { Text } from 'react-native'
 //tab bar icons
@@ -19,18 +22,18 @@ import { PersistGate } from 'redux-persist/integration/react'
 import * as Analytics from 'expo-firebase-analytics'
 //utils
 import getTabIcon from './utils/getTabIcon'
-import backgroundFetchAndSetNotifications from './utils/backgroundFetch'
+import backgroundFetchInit from './utils/backgroundFetch'
 
 
 const Tab = createBottomTabNavigator();
 
 
+backgroundFetchInit()
 
 export default function App() {
   const navigationRef = useRef();
   const routeNameRef = useRef();
 
-  backgroundFetchAndSetNotifications()
 
   return (
     <Provider store={ store }>
