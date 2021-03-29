@@ -20,8 +20,6 @@ import getTimes from '../utils/getTimes'
 import shouldHighlight from "../utils/shouldHighlight";
 import scheduleNotification from '../utils/notifications';
 
-
-
 export default function HomeScreen( { navigation } ) {
 
   const [ refreshing, setRefreshing ] = useState( 0 );
@@ -42,9 +40,6 @@ export default function HomeScreen( { navigation } ) {
     useCallback( () => {
       getTimes()
         .then( async ( times ) => {
-          console.log(
-            "\nfetching times on " + Platform.OS + " " + Platform.Version
-          );
 
           const { timeWithSeconds } = currentTime()
           setTimeWithSecs( timeWithSeconds )
@@ -84,7 +79,7 @@ export default function HomeScreen( { navigation } ) {
           }
 
         } ).catch( ( err ) => {
-          console.log( `something went wrong in HomeScreen.js useFocusEffect ${ err }` );
+          Bugsnag.notify( 'something went wrong fetching the times', err )
           Alert.alert( 'Something went wrong fetching the times.', 'This could be a connectivity issue. Please try again. If it still doesn\'t work, get in touch with the WISE admin team.' )
         } );
     }, [ notificationStatuses, refreshing ] )

@@ -4,7 +4,7 @@ import getTimes from './getTimes'
 import scheduleNotification from './notifications'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as Notifications from 'expo-notifications'
-import { Platform } from 'react-native'
+import Bugsnag from '@bugsnag/expo'
 
 
 async function backgroundFetchAndSetNotifications() {
@@ -12,9 +12,9 @@ async function backgroundFetchAndSetNotifications() {
     const dateFromLocalStorage = await AsyncStorage.getItem( 'date' )
     const d = new Date()
     const currentDate = d.getDate()
-
+    Bugsnag.notify( 'backgroundFetch launched' )
     if ( currentDate.toString() !== dateFromLocalStorage ) {
-        console.log( `Running background task on ${ Platform.OS } at ${ d.getHours() }:${ d.getMinutes() }:${ d.getSeconds() }` )
+        Bugsnag.notify( 'new times being fetched in background' )
         await getTimes()
         //get the notification statuses
         let state = await AsyncStorage.getItem( 'persist:root' )
@@ -32,10 +32,9 @@ async function backgroundFetchAndSetNotifications() {
             if ( allowsNotifications[ prayer ] )
                 scheduleNotification( prayer )
         }
-        return 'currentDate'
+        return currentdate
     }
-
-
+    return currentdate
 }
 
 
@@ -44,8 +43,6 @@ export default async function backgroundFetch() {
     const permission = await BackgroundFetch.getStatusAsync()
     if ( permission === BackgroundFetch.Status.Available ) {
 
-        console.log( await TaskManager.getRegisteredTasksAsync() )
-
         try {
 
             await TaskManager.defineTask( 'fetchTimesAndSetNotifications', async () => {
@@ -53,16 +50,14 @@ export default async function backgroundFetch() {
                     const newData = await backgroundFetchAndSetNotifications()
                     return newData ? BackgroundFetch.Result.NewData : BackgroundFetch.Result.NoData
                 } catch ( err ) {
-                    console.log( 'error in defining backgroundtask', err );
-
                     return BackgroundFetch.Result.Failed
                 }
             } )
 
-            await BackgroundFetch.registerTaskAsync( 'fetchTimesAndSetNotifications', { stopOnTerminate: false, startOnBoot: true, minimumInterval: 3600 } )
+            await BackgroundFetch.registerTaskAsync( 'fetchTimesAndSetNotifications', { stopOnTerminate: false, startOnBoot: true, minimumInterval: 1800 } )
 
         } catch ( error ) {
-            console.log( error );
+            Bugsnag.notify( 'error registering background task' )
         }
     }
 
