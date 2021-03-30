@@ -105,6 +105,7 @@ export default function DuaScreen() {
                     style={ { width: '95%', marginLeft: 'auto', marginRight: 'auto' } }
                     customStyle={ customCssStyles }
                     containerStyle={ { flex: 1 } }
+                    decelerationRate={ 'normal' }
                     originWhiteList={ [ '*' ] }
                     source={ { html: '<meta name="viewport" content="width=device-width, initial-scale=1">' + duaContent } }
                 />

@@ -5,7 +5,7 @@ const Loading = () => {
     return (
         <View style={ [ styles.container ] }>
             <ActivityIndicator size="large" color='#A12B6E' />
-        </View>
+        </View >
     )
 }
 
@@ -13,8 +13,7 @@ export default Loading
 
 const styles = StyleSheet.create( {
     container: {
-        flex: 1,
+        flex: 9,
         justifyContent: 'center',
-        alignItems: 'center'
     }
 } )

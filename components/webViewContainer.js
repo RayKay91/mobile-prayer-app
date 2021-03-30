@@ -19,6 +19,7 @@ const WebViewContainer = ( { text, title } ) => {
                 
                 `}
             scrollEnabled={ false }
+            // bounces={ false }
             scrollEnabledWithZoomedin={ true }
             containerStyle={ [ styles.container, { marginBottom: 40, width: '95%', overflow: 'hidden' } ] }
             viewportContent={ 'width=device-width' }

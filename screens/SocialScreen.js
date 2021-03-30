@@ -63,6 +63,7 @@ export default function SocialScreen() {
             </View>
             {isLoading && <Loading /> }
             {!isLoading && <AutoHeightWebView
+                decelerationRate={ 'normal' }
                 style={ { width: '100%' } }
                 customStyle={ customStyle }
                 viewportContent={ 'width=device-width' }
