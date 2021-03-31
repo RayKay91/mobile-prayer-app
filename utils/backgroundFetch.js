@@ -54,7 +54,7 @@ export default async function backgroundFetch() {
                 }
             } )
 
-            await BackgroundFetch.registerTaskAsync( 'fetchTimesAndSetNotifications', { stopOnTerminate: false, startOnBoot: true, minimumInterval: 1800 } )
+            await BackgroundFetch.registerTaskAsync( 'fetchTimesAndSetNotifications', { stopOnTerminate: false, startOnBoot: true, minimumInterval: 3600 } )
 
         } catch ( error ) {
             Bugsnag.notify( 'error registering background task' )
