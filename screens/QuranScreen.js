@@ -82,6 +82,26 @@ div[data-controller="tafsir-modal"] > div {
     display: none !important;
 }
 
+/* removal of some translations */
+
+#ordered-translations div[data-filter-tags~="dr."i],
+#ordered-translations div[data-filter-tags~="fadel"i],
+#ordered-translations div[data-filter-tags~="maarif-ul-quran"i],
+#ordered-translations div[data-filter-tags~="mufti"i],
+#ordered-translations div[data-filter-tags~="abdul"i],
+#ordered-translations div[data-filter-tags~="abul"i],
+#ordered-translations div[data-filter-tags~="(pickthall)"i],
+#ordered-translations div[data-filter-tags~="(yusuf"i],
+#ordered-translations div[data-filter-tags~="ruwwad"i],
+#ordered-translations div[data-filter-tags~="hijab"i],
+#ordered-translations div[data-filter-tags~="fatah"i],
+#ordered-translations div[data-filter-tags~="junagarhi"i],
+#ordered-translations div[data-filter-tags~="zilal"i],
+#ordered-translations div[data-filter-tags~="al-hind"i],
+#ordered-translations div[data-filter-tags~="syed"i]
+{
+    display: none !important;
+}
 `
 
 export default function QuranScreen() {
