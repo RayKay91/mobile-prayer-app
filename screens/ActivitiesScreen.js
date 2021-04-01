@@ -21,15 +21,16 @@ export default function ActivitiesScreen() {
                         setActivitiesData( data )
 
                     } catch ( error ) {
-                        Alert.alert( 'There was an error getting the activities.', 'Please check yuor internet connection and try again.' )
+                        Alert.alert( 'There was an error getting the activities.', 'Please check your internet connection and try again.' )
                     }
                 } )()
+                return autoScroll()
             },
             [],
         )
     )
 
-    const autoScroll = () => {
+    function autoScroll() {
 
         sectionList.current.scrollToLocation( {
             animated: true,
