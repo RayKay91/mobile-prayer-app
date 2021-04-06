@@ -9,6 +9,7 @@ import ActivityDay from '../components/activityDay'
 
 export default function ActivitiesScreen() {
     const [ activitiesData, setActivitiesData ] = useState( null )
+    const [ refreshing, setRefreshing ] = useState( false )
     const sectionList = useRef()
     const day = new Date().getDay()
 
@@ -24,7 +25,6 @@ export default function ActivitiesScreen() {
                         Alert.alert( 'There was an error getting the activities.', 'Please check your internet connection and try again.' )
                     }
                 } )()
-                return autoScroll()
             },
             [],
         )
@@ -38,9 +38,6 @@ export default function ActivitiesScreen() {
             sectionIndex: day === 0 ? 6 : day - 1
         } )
     }
-
-
-
 
 
     if ( !activitiesData ) return <Loading />
@@ -102,6 +99,8 @@ export default function ActivitiesScreen() {
                 ref={ sectionList }
                 onScrollToIndexFailed={ () => Alert.alert( 'These are the current activities' ) }
                 onLayout={ () => setTimeout( autoScroll, 225 ) }
+                onRefresh={ async () => { setRefreshing( true ); const data = await getActivitiesData(); setActivitiesData( data ); setRefreshing( false ) } }
+                refreshing={ refreshing }
             >
 
             </SectionList>

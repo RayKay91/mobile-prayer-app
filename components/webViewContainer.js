@@ -16,6 +16,16 @@ const WebViewContainer = ( { text, title } ) => {
                 h2.has-vivid-purple-color {
                     text-align: right !important
                 }
+
+                h2 span strong {
+                    display: inline-block !important;
+                    font-size: 20px !important;
+                    margin-bottom: 12px !important;
+                    color: white !important;
+                    background-color: rgb(161, 43, 110) !important;
+                    padding: 2px 8px !important;
+                    border-radius: 5px !important;
+                }
                 
                 `}
             scrollEnabled={ false }
