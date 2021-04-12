@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-const Row = ( { children, pTime, jTime, isHighlighted, noBottomBorder } ) => {
+const Row = ( { children, pTime, jTime, isHighlighted, noBottomBorder, borderBottomRadius } ) => {
 
 
     return (
-        <View style={ [ styles.container, isHighlighted ? styles.highlightedContainer : styles.container, { borderBottomWidth: noBottomBorder ? 0 : 2 } ] }>
+        <View style={ [ styles.container, isHighlighted ? styles.highlightedContainer : styles.container, { borderBottomWidth: noBottomBorder ? 0 : 2, borderBottomLeftRadius: borderBottomRadius, borderBottomRightRadius: borderBottomRadius } ] }>
 
             <View style={ styles.wideBlock }>
                 <Text style={ [ styles.text, isHighlighted ? styles.highlightedText : styles.text, ] }>{ children }</Text>
