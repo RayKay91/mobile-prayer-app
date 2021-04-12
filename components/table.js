@@ -72,6 +72,7 @@ const Table = ( { prayerTimes, highlight, tmrwsTimes } ) => {
         pTime={ prayerTimes?.Ishaa || tmrwsTimes?.Ishaa }
         jTime={ prayerTimes?.IshaaJam || tmrwsTimes?.IshaaJam }
         isHighlighted={ tmrwsTimes ? false : highlight?.isha }
+        borderBottomRadius={ 4 }
         noBottomBorder
 
 
