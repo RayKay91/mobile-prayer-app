@@ -17,7 +17,7 @@ const WebViewContainer = ( { text, title } ) => {
                     text-align: right !important
                 }
 
-                h2 span strong {
+                h2 span {
                     display: inline-block !important;
                     font-size: 20px !important;
                     margin-bottom: 12px !important;
