@@ -28,19 +28,33 @@ export default async function getTimes() {
       "https://wise-web.org/wp-json/v2/mobile-app-prayer-times2"
     );
 
-    // add 5 to maghrib time for today jamaa'ah time
-    const maghribJam = timeAdjuster( response.data[ 0 ][ 0 ].Maghrib, 5 );
+    const hijriMonth = response.data[ 2 ][ 0 ].Month
+    const adjustment = hijriMonth.substring( 0, 3 ).toLowerCase() === 'ram' ? 15 : 5
+
+    // adjust maghrib time for today jamaa'ah time
+    const maghribJam = timeAdjuster( response.data[ 0 ][ 0 ].Maghrib, adjustment );
     response.data[ 0 ][ 0 ].MaghribJam = maghribJam;
     //end
 
-    //add 5 to maghrib time for tomorrow jamaa'ah time
-    const tmrwMaghribJam = timeAdjuster( response.data[ 1 ][ 0 ].Maghrib, 5 );
+    //adjust maghrib time for tomorrow jamaa'ah time
+    const tmrwMaghribJam = timeAdjuster( response.data[ 1 ][ 0 ].Maghrib, adjustment );
     response.data[ 1 ][ 0 ].MaghribJam = tmrwMaghribJam;
     //end
 
-    //add zero if not present in times
+    //handle '+xx mins' for fajr jamaa'ah
 
+    if ( response.data[ 0 ][ 0 ].FajrJam.substring( 0, 1 ) === '+' ) {
+      const splitFajrJam = response.data[ 0 ][ 0 ].FajrJam.split( ' ' )
+      splitFajrJam[ 0 ].replace( '+', '' )
+      const adjustment = parseInt( splitFajrJam[ 0 ] )
+      response.data[ 0 ][ 0 ].FajrJam = timeAdjuster( response.data[ 0 ][ 0 ].Fajr, adjustment )
 
+      const splitFajrJamTmrw = response.data[ 1 ][ 0 ].FajrJam.split( ' ' )
+      splitFajrJamTmrw[ 0 ].replace( '+', '' )
+      const adjustmentTmrw = parseInt( splitFajrJamTmrw[ 0 ] )
+      response.data[ 1 ][ 0 ].FajrJam = timeAdjuster( response.data[ 1 ][ 0 ].Fajr, adjustmentTmrw )
+
+    }
 
     //format times
 
@@ -109,6 +123,4 @@ export default async function getTimes() {
   }
 
 }
-
-
 
