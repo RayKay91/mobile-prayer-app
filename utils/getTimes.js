@@ -44,14 +44,13 @@ export default async function getTimes() {
     //handle '+xx mins' for fajr jamaa'ah
 
     if ( response.data[ 0 ][ 0 ].FajrJam.substring( 0, 1 ) === '+' ) {
-      const splitFajrJam = response.data[ 0 ][ 0 ].FajrJam.split( ' ' )
-      splitFajrJam[ 0 ].replace( '+', '' )
-      const adjustment = parseInt( splitFajrJam[ 0 ] )
-      response.data[ 0 ][ 0 ].FajrJam = timeAdjuster( response.data[ 0 ][ 0 ].Fajr, adjustment )
+      const regex = /\d+/g
 
-      const splitFajrJamTmrw = response.data[ 1 ][ 0 ].FajrJam.split( ' ' )
-      splitFajrJamTmrw[ 0 ].replace( '+', '' )
-      const adjustmentTmrw = parseInt( splitFajrJamTmrw[ 0 ] )
+      const adjustment = parseInt( response.data[ 0 ][ 0 ].FajrJam.match( regex ) )
+      response.data[ 0 ][ 0 ].FajrJam = timeAdjuster( response.data[ 0 ][ 0 ].Fajr, adjustment )
+      console.log( adjustment )
+
+      const adjustmentTmrw = parseInt( response.data[ 1 ][ 0 ].FajrJam.match( regex ) )
       response.data[ 1 ][ 0 ].FajrJam = timeAdjuster( response.data[ 1 ][ 0 ].Fajr, adjustmentTmrw )
 
     }
