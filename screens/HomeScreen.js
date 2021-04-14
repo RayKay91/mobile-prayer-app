@@ -19,6 +19,9 @@ import currentTime from '../utils/currentTime'
 import getTimes from '../utils/getTimes'
 import shouldHighlight from "../utils/shouldHighlight";
 import scheduleNotification from '../utils/notifications';
+import Bugsnag from '@bugsnag/expo'
+
+
 
 export default function HomeScreen( { navigation } ) {
 
@@ -38,9 +41,8 @@ export default function HomeScreen( { navigation } ) {
 
   useFocusEffect(
     useCallback( () => {
-      getTimes()
+      getTimes( { forceRefresh: false } )
         .then( async ( times ) => {
-
           const { timeWithSeconds } = currentTime()
           setTimeWithSecs( timeWithSeconds )
 
@@ -79,8 +81,11 @@ export default function HomeScreen( { navigation } ) {
           }
 
         } ).catch( ( err ) => {
+
           Bugsnag.notify( 'something went wrong fetching the times', err )
-          Alert.alert( 'Something went wrong fetching the times.', 'This could be a connectivity issue. Please try again. If it still doesn\'t work, get in touch with the WISE admin team.' )
+          Alert.alert( 'Something went wrong fetching the times.', 'This could be a connectivity issue. Please try again. If it still doesn\'t work, get in touch with the WISE admin.' )
+          console.log( err )
+
         } );
     }, [ notificationStatuses, refreshing ] )
   )

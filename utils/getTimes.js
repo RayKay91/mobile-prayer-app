@@ -4,7 +4,7 @@ import formatTime from "./formatTime";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { calculateHijriDate } from './getDate'
 
-export default async function getTimes() {
+export default async function getTimes( { forceRefresh } ) {
   const d = new Date();
   const date = d.getDate() + "";
 
@@ -17,7 +17,7 @@ export default async function getTimes() {
 
   }
 
-  if ( !savedDate || date !== savedDate ) {
+  if ( !savedDate || date !== savedDate || forceRefresh ) {
     // save date to local storage for comparison check
     try {
       await AsyncStorage.setItem( "date", date );
@@ -44,14 +44,12 @@ export default async function getTimes() {
     //handle '+xx mins' for fajr jamaa'ah
 
     if ( response.data[ 0 ][ 0 ].FajrJam.substring( 0, 1 ) === '+' ) {
-      const splitFajrJam = response.data[ 0 ][ 0 ].FajrJam.split( ' ' )
-      splitFajrJam[ 0 ].replace( '+', '' )
-      const adjustment = parseInt( splitFajrJam[ 0 ] )
+      const regex = /\d+/g
+
+      const adjustment = parseInt( response.data[ 0 ][ 0 ].FajrJam.match( regex ) )
       response.data[ 0 ][ 0 ].FajrJam = timeAdjuster( response.data[ 0 ][ 0 ].Fajr, adjustment )
 
-      const splitFajrJamTmrw = response.data[ 1 ][ 0 ].FajrJam.split( ' ' )
-      splitFajrJamTmrw[ 0 ].replace( '+', '' )
-      const adjustmentTmrw = parseInt( splitFajrJamTmrw[ 0 ] )
+      const adjustmentTmrw = parseInt( response.data[ 1 ][ 0 ].FajrJam.match( regex ) )
       response.data[ 1 ][ 0 ].FajrJam = timeAdjuster( response.data[ 1 ][ 0 ].Fajr, adjustmentTmrw )
 
     }
