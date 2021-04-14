@@ -32,6 +32,7 @@ export default function HomeScreen( { navigation } ) {
   const [ tmrwsTimes, setTmrwsTimes ] = useState( {} )
   const [ highlight, setHighlight ] = useState( {} )
   const [ hijriDate, setHijriDate ] = useState( '' )
+  const [ animationDidComplete, setAnimationDidComplete ] = useState( false )
 
   const { timeWithSeconds } = currentTime()
   const [ timeWithSecs, setTimeWithSecs ] = useState( timeWithSeconds )
@@ -103,15 +104,14 @@ export default function HomeScreen( { navigation } ) {
 
   const handleHold = async () => {
     setShowTmrwTimes( true )
-    if ( Platform.OS === 'ios' ) {
-      await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light );
-    }
+
     Animated.timing( tableAnimation, {
       toValue: 600,
-      duration: 250,
+      duration: 275,
       useNativeDriver: true
     } ).start( async () => {
       if ( Platform.OS === 'ios' ) await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
+      setAnimationDidComplete( true )
     } )
 
 
@@ -123,7 +123,10 @@ export default function HomeScreen( { navigation } ) {
       duration: 250,
       useNativeDriver: true
     } ).start( async () => {
-      if ( Platform.OS === 'ios' ) await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
+      if ( animationDidComplete ) {
+        if ( Platform.OS === 'ios' ) await Haptics.impactAsync( Haptics.ImpactFeedbackStyle.Light )
+      }
+      setAnimationDidComplete( false )
     } )
   }
 
@@ -221,7 +224,8 @@ export default function HomeScreen( { navigation } ) {
           {
             backgroundColor: pressed ? '#790D5A' : '#A12B6E', marginVertical: 50
           } ] }
-          onPressIn={ handleHold }
+          delayLongPress={ 120 }
+          onLongPress={ handleHold }
           onPressOut={ handleRelease }
           hitSlop={ 15 }
         >
