@@ -85,7 +85,6 @@ export default function HomeScreen( { navigation } ) {
 
           Bugsnag.notify( 'something went wrong fetching the times', err )
           Alert.alert( 'Something went wrong fetching the times.', 'This could be a connectivity issue. Please try again. If it still doesn\'t work, get in touch with the WISE admin.' )
-          console.log( err )
 
         } );
     }, [ notificationStatuses, refreshing ] )
