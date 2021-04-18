@@ -10,7 +10,6 @@ import TableHeader from "./tableHeader";
 
 
 const Table = ( { prayerTimes, highlight, tmrwsTimes } ) => {
-
   return (
     <View
       style={ [
@@ -83,7 +82,7 @@ const Table = ( { prayerTimes, highlight, tmrwsTimes } ) => {
   );
 };
 
-export default Table
+export default React.memo( Table )
 
 const styles = StyleSheet.create( {
   table: {

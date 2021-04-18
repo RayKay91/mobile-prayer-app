@@ -1,6 +1,6 @@
 
-import React, { useState, useCallback, useRef } from 'react'
-import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform, Image, Animated, Alert } from 'react-native';
+import React, { useState, useCallback, useRef, useEffect } from 'react'
+import { StatusBar, ScrollView, StyleSheet, Text, View, SafeAreaView, RefreshControl, Pressable, Platform, Image, Animated, Alert, AppState } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import * as Haptics from 'expo-haptics'
 import * as Notifications from 'expo-notifications'
@@ -25,6 +25,9 @@ import Bugsnag from '@bugsnag/expo'
 
 export default function HomeScreen( { navigation } ) {
 
+  const appState = useRef( AppState.currentState )
+  const timer = useRef()
+
   const [ refreshing, setRefreshing ] = useState( 0 );
   const [ showRefresh, setShowRefresh ] = useState( false );
   const [ showTmrwTimes, setShowTmrwTimes ] = useState( false )
@@ -33,6 +36,7 @@ export default function HomeScreen( { navigation } ) {
   const [ highlight, setHighlight ] = useState( {} )
   const [ hijriDate, setHijriDate ] = useState( '' )
   const [ animationDidComplete, setAnimationDidComplete ] = useState( false )
+  // const [appStateVisible, setAppStateVisible] = useState(appState.current)
 
   const { timeWithSeconds } = currentTime()
   const [ timeWithSecs, setTimeWithSecs ] = useState( timeWithSeconds )
@@ -46,7 +50,6 @@ export default function HomeScreen( { navigation } ) {
         .then( async ( times ) => {
           const { timeWithSeconds } = currentTime()
           setTimeWithSecs( timeWithSeconds )
-
           const [ todaysTimes, tmrwsPTimes, hijriDate ] = times;
           setPrayerTimes( todaysTimes );
           setTmrwsTimes( tmrwsPTimes );
@@ -60,6 +63,12 @@ export default function HomeScreen( { navigation } ) {
           const willHighlight = shouldHighlight( ...Object.values( pTimes ) );
 
           setHighlight( willHighlight );
+
+          timer.current = setInterval( () => {
+            const willHighlight = shouldHighlight( ...Object.values( pTimes ) )
+            setHighlight( willHighlight )
+
+          }, 1000 )
 
 
           //notifications logic
@@ -87,8 +96,30 @@ export default function HomeScreen( { navigation } ) {
           Alert.alert( 'Something went wrong fetching the times.', 'This could be a connectivity issue. Please try again. If it still doesn\'t work, get in touch with the WISE admin.' )
 
         } );
+      return () => {
+        clearInterval( timer.current )
+      }
     }, [ notificationStatuses, refreshing ] )
   )
+
+  const handleAppStateChange = ( nextAppState ) => {
+    if ( appState.current === 'active' && nextAppState.match( /inactive|background/ ) ) {
+      clearInterval( timer.current )
+    } else {
+      //change the refreshing state to trigger the useFocusEffect function to run.
+      setRefreshing( refreshing + 1 )
+    }
+    AppState.current = nextAppState
+  }
+
+  useEffect( () => {
+    AppState.addEventListener( 'change', handleAppStateChange )
+
+    return () => {
+      AppState.removeEventListener( 'change', handleAppStateChange )
+    }
+  }, [] )
+
 
   const handlePress = async () => {
 
