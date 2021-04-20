@@ -96,9 +96,7 @@ export default function HomeScreen( { navigation } ) {
           Alert.alert( 'Something went wrong fetching the times.', 'This could be a connectivity issue. Please try again. If it still doesn\'t work, get in touch with the WISE admin.' )
 
         } );
-      return () => {
-        clearInterval( timer.current )
-      }
+      //returning a function from here will cause it to run on app load. This is why the clearInterval() has been removed from here.
     }, [ notificationStatuses, refreshing ] )
   )
 
@@ -107,7 +105,9 @@ export default function HomeScreen( { navigation } ) {
       clearInterval( timer.current )
     } else {
       //change the refreshing state to trigger the useFocusEffect function to run.
-      setRefreshing( refreshing + 1 )
+      if ( Table ) {
+        setRefreshing( refreshing + 1 )
+      }
     }
     AppState.current = nextAppState
   }
