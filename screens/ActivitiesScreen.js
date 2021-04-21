@@ -25,15 +25,16 @@ export default function ActivitiesScreen() {
                         Alert.alert( 'There was an error getting the activities.', 'Please check your internet connection and try again.' )
                     }
                 } )()
+                return () => autoScroll( 'animate' )
             },
             [],
         )
     )
 
-    function autoScroll() {
+    function autoScroll( animate = true ) {
 
         sectionList.current.scrollToLocation( {
-            animated: true,
+            animated: animate,
             itemIndex: 0,
             sectionIndex: day === 0 ? 6 : day - 1
         } )
