@@ -4,7 +4,7 @@ import formatTime from "./formatTime";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { calculateHijriDate } from './getDate'
 
-export default async function getTimes( { forceRefresh } ) {
+export default async function getTimes( { forceRefresh = false } ) {
   const d = new Date();
   const date = d.getDate() + "";
 
