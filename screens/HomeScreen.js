@@ -46,7 +46,7 @@ export default function HomeScreen( { navigation } ) {
 
   useFocusEffect(
     useCallback( () => {
-      getTimes()
+      getTimes( { forceRefresh: true } )
         .then( async ( times ) => {
           const { timeWithSeconds } = currentTime()
           setTimeWithSecs( timeWithSeconds )
