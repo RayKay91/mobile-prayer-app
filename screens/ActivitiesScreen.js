@@ -8,7 +8,7 @@ import ActivityDay from '../components/activityDay'
 
 
 export default function ActivitiesScreen() {
-    const [ activitiesData, setActivitiesData ] = useState( null )
+    const [ activitiesData, setActivitiesData ] = useState( [] )
     const [ refreshing, setRefreshing ] = useState( false )
     const sectionList = useRef()
     const day = new Date().getDay()
@@ -16,7 +16,7 @@ export default function ActivitiesScreen() {
     useFocusEffect(
         useCallback(
             () => {
-                ( async function () {
+                ; ( async function () {
                     try {
                         const data = await getActivitiesData()
                         setActivitiesData( data )
@@ -25,10 +25,8 @@ export default function ActivitiesScreen() {
                         Alert.alert( 'There was an error getting the activities.', 'Please check your internet connection and try again.' )
                     }
                 } )()
-                if ( activitiesData ) {
 
-                    return () => autoScroll()
-                }
+                return () => autoScroll()
             },
             [],
         )
@@ -44,7 +42,7 @@ export default function ActivitiesScreen() {
     }
 
 
-    if ( !activitiesData ) return <Loading />
+    if ( activitiesData.length === 0 ) return <Loading />
 
     let monData = activitiesData.filter( item => item.WeekDay === 'Monday' )
     let tuesData = activitiesData.filter( item => item.WeekDay === 'Tuesday' )
