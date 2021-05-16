@@ -12,9 +12,7 @@ async function backgroundFetchAndSetNotifications() {
     const dateFromLocalStorage = await AsyncStorage.getItem( 'date' )
     const d = new Date()
     const currentDate = d.getDate()
-    Bugsnag.notify( 'backgroundFetch launched' )
     if ( currentDate.toString() !== dateFromLocalStorage ) {
-        Bugsnag.notify( 'new times being fetched in background' )
         await getTimes()
         //get the notification statuses
         let state = await AsyncStorage.getItem( 'persist:root' )

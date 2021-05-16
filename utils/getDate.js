@@ -20,6 +20,8 @@ function calculateHijriDate( { StartDate, Month, Year } ) {
     //adding 1 to the difference calculated to account for impossibility of 0/mm/yyyy
     elapsedHijriDays += 1
 
+    if (+elapsedHijriDays > 30 ) return ''
+
 
     return `${ elapsedHijriDays } ${ Month } ${ Year } AH`;
 }
