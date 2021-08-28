@@ -30,6 +30,7 @@ import wait from '../utils/wait'
 import { getDate, tmrwHijriDate } from '../utils/getDate'
 import currentTime from '../utils/currentTime'
 import getTimes from '../utils/getTimes'
+import getWebViewContent from '../utils/getWebViewContent'
 import shouldHighlight from '../utils/shouldHighlight'
 import scheduleNotification from '../utils/notifications'
 import Bugsnag from '@bugsnag/expo'
@@ -48,6 +49,7 @@ export default function HomeScreen({ navigation }) {
   const [animationDidComplete, setAnimationDidComplete] = useState(false)
   const [gregDate, setGregDate] = useState({})
   const [date, setDate] = useState('')
+  const [webViewContent, setWebViewContent] = useState([])
 
   const { timeWithSeconds } = currentTime()
   const [timeWithSecs, setTimeWithSecs] = useState(timeWithSeconds)
@@ -104,15 +106,29 @@ export default function HomeScreen({ navigation }) {
           }
         })
         .catch(err => {
-          Bugsnag.notify('something went wrong fetching the times', err)
+          Bugsnag.notify('something went wrong fetching the data', err)
           Alert.alert(
-            'Something went wrong fetching the times.',
+            'Something went wrong fetching the data.',
             "This could be a connectivity issue. Please try again. If it still doesn't work, get in touch with the WISE admin."
           )
         })
       //returning a function from here will cause it to run on app load. This is why the clearInterval() has been removed from here.
     }, [notificationStatuses, refreshing])
   )
+
+  useEffect(() => {
+    getWebViewContent()
+      .then(webviewData => {
+        setWebViewContent(webviewData)
+      })
+      .catch(() => {
+        Bugsnag.notify('something went wrong fetching the webview content', err)
+        Alert.alert(
+          'Something went wrong fetching the other data.',
+          "This could be a connectivity issue. Please try again. If it still doesn't work, get in touch with the WISE admin."
+        )
+      })
+  }, [showRefresh, refreshing])
 
   const handleAppStateChange = nextAppState => {
     if (
@@ -303,7 +319,7 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.btnText}>Hold For Tomorrow's Times</Text>
         </Pressable>
 
-        <WebViews refreshing={refreshing} />
+        {webViewContent && <WebViews webViewContent={webViewContent} />}
       </ScrollView>
     </View>
   )
