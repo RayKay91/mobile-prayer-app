@@ -20,6 +20,7 @@
     "expo": "^42.0.0",
     "expo-background-fetch": "~9.2.2",
     "expo-cli": "^4.4.3",
+    "expo-constants": "~11.0.1",
     "expo-firebase-analytics": "~4.1.0",
     "expo-haptics": "~10.1.0",
     "expo-linking": "~2.3.1",
