@@ -69,7 +69,7 @@ export default function HomeScreen({ navigation }) {
           setHijriDate(hijriDate)
           const gregDate = await getDate()
           setGregDate(gregDate)
-
+          console.log('lol')
           // highlighting logic
 
           const { Fajr, Sunrise, Dhuhr, Asr, Maghrib, Ishaa } = todaysTimes
@@ -112,6 +112,7 @@ export default function HomeScreen({ navigation }) {
             "This could be a connectivity issue. Please try again. If it still doesn't work, get in touch with the WISE admin."
           )
         })
+      return clearInterval(timer.current)
       //returning a function from here will cause it to run on app load. This is why the clearInterval() has been removed from here.
     }, [notificationStatuses, refreshing])
   )
@@ -135,10 +136,12 @@ export default function HomeScreen({ navigation }) {
       appState.current === 'active' &&
       nextAppState.match(/inactive|background/)
     ) {
+      console.log('clearing timer...')
       clearInterval(timer.current)
     } else {
       //change the refreshing state to trigger the useFocusEffect function to run.
       if (Table) {
+        console.log('refreshing...')
         setRefreshing(refreshing + 1)
       }
     }
